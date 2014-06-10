@@ -1,17 +1,19 @@
 define([
 	'dojo/_base/declare',
 	'dijit/_WidgetBase',
+    "dijit/_WidgetsInTemplateMixin",
 	"dojo/query",
 	'dojo/text!test/template.html',
 	'indium/_IndiumView'
 ], function(
 	declare,
 	_WidgetBase,
+    _WidgetsInTemplateMixin,
 	query,
 	template,
 	_IndiumView
 ) {
-	return declare("widjit", [_WidgetBase, _IndiumView], {
+	return declare("widjit", [_WidgetBase, _WidgetsInTemplateMixin, _IndiumView], {
 		template: template,
 
 		constructor: function () {
