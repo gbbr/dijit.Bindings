@@ -8,7 +8,7 @@ define([
 ], function (
 	declare
 ) {
-	return declare("_LinkFunctionFactory", [], {
+	return declare("indium/_LinkFunctionFactory", [], {
 
 		/**
 		 * @description Implemented setter types
