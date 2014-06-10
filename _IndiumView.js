@@ -104,7 +104,7 @@ define([
 
 		/**
 		 * @description Links all substitutions (via the linking functions) to their
-         * corresponding model or instance properties
+		 * corresponding model or instance properties
 		 */
 		_link: function () {
 			// observe models or properties
