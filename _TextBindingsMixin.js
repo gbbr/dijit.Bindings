@@ -45,8 +45,8 @@ define([
 
 
 		/**
-		 * Takes a text-node with multiple bindings as a value and creates
-		 * one text node per each substitution
+		 * Takes a text-node with multiple bindings and breaks it so that there
+		 * is only one text node for each binding
 		 * @param node {HTMLElement} The text-node to process
 		 * @returns {{bindings: Array, fragment: DocumentFragment}} Returns an array
 		 * of bindings as well as the resulting DOM fragment

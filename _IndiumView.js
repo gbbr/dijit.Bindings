@@ -94,8 +94,8 @@ define([
 		},
 
 		/**
-		 * @description Any post-traverse DOM processing is handled during compilation,
-		 * as well as linking function generation
+		 * @description Any post-traverse DOM processing is handled during compilation.
+		 * Linking functions (setters) are also generated during this phase
 		 */
 		_compile: function () {
 			this._compileTextNodes();
@@ -103,8 +103,8 @@ define([
 		},
 
 		/**
-		 * @description Links all substitutions to their corresponding model or
-		 * instance properties
+		 * @description Links all substitutions (via the linking functions) to their
+         * corresponding model or instance properties
 		 */
 		_link: function () {
 			// observe models or properties
