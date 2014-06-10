@@ -62,10 +62,11 @@ define([
 		},
 
         /**
-         * @description Any post-traverse DOM processing is handled during compilation
+         * @description Any post-traverse DOM processing is handled during compilation,
+         * as well as linking function generation
          */
 		_compile: function () {
-            this._createTextNodeBindings();
+            this._compileTextNodes();
             this._createAttrBindings();
 		},
 

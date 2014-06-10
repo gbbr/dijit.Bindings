@@ -9,8 +9,15 @@ define([
 ) {
     return declare("indium/_AttributeBindingsMixin", [_LinkFunctionFactory, Destroyable], {
 
+        /**
+         * @description HTML Element nodeType value
+         */
         NODE_TYPE_ELEMENT: 1,
 
+        /**
+         * @description A place to store all DOM nodes that have attributes
+         * containing substitution strings. This will be erased during compiling.
+         */
         _markedAttrNodes: [],
 
         constructor: function () {
@@ -38,13 +45,14 @@ define([
         },
 
         /**
-         * @description Creates linking functions
-         * @private
+         * @description Creates linking functions and deletes storage
          */
         _createAttrBindings: function () {
             this._markedAttrNodes.forEach(function (data) {
                 console.log(data);
             });
+
+            delete this._markedAttrNodes;
         }
     });
 });

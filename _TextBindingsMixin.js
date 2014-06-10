@@ -7,16 +7,29 @@ define([
     Destroyable,
     _LinkFunctionFactory
 ) {
-    return declare("indium/_TextBindingsMixin", [_LinkFunctionFactory, Destroyable], {
+    return declare("indium/_TextBindingsMixin", [
+        _LinkFunctionFactory, Destroyable], {
 
+        /**
+         * @description HTML #text-node nodeType value
+         */
         NODE_TYPE_TEXT: 3,
 
+        /**
+         * @description A place to temporarily store text-nodes with substitutions
+         * until the compile phase.
+         */
         _markedTextNodes: [],
 
         constructor: function () {
             this.own(this._markedTextNodes);
         },
 
+        /**
+         * @description Verifies if provided DOM node is a text-node and contains
+         * substitutions, in which case it saves them in the store for compilation
+         * @param node {HTMLElement} Element to check for substitutions and validity
+         */
         _markTextSubstitutions: function (node) {
             if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
                 var splitTextNode = this._breakTextNode(node);
@@ -30,6 +43,15 @@ define([
             }
         },
 
+
+        /**
+         * Takes a text-node with multiple bindings as a value and creates
+         * one text node per each substitution
+         * @param node {HTMLElement} The text-node to process
+         * @returns {{bindings: Array, fragment: DocumentFragment}} Returns an array
+         * of bindings as well as the resulting DOM fragment
+         * @private
+         */
         _breakTextNode: function (node) {
             var bindings = [],
                 partialNode = node,
@@ -40,7 +62,7 @@ define([
             // stand-alone text-node
             while (partialNode && this._bindingCount(partialNode.nodeValue)) {
                 partialNode.nodeValue.replace(this.SUBSTITUTIONS_FIRST,
-                    function(match, binding, formatFn, position, originalString) {
+                    function (match, binding, formatFn, position, originalString) {
                         // Separate match from surroundings
                         textParts = originalString.split(match);
                         // If there was text to the left, keep it
@@ -66,7 +88,11 @@ define([
             }
         },
 
-        _createTextNodeBindings: function () {
+        /**
+         * @description Compiles marked text-nodes and generates linking
+         * functions
+         */
+        _compileTextNodes: function () {
             this._markedTextNodes.forEach(function (data) {
                 var oldNode = data.replaceNode,
                     newNode = data.replaceWith;
@@ -77,6 +103,8 @@ define([
                     console.log(binding);
                 });
             });
+
+            delete this._markedTextNodes;
         }
     });
 });

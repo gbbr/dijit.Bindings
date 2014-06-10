@@ -10,11 +10,12 @@ define([
 ) {
     return declare("_LinkFunctionFactory", [], {
 
+        /**
+         * @description Implemented setter types
+         */
         SETTER_REPEATER: 1,
         SETTER_ATTRIBUTE: 3,
         SETTER_TEXTNODE: 4,
-
-        EMPTY_FORMAT_FN: function (value) { return value; },
 
         /**
          * @description Keeps all registered setter types
@@ -77,16 +78,17 @@ define([
         },
 
         /**
-         * @description Sets a text node's value
+         * @description Sets a text node's value and passes it through
+         * a transform function if provided
          * @param args {Array<mixed>} Contains two items:
          * new value to be set on the text node and a configuration
          * object describing specifics set during generation
          */
         setNodeValue: function (args) {
             var value = args[1], data = args[0],
-                formatFn = data.formatFn || this.EMPTY_FORMAT_FN;
+                formatFn = data.formatFn;
 
-            data.node.nodeValue = formatFn.call(this, value);
+            data.node.nodeValue = formatFn ? formatFn.call(this, value) : value;
         }
     });
 });
