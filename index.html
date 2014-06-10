@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IndiumView test</title>
+</head>
+<body>
+	<div id="placeholder"></div>
+
+	<script type="text/javascript">
+	 var dojoConfig = {
+            async: true,
+            baseUrl: "/indiumview/lib",
+            packages: [{
+            	name: "indium",
+            	location: "/indiumview"
+            }, {
+            	name: "dijit",
+            	location: "dijit"
+            }, {
+            	name: "dojo",
+            	location: "dojo"
+            }]
+        }
+	</script>
+	<script src="lib/dojo/dojo.js"></script>
+	<script type="text/javascript">
+	    require([
+	    	'dojo/dom',
+            'indium/test/TestWidget'
+        ], function(
+        	dom,
+            Widjit
+        ) {
+            window.w = new Widjit();
+            w.placeAt(dom.byId("placeholder"));
+        });
+	</script>
+</body>
+</html>
