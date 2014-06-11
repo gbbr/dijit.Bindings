@@ -1,11 +1,13 @@
+require(["sinon"]);
+
 define([
 	"doh/runner",
-	"indium/tests/templates/TestWidgets",
-	"sinon"
+	"indium/_IndiumView",
+	"indium/tests/templates/TestWidgets"
 ], function (
 	doh,
-	TestWidgets,
-	sinon
+	IndiumView,
+	TestWidgets
 ) {
 	doh.register("view", [
 		{
@@ -16,9 +18,10 @@ define([
 			},
 
 			runTest: function () {
-				//this.instance.compile = sinon.spy();
-				console.log(this.instance());
-				//doh.assertTrue(this.instance.compile.calledOnce)
+				var w = this.instance();
+				w._applyCompilers = sinon.spy();
+				w.compile(w.domNode);
+				doh.assertTrue(w._applyCompilers.calledOnce)
 			},
 
 			tearDown: function () {}
