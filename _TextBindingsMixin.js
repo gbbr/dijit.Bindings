@@ -19,7 +19,7 @@ define([
 		constructor: function () {
 			this._registerGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
 			this._registerCompiler(this._compileTextNodes);
-			this._registerSetter(this.SETTER_TEXTNODES, this.setNodeValue);
+			this._registerSetter(this.SETTER_TEXTNODES, this._setNodeValue);
 		},
 
 		/**
@@ -67,7 +67,7 @@ define([
 		 * new value to be set on the text node and a configuration
 		 * object describing specifics set during generation
 		 */
-		setNodeValue: function (args) {
+		_setNodeValue: function (args) {
 			var value = args[1], data = args[0],
 				formatFn = data.formatFn;
 

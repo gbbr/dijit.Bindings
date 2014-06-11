@@ -39,7 +39,6 @@ define([
 		 */
 		_registerSetter: function (type, fn) {
 			this._setters[type] = fn;
-			console.log(this._setters);
 		}
 	});
 });

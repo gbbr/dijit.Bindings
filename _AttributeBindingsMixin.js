@@ -19,7 +19,7 @@ define([
 		constructor: function () {
 			this._registerGatherer(this.GATHERER_ATTRIBUTES, this._gatherAttributes);
 			this._registerCompiler(this._compileAttributes);
-			this._registerSetter(this.SETTER_ATTRIBUTE, this.setNodeAttribute);
+			this._registerSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
 		},
 
 		/**
@@ -61,7 +61,7 @@ define([
 		 * new value to be set on the attribute and a configuration
 		 * object describing specifics set during generation
 		 */
-		setNodeAttribute: function(args) {
+		_setNodeAttribute: function(args) {
 			/*
 			 { node, attrName, value, formatFn, substitution.name(?) }
 			 Always keep current value so we can replace with new value even
