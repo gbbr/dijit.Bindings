@@ -69,24 +69,9 @@ define([
 			return this._link;
 		},
 
-		_applyCompilers: function () {
-			this._callFunctions(this._compilers);
-			this._clearGathererStore();
-		},
-
 		/**
-		 * @description Links all substitutions (via the linking functions) to their
-		 * corresponding model or instance properties
-		 * @param scope {Object} The context which holds the values to be linked
-		 */
-		_link: function (scope) {
-			scope = scope || this;
-			// observe models or properties
-		},
-
-		/**
-		 * @descriptions Traverses the template's DOM and applies gatherer functions
-		 * to each valid node
+		 * @descriptions Traverses the DOM and applies gatherer functions to each
+		 * valid node
 		 * @param actions {Array<Function>} Array of functions, gets node as parameter
 		 * @param rootNode {HTMLElement} The root node for the traversal
 		 */
@@ -114,6 +99,25 @@ define([
 					this._callFunctions(this._gatherers, this, node);
 				}
 			}
+		},
+
+		/**
+		 * @description Applies all the compiler actions and clears the store for
+		 * potential future compilations
+		 */
+		_applyCompilers: function () {
+			this._callFunctions(this._compilers);
+			this._clearGathererStore();
+		},
+
+		/**
+		 * @description Links all substitutions (via the linking functions) to their
+		 * corresponding model or instance properties
+		 * @param scope {Object} The context which holds the values to be linked
+		 */
+		_link: function (scope) {
+			scope = scope || this;
+			// observe models or properties
 		}
 	});
 });
