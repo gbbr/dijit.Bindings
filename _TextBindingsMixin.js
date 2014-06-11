@@ -32,7 +32,6 @@ define([
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
 				var splitTextNode = this._breakTextNode(node);
 
-				// Add to replacement fragments
 				gatherer.push({
 					replaceNode: node,
 					replaceWith: splitTextNode.fragment,

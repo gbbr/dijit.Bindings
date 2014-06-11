@@ -32,9 +32,6 @@ define([
 				var i = node.attributes.length;
 				while (i--) {
 					if (this._bindingCount(node.attributes[i].value)) {
-						// parse
-						//  +
-						// push
 						gatherer.push({
 							node: node,
 							attributeName: node.attributes[i].name,
