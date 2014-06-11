@@ -7,8 +7,8 @@ define([
 		/**
 		 * @description Calls all functions in an array
 		 * @param fnList {Array<Function>} Array of functions to be called
-		 * @param context {Object} Context to call the function in
-		 * @param argument {*} A single argument to pass to the function
+		 * @param context {=Object} Context to call the function in
+		 * @param argument {=*} A single argument to pass to the function
 		 */
 		_callFunctions: function(fnList, context, argument) {
 			fnList.forEach(function (fn) {

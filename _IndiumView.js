@@ -129,6 +129,14 @@ define([
 		},
 
 		/**
+		 * @description Adds a compiler to be run after the gathering phase
+		 * @param fn {Function} The compiler function to run
+		 */
+		_addCompiler: function (fn) {
+			this._compilers.push(fn);
+		},
+
+		/**
 		 * @description Returns an existing store or creates a new one
 		 * @param name {string} The name of the store to be returned
 		 * @returns {Array<*>} Returns an array for storing gatherer data
@@ -146,14 +154,6 @@ define([
 		 */
 		_clearGathererStore: function () {
 			this._gathererData = {};
-		},
-
-		/**
-		 * @description Adds a compiler to be run after the gathering phase
-		 * @param fn {Function} The compiler function to run
-		 */
-		_addCompiler: function (fn) {
-			this._compilers.push(fn);
 		}
 	});
 });
