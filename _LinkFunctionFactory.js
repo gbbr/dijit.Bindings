@@ -66,13 +66,7 @@ define([
 		 */
 		setNodeAttribute: function(args) {
 			/*
-			{
-				node,
-				attrName,
-				value,
-				formatFn,
-				substitution.name(?)
-			}
+			{ node, attrName, value, formatFn, substitution.name(?) }
 			*/
 			var value = args[1], data = args[0];
 		},

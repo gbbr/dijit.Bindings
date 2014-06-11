@@ -18,12 +18,19 @@
 
 	<a href="{{content.link}}">{{content.abstract|transformFn2}}</a>
 
+	<div data-dojo-type="dijit/layout/TabContainer"
+		 data-dojo-props="tabPosition: 'top', region:'center'">
+
+		<div data-dojo-type="dijit/layout/ContentPane" title="asd"><!-- content 1 here --></div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="{{content.title}}"><!-- content 2 here --></div>
+		<div data-dojo-type="dijit/layout/ContentPane" title="zxc"><!-- content 3 here --></div>
+	</div>
+
 	<br/>{{footer}}
 	<br/>{{footer|transformFn3}}
 	<br/>{{footer}}
 	<br/><br/>
 
-	<!-- WIDGETS -->
-
-	<input id="typer" type="text" />
+	<!-- WIDGETS 
+	<input id="typer" type="text" />-->
 </div>

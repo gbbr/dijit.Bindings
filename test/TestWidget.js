@@ -4,14 +4,18 @@ define([
     "dijit/_WidgetsInTemplateMixin",
 	"dojo/query",
 	'dojo/text!test/template.html',
-	'indium/_IndiumView'
+	'indium/_IndiumView',
+	"dijit/_Templated",
+	"dijit/layout/TabContainer",
+	"dijit/layout/ContentPane"
 ], function(
 	declare,
 	_WidgetBase,
     _WidgetsInTemplateMixin,
 	query,
 	template,
-	_IndiumView
+	_IndiumView,
+	_Templated
 ) {
 	return declare("widjit", [_WidgetBase, _WidgetsInTemplateMixin, _IndiumView], {
 		template: template,

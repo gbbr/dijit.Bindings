@@ -46,19 +46,39 @@ define([
 		 */
 		buildRendering: function () {
 			this.inherited(arguments);
-			this.domNode = domConstruct.toDom(this.template);
+			this.domNode = domConstruct.toDom(this.template || this.templateString);
 
 			if (this.domNode.nodeType != 1) {
 				throw new Error("Invalid template, must have only one element wrapper as the top node!");
 			}
 
+			this._compile(this.domNode);
+			this._link(this);
+		},
+
+		/**
+		 * @description Any post-traverse DOM processing is handled during compilation.
+		 * Linking functions (setters) are also generated during this phase
+		 * @param rootNode {HTMLElement} The root of the node tree to be compiled
+		 */
+		_compile: function (rootNode) {
 			this._traverseDom([
 				this._markTextSubstitutions,
 				this._markAttrSubstitutions
-			], this.domNode);
+			], rootNode);
 
-			this._compile();
-			this._link();
+			this._compileTextNodes();
+			this._createAttrBindings();
+		},
+
+		/**
+		 * @description Links all substitutions (via the linking functions) to their
+		 * corresponding model or instance properties
+		 * @param scope {Object} The context which holds the values to be linked
+		 */
+		_link: function (scope) {
+			scope = scope || this;
+			// observe models or properties
 		},
 
 		/**
@@ -91,23 +111,6 @@ define([
 					this._callFunctions(actions, this, node);
 				}
 			}
-		},
-
-		/**
-		 * @description Any post-traverse DOM processing is handled during compilation.
-		 * Linking functions (setters) are also generated during this phase
-		 */
-		_compile: function () {
-			this._compileTextNodes();
-			this._createAttrBindings();
-		},
-
-		/**
-		 * @description Links all substitutions (via the linking functions) to their
-		 * corresponding model or instance properties
-		 */
-		_link: function () {
-			// observe models or properties
 		}
 	});
 });
