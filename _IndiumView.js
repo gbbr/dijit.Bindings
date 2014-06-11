@@ -68,6 +68,7 @@ define([
 		 */
 		compile: function (rootNode) {
 			this._traverseDom(rootNode);
+
 			this._callFunctions(this._compilers);
 			this._clearGathererStore();
 
@@ -97,13 +98,13 @@ define([
 
 			if (!document.createTreeWalker) {
 				node = rootNode.childNodes[0];
-				while (node != null) {
+				while (node !== null) {
 					this._callFunctions(this._gatherers, this, node);
 
 					if (node.hasChildNodes()) {
 						node = node.firstChild;
 					} else {
-						while (node.nextSibling == null && node != rootNode) {
+						while (node.nextSibling === null && node !== rootNode) {
 							node = node.parentNode;
 						}
 						node = node.nextSibling;
@@ -112,7 +113,7 @@ define([
 			} else {
 				var walk = document.createTreeWalker(rootNode, NodeFilter.SHOW_ALL, null, false);
 
-				while (node = walk.nextNode()) {
+				while ((node = walk.nextNode())) {
 					this._callFunctions(this._gatherers, this, node);
 				}
 			}

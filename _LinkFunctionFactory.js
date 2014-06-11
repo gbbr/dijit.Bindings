@@ -43,7 +43,7 @@ define([
 		generate: function (context, type, configObj) {
 			var setter = this._setters[type];
 			return function (value) {
-				setter.call(context, arguments)
+				setter.call(context, arguments);
 			}.bind(context, configObj);
 		},
 

@@ -103,7 +103,7 @@ define([
 			return {
 				bindings: bindings,
 				fragment: docFragment
-			}
+			};
 		}
 	});
 });
