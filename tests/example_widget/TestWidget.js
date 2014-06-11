@@ -3,7 +3,7 @@ define([
 	'dijit/_WidgetBase',
     "dijit/_WidgetsInTemplateMixin",
 	"dojo/query",
-	'dojo/text!test/template.html',
+	'dojo/text!tests/example_widget/template.html',
 	'indium/_IndiumView',
 	"dijit/_Templated",
 	"dijit/layout/TabContainer",
