@@ -26,7 +26,7 @@ define([
 		 * @private
 		 */
 		_gatherAttributes: function (node) {
-			var gatherer = this._getGathererStore(this.GATHERER_ATTRIBUTES);
+			var gatherer = this._gathererStore(this.GATHERER_ATTRIBUTES);
 
 			if (node.nodeType == this.NODE_TYPE_ELEMENT) {
 				var i = node.attributes.length;
@@ -49,7 +49,7 @@ define([
 		 * @description Creates linking functions and deletes storage
 		 */
 		_compileAttributes: function () {
-			var gatherer = this._getGathererStore(this.GATHERER_ATTRIBUTES);
+			var gatherer = this._gathererStore(this.GATHERER_ATTRIBUTES);
 
 			gatherer.forEach(function (data) {
 				console.log(data);

@@ -27,7 +27,7 @@ define([
 		 * @param node {HTMLElement} Element to check for substitutions and validity
 		 */
 		_gatherTextNodes: function (node) {
-			var gatherer = this._getGathererStore(this.GATHERER_TEXTNODES);
+			var gatherer = this._gathererStore(this.GATHERER_TEXTNODES);
 
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
 				var splitTextNode = this._breakTextNode(node);
@@ -47,7 +47,7 @@ define([
 		 * functions
 		 */
 		_compileTextNodes: function () {
-			var gatherer = this._getGathererStore(this.GATHERER_TEXTNODES);
+			var gatherer = this._gathererStore(this.GATHERER_TEXTNODES);
 
 			gatherer.forEach(function (data) {
 				var oldNode = data.replaceNode,

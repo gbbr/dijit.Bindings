@@ -119,11 +119,14 @@ define([
 		},
 
 		_addGatherer: function (name, fn) {
-			this._getGathererStore(name);
+			this._gathererStore(name);
 			this._gatherers.push(fn);
 		},
 
-		_getGathererStore: function (name) {
+		/**
+		 * @description Creates a new store or returns an existing one
+		 */
+		_gathererStore: function (name) {
 			if (!this._gathererData.hasOwnProperty(name)) {
 				this._gathererData[name] = [];
 			}
