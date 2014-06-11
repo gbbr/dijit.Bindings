@@ -10,6 +10,13 @@ define([
 		_gathererData: {},
 
 		/**
+		 * @description Keeps all registered setter types
+		 * @type {Object} Key is name and value is function
+		 */
+		_setters: {},
+
+
+		/**
 		 * @description Calls all functions in an array
 		 * @param fnList {Array<Function>} Array of functions to be called
 		 * @param context {=Object} Context to call the function in
@@ -50,6 +57,16 @@ define([
 		},
 
 		/**
+		 * Registers a setter function on the object
+		 * @param type {string} Setter type (ie. SETTER_REPEATER, etc.)
+		 * @param fn {Function} The function corresponding to this type
+		 * of setter
+		 */
+		_registerSetter: function (type, fn) {
+			this._setters[type] = fn;
+		},
+
+		/**
 		 * @description Returns an existing store or creates a new one
 		 * @param name {string} The name of the store to be returned
 		 * @returns {Array<*>} Returns an array for storing gatherer data
@@ -67,6 +84,22 @@ define([
 		 */
 		_clearGathererStore: function () {
 			this._gathererData = {};
+		},
+
+		/**
+		 * @description Generates a new setter function of the given type.
+		 * Setter functions take a single value attribute and set it on the
+		 * node that they have been linked to using the setting type defined.
+		 * @param context {Object} The context in which the setter should run
+		 * @param type {Number} The setter type (ie. SETTER_ATTRIBUTE, etc.)
+		 * @param configObj {Object} Node, formatFn... depending on setter type
+		 * @returns {function(value)} Return a setter function
+		 */
+		generateSetter: function (context, type, configObj) {
+			var setter = this._setters[type];
+			return function (value) {
+				setter.call(context, arguments);
+			}.bind(context, configObj);
 		}
 	});
 });

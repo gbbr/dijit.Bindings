@@ -1,13 +1,11 @@
 define([
 	"dojo/_base/declare",
-	"dijit/Destroyable",
-	"indium/_LinkFunctionFactory"
+	"dijit/Destroyable"
 ], function (
 	declare,
-	Destroyable,
-	_LinkFunctionFactory
+	Destroyable
 ) {
-	return declare("indium/_TextBindingsMixin", [_LinkFunctionFactory, Destroyable], {
+	return declare("indium/_TextBindingsMixin", [Destroyable], {
 
 		/**
 		 * @description HTML #text-node nodeType value
