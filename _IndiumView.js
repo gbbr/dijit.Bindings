@@ -26,10 +26,6 @@ define([
 		 */
 		$bindingStore: null,
 
-		_gatherers: [],
-		_compilers: [],
-		_gathererData: {},
-
 		/**
 		 * @description Constants for substitution matching on template
 		 */
@@ -62,8 +58,8 @@ define([
 		/**
 		 * @description Traverses DOM and gathers binding information, compiles and manipulates
 		 * DOM as necessary and returns a linking function that takes the scope to be bound against
-		 * for this tree.
-		 * @param rootNode {HTMLElement} The root of the node tree to be compiled
+		 * the given DOM tree.
+		 * @param rootNode {HTMLElement} The root node of the tree to be compiled
 		 * @return {Function} Returns the linking function for ease of access
 		 */
 		compile: function (rootNode) {
@@ -118,44 +114,6 @@ define([
 					this._callFunctions(this._gatherers, this, node);
 				}
 			}
-		},
-
-		/**
-		 * @description Adds a gatherer function to be applied to nodes at traversal
-		 * @param name {string} Name of the store to intialize for this gatherer
-		 * @param fn {Function} The gatherer function
-		 */
-		_registerGatherer: function (name, fn) {
-			this._gathererStore(name);
-			this._gatherers.push(fn);
-		},
-
-		/**
-		 * @description Adds a compiler to be run after the gathering phase
-		 * @param fn {Function} The compiler function to run
-		 */
-		_registerCompiler: function (fn) {
-			this._compilers.push(fn);
-		},
-
-		/**
-		 * @description Returns an existing store or creates a new one
-		 * @param name {string} The name of the store to be returned
-		 * @returns {Array<*>} Returns an array for storing gatherer data
-		 */
-		_gathererStore: function (name) {
-			if (!this._gathererData.hasOwnProperty(name)) {
-				this._gathererData[name] = [];
-			}
-
-			return this._gathererData[name];
-		},
-
-		/**
-		 * @description Clears all gatherer data
-		 */
-		_clearGathererStore: function () {
-			this._gathererData = {};
 		}
 	});
 });

@@ -40,7 +40,6 @@ define([
 			}
 		},
 
-
 		/**
 		 * @description Compiles marked text-nodes and generates linking
 		 * functions
