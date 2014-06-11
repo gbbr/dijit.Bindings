@@ -71,6 +71,8 @@ define([
 			this._compileTextNodes();
 			this._createAttrBindings();
 
+			//this.compileProperties();
+
 			return this._link;
 		},
 
