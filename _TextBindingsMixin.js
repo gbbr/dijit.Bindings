@@ -105,7 +105,7 @@ define([
 				});
 			});
 
-			delete this._markedTextNodes;
+			this._markedTextNodes = [];
 		}
 	});
 });

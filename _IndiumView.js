@@ -69,7 +69,7 @@ define([
 			], rootNode);
 
 			this._compileTextNodes();
-			this._createAttrBindings();
+			this._compileAttributes();
 
 			//this.compileProperties();
 

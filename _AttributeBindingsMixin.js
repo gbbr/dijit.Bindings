@@ -50,12 +50,12 @@ define([
 		/**
 		 * @description Creates linking functions and deletes storage
 		 */
-		_createAttrBindings: function () {
+		_compileAttributes: function () {
 			this._markedAttrNodes.forEach(function (data) {
 				console.log(data);
 			});
 
-			delete this._markedAttrNodes;
+			this._markedAttrNodes = [];
 		}
 	});
 });
