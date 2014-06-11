@@ -7,9 +7,6 @@ define([
 ) {
 	return declare("indium/_TextBindingsMixin", [Destroyable], {
 
-		/**
-		 * @description HTML #text-node nodeType value
-		 */
 		NODE_TYPE_TEXT: 3,
 		GATHERER_TEXTNODES: "GATHERER_TEXTNODES",
 		SETTER_TEXTNODES: "SETTER_TEXTNODES",
