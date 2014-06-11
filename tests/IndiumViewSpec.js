@@ -13,15 +13,13 @@ define([
 		{
 			name: "Builds DOM based on template and calls compile",
 
-			setUp: function () {
-				this.instance = TestWidgets.WIDGET_WITH_BINDINGS;
-			},
+			setUp: function () {},
 
 			runTest: function () {
-				var w = this.instance();
+				var w = TestWidgets.WIDGET_WITH_BINDINGS();
 				w._applyCompilers = sinon.spy();
 				w.compile(w.domNode);
-				doh.assertTrue(w._applyCompilers.calledOnce)
+				doh.assertTrue(w._applyCompilers.calledOnce);
 			},
 
 			tearDown: function () {}
