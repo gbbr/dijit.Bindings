@@ -1,0 +1,35 @@
+<div class="testWidget">
+	<ul some-attribute="asd">
+		<li class="{{content.className}}">{{content.title}}</li>
+		<li>{{content.subtitle|transformFn2}}</li>
+	</ul>
+
+	qwe {{content.abstract|transformFn}} dasd
+	{{content.body|transformFn}} asdsada
+
+	<p>
+		<span class="{{content.className|formatMe}} other">
+			{{content.abstract|transformFn}}{{content.body|transformFn}}
+		</span>
+		<span>
+			<div>asd{{content.subtitle}}ioqweu<span>{{content.subtitle}}asd</span></div>
+		</span>
+	</p>
+
+	<a href="{{content.link}}">{{content.abstract|transformFn2}}</a>
+
+	<div data-dojo-type="dijit/layout/ContentPane" style="position: relative;">
+		<div data-dojo-type="dijit/layout/TabContainer">
+			<div data-dojo-type="dijit/layout/ContentPane" title="asd">asd {{asd}} adad sdas</div>
+			<div data-dojo-type="dijit/layout/ContentPane" title="{{content.title}}">asdlkjhsal sakjd oai</div>
+			<div data-dojo-type="dijit/layout/ContentPane" title="zxc">uashdas89 d7a9sdh ads</div>
+		</div>
+	</div>
+	<br/>{{footer}}
+	<br/>{{footer|transformFn3}}
+	<br/>{{footer}}
+	<br/><br/>
+
+	<!-- WIDGETS 
+	<input id="typer" type="text" />-->
+</div>
