@@ -14,10 +14,12 @@ define([
 		 */
 		NODE_TYPE_TEXT: 3,
 		GATHERER_TEXTNODES: "GATHERER_TEXTNODES",
+		SETTER_TEXTNODES: 4,
 
 		constructor: function () {
-			this._addGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
-			this._addCompiler(this._compileTextNodes);
+			this._registerGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
+			this._registerCompiler(this._compileTextNodes);
+			this._registerSetter(this.SETTER_TEXTNODES, this.setNodeValue);
 		},
 
 		/**
@@ -26,10 +28,9 @@ define([
 		 * @param node {HTMLElement} Element to check for substitutions and validity
 		 */
 		_gatherTextNodes: function (node) {
-			var gatherer = this._gathererStore(this.GATHERER_TEXTNODES);
-
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				var splitTextNode = this._breakTextNode(node);
+				var gatherer = this._gathererStore(this.GATHERER_TEXTNODES),
+					splitTextNode = this._breakTextNode(node);
 
 				gatherer.push({
 					replaceNode: node,
@@ -59,6 +60,19 @@ define([
 			});
 		},
 
+		/**
+		 * @description Sets a text node's value and passes it through
+		 * a transform function if provided
+		 * @param args {Array<mixed>} Contains two items:
+		 * new value to be set on the text node and a configuration
+		 * object describing specifics set during generation
+		 */
+		setNodeValue: function (args) {
+			var value = args[1], data = args[0],
+				formatFn = data.formatFn;
+
+			data.node.nodeValue = formatFn ? formatFn.call(this, value) : value;
+		},
 
 		/**
 		 * Takes a text-node with multiple bindings and breaks it so that there

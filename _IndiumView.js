@@ -27,8 +27,8 @@ define([
 		$bindingStore: null,
 
 		_gatherers: [],
-		_gathererData: {},
 		_compilers: [],
+		_gathererData: {},
 
 		/**
 		 * @description Constants for substitution matching on template
@@ -67,14 +67,15 @@ define([
 		 * @return {Function} Returns the linking function for ease of access
 		 */
 		compile: function (rootNode) {
-			this._traverseDom(rootNode);
-
-			this._callFunctions(this._compilers);
-			this._clearGathererStore();
-
-			//this.compileProperties();
+			this._applyGatherers(rootNode);
+			this._applyCompilers();
 
 			return this._link;
+		},
+
+		_applyCompilers: function () {
+			this._callFunctions(this._compilers);
+			this._clearGathererStore();
 		},
 
 		/**
@@ -93,7 +94,7 @@ define([
 		 * @param actions {Array<Function>} Array of functions, gets node as parameter
 		 * @param rootNode {HTMLElement} The root node for the traversal
 		 */
-		_traverseDom: function (rootNode) {
+		_applyGatherers: function (rootNode) {
 			var node;
 
 			if (!document.createTreeWalker) {
@@ -124,7 +125,7 @@ define([
 		 * @param name {string} Name of the store to intialize for this gatherer
 		 * @param fn {Function} The gatherer function
 		 */
-		_addGatherer: function (name, fn) {
+		_registerGatherer: function (name, fn) {
 			this._gathererStore(name);
 			this._gatherers.push(fn);
 		},
@@ -133,7 +134,7 @@ define([
 		 * @description Adds a compiler to be run after the gathering phase
 		 * @param fn {Function} The compiler function to run
 		 */
-		_addCompiler: function (fn) {
+		_registerCompiler: function (fn) {
 			this._compilers.push(fn);
 		},
 

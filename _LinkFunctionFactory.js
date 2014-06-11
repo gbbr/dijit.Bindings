@@ -14,22 +14,12 @@ define([
 		 * @description Implemented setter types
 		 */
 		SETTER_REPEATER: 1,
-		SETTER_ATTRIBUTE: 3,
-		SETTER_TEXTNODE: 4,
 
 		/**
 		 * @description Keeps all registered setter types
 		 * @type {Object}
 		 */
 		_setters: {},
-
-		/**
-		 * @description Creates available setters
-		 */
-		constructor: function () {
-			this._registerSetter(this.SETTER_ATTRIBUTE, this.setNodeAttribute);
-			this._registerSetter(this.SETTER_TEXTNODE, this.setNodeValue);
-		},
 
 		/**
 		 * @description Generates a new setter function of the given type.
@@ -52,39 +42,10 @@ define([
 		 * @param type {Number} Setter type (ie. SETTER_REPEATER, etc.)
 		 * @param fn {Function} The function corresponding to this type
 		 * of setter
-		 * @private
 		 */
 		_registerSetter: function (type, fn) {
 			this._setters[type] = fn;
-		},
-
-		/**
-		 * @desription Node attribute setter function
-		 * @param args {Array<mixed>} Contains two items:
-		 * new value to be set on the attribute and a configuration
-		 * object describing specifics set during generation
-		 */
-		setNodeAttribute: function(args) {
-			/*
-			{ node, attrName, value, formatFn, substitution.name(?) }
-			Always keep current value so we can replace with new value even
-			if the classes position changes in the classList
-			*/
-			var value = args[1], data = args[0];
-		},
-
-		/**
-		 * @description Sets a text node's value and passes it through
-		 * a transform function if provided
-		 * @param args {Array<mixed>} Contains two items:
-		 * new value to be set on the text node and a configuration
-		 * object describing specifics set during generation
-		 */
-		setNodeValue: function (args) {
-			var value = args[1], data = args[0],
-				formatFn = data.formatFn;
-
-			data.node.nodeValue = formatFn ? formatFn.call(this, value) : value;
+			console.log(this._setters);
 		}
 	});
 });
