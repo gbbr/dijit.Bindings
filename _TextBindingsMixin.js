@@ -7,8 +7,7 @@ define([
 	Destroyable,
 	_LinkFunctionFactory
 ) {
-	return declare("indium/_TextBindingsMixin", [
-		_LinkFunctionFactory, Destroyable], {
+	return declare("indium/_TextBindingsMixin", [_LinkFunctionFactory, Destroyable], {
 
 		/**
 		 * @description HTML #text-node nodeType value
