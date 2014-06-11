@@ -15,7 +15,6 @@ define([
 		 */
 		_setters: {},
 
-
 		/**
 		 * @description Calls all functions in an array
 		 * @param fnList {Array<Function>} Array of functions to be called
