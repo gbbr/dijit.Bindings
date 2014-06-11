@@ -14,7 +14,7 @@ define([
 		 */
 		NODE_TYPE_ELEMENT: 1,
 		GATHERER_ATTRIBUTES: "GATHERER_ATTRIBUTES",
-		SETTER_ATTRIBUTE: 3,
+		SETTER_ATTRIBUTE: "SETTER_ATTRIBUTES",
 
 		constructor: function () {
 			this._registerGatherer(this.GATHERER_ATTRIBUTES, this._gatherAttributes);

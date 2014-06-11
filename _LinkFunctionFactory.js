@@ -33,7 +33,7 @@ define([
 
 		/**
 		 * Registers a setter function on the object
-		 * @param type {Number} Setter type (ie. SETTER_REPEATER, etc.)
+		 * @param type {string} Setter type (ie. SETTER_REPEATER, etc.)
 		 * @param fn {Function} The function corresponding to this type
 		 * of setter
 		 */

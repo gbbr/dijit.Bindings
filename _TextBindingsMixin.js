@@ -14,7 +14,7 @@ define([
 		 */
 		NODE_TYPE_TEXT: 3,
 		GATHERER_TEXTNODES: "GATHERER_TEXTNODES",
-		SETTER_TEXTNODES: 4,
+		SETTER_TEXTNODES: "SETTER_TEXTNODES",
 
 		constructor: function () {
 			this._registerGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
