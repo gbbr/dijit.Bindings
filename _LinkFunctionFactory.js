@@ -9,12 +9,6 @@ define([
 	declare
 ) {
 	return declare("indium/_LinkFunctionFactory", [], {
-
-		/**
-		 * @description Implemented setter types
-		 */
-		SETTER_REPEATER: 1,
-
 		/**
 		 * @description Keeps all registered setter types
 		 * @type {Object}
