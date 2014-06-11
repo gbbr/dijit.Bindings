@@ -33,12 +33,7 @@ define([
 
 		postCreate: function () {
 			this.inherited(arguments);
-			dojo.connect(query("#typer")[0], "onkeypress", this._typing.bind(this));
-		},
 
-		_typing: function (event) {
-			this.footer = event.srcElement.value;
-			this.render();
 		}
 	});
 });

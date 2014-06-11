@@ -67,6 +67,8 @@ define([
 		setNodeAttribute: function(args) {
 			/*
 			{ node, attrName, value, formatFn, substitution.name(?) }
+			Always keep current value so we can replace with new value even
+			if the classes position changes in the classList
 			*/
 			var value = args[1], data = args[0];
 		},
