@@ -118,13 +118,20 @@ define([
 			}
 		},
 
+		/**
+		 * @description Adds a gatherer function to be applied to nodes at traversal
+		 * @param name {string} Name of the store to intialize for this gatherer
+		 * @param fn {Function} The gatherer function
+		 */
 		_addGatherer: function (name, fn) {
 			this._gathererStore(name);
 			this._gatherers.push(fn);
 		},
 
 		/**
-		 * @description Creates a new store or returns an existing one
+		 * @description Returns an existing store or creates a new one
+		 * @param name {string} The name of the store to be returned
+		 * @returns {Array<*>} Returns an array for storing gatherer data
 		 */
 		_gathererStore: function (name) {
 			if (!this._gathererData.hasOwnProperty(name)) {
@@ -134,10 +141,17 @@ define([
 			return this._gathererData[name];
 		},
 
+		/**
+		 * @description Clears all gatherer data
+		 */
 		_clearGathererStore: function () {
 			this._gathererData = {};
 		},
 
+		/**
+		 * @description Adds a compiler to be run after the gathering phase
+		 * @param fn {Function} The compiler function to run
+		 */
 		_addCompiler: function (fn) {
 			this._compilers.push(fn);
 		}
