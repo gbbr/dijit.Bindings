@@ -17,7 +17,7 @@ define([
 		constructor: function () {
 			this._registerGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
 			this._registerCompiler(this._compileTextNodes);
-			this._registerSetter(this.SETTER_TEXTNODES, this._setNodeValue);
+			this._registerSetter(this.SETTER_TEXTNODES, this._setNodeVagitlue);
 		},
 
 		/**
