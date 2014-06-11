@@ -56,8 +56,9 @@ define([
 		},
 
 		/**
-		 * @description Any post-traverse DOM processing is handled during compilation.
-		 * Linking functions (setters) are also generated during this phase
+		 * @description Traverses DOM and gathers binding information, compiles and manipulates
+		 * DOM as necessary and returns a linking function that takes the scope to be bound against
+		 * for this tree.
 		 * @param rootNode {HTMLElement} The root of the node tree to be compiled
 		 * @return {Function} Returns the linking function for ease of access
 		 */
