@@ -26,6 +26,10 @@ define([
 		 */
 		$bindingStore: null,
 
+		_gatherers: [],
+		_gathererData: {},
+		_compilers: [],
+
 		/**
 		 * @description Constants for substitution matching on template
 		 */
@@ -63,13 +67,9 @@ define([
 		 * @return {Function} Returns the linking function for ease of access
 		 */
 		compile: function (rootNode) {
-			this._traverseDom([
-				this._markTextSubstitutions,
-				this._markAttrSubstitutions
-			], rootNode);
-
-			this._compileTextNodes();
-			this._compileAttributes();
+			this._traverseDom(rootNode);
+			this._callFunctions(this._compilers);
+			this._clearGathererStore();
 
 			//this.compileProperties();
 
@@ -87,18 +87,18 @@ define([
 		},
 
 		/**
-		 * @descriptions Traverses the template's DOM and performs a list of
-		 * actions on each valid node
+		 * @descriptions Traverses the template's DOM and applies gatherer functions
+		 * to each valid node
 		 * @param actions {Array<Function>} Array of functions, gets node as parameter
 		 * @param rootNode {HTMLElement} The root node for the traversal
 		 */
-		_traverseDom: function (actions, rootNode) {
+		_traverseDom: function (rootNode) {
 			var node;
 
 			if (!document.createTreeWalker) {
 				node = rootNode.childNodes[0];
 				while (node != null) {
-					this._callFunctions(actions, this, node);
+					this._callFunctions(this._gatherers, this, node);
 
 					if (node.hasChildNodes()) {
 						node = node.firstChild;
@@ -113,9 +113,26 @@ define([
 				var walk = document.createTreeWalker(rootNode, NodeFilter.SHOW_ALL, null, false);
 
 				while (node = walk.nextNode()) {
-					this._callFunctions(actions, this, node);
+					this._callFunctions(this._gatherers, this, node);
 				}
 			}
+		},
+
+		_addGatherer: function (name, fn) {
+			this._gathererData[name] = [];
+			this._gatherers.push(fn);
+		},
+
+		_getGathererStore: function (name) {
+			return this._gathererData[name];
+		},
+
+		_clearGathererStore: function () {
+			this._gathererData = {};
+		},
+
+		_addCompiler: function (fn) {
+			this._compilers.push(fn);
 		}
 	});
 });

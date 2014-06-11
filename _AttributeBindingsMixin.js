@@ -13,15 +13,11 @@ define([
 		 * @description HTML Element nodeType value
 		 */
 		NODE_TYPE_ELEMENT: 1,
-
-		/**
-		 * @description A place to store all DOM nodes that have attributes
-		 * containing substitution strings. This will be erased during compiling.
-		 */
-		_markedAttrNodes: [],
+		GATHERER_ATTRIBUTES: "GATHERER_ATTRIBUTES",
 
 		constructor: function () {
-			this.own(this._markAttrSubstitutions);
+			this._addGatherer(this.GATHERER_ATTRIBUTES, this._gatherAttributes);
+			this._addCompiler(this._compileAttributes);
 		},
 
 		/**
@@ -29,7 +25,9 @@ define([
 		 * @param node {HTMLElement} Node to verify
 		 * @private
 		 */
-		_markAttrSubstitutions: function (node) {
+		_gatherAttributes: function (node) {
+			var gatherer = this._getGathererStore(this.GATHERER_ATTRIBUTES);
+
 			if (node.nodeType == this.NODE_TYPE_ELEMENT) {
 				var i = node.attributes.length;
 				while (i--) {
@@ -37,7 +35,7 @@ define([
 						// parse
 						//  +
 						// push
-						this._markedAttrNodes.push({
+						gatherer.push({
 							node: node,
 							attributeName: node.attributes[i].name,
 							attributeTemplate: node.attributes[i].value
@@ -51,11 +49,11 @@ define([
 		 * @description Creates linking functions and deletes storage
 		 */
 		_compileAttributes: function () {
-			this._markedAttrNodes.forEach(function (data) {
+			var gatherer = this._getGathererStore(this.GATHERER_ATTRIBUTES);
+
+			gatherer.forEach(function (data) {
 				console.log(data);
 			});
-
-			this._markedAttrNodes = [];
 		}
 	});
 });

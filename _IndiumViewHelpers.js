@@ -12,7 +12,7 @@ define([
 		 */
 		_callFunctions: function(fnList, context, argument) {
 			fnList.forEach(function (fn) {
-				fn.call(context, argument);
+				fn.call(context || this, argument);
 			}, this);
 		},
 

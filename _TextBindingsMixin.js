@@ -14,15 +14,11 @@ define([
 		 * @description HTML #text-node nodeType value
 		 */
 		NODE_TYPE_TEXT: 3,
-
-		/**
-		 * @description A place to temporarily store text-nodes with substitutions
-		 * until the compile phase.
-		 */
-		_markedTextNodes: [],
+		GATHERER_TEXTNODES: "GATHERER_TEXTNODES",
 
 		constructor: function () {
-			this.own(this._markedTextNodes);
+			this._addGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
+			this._addCompiler(this._compileTextNodes);
 		},
 
 		/**
@@ -30,17 +26,39 @@ define([
 		 * substitutions, in which case it saves them in the store for compilation
 		 * @param node {HTMLElement} Element to check for substitutions and validity
 		 */
-		_markTextSubstitutions: function (node) {
+		_gatherTextNodes: function (node) {
+			var gatherer = this._getGathererStore(this.GATHERER_TEXTNODES);
+
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
 				var splitTextNode = this._breakTextNode(node);
 
 				// Add to replacement fragments
-				this._markedTextNodes.push({
+				gatherer.push({
 					replaceNode: node,
 					replaceWith: splitTextNode.fragment,
 					bindings: splitTextNode.bindings
 				});
 			}
+		},
+
+
+		/**
+		 * @description Compiles marked text-nodes and generates linking
+		 * functions
+		 */
+		_compileTextNodes: function () {
+			var gatherer = this._getGathererStore(this.GATHERER_TEXTNODES);
+
+			gatherer.forEach(function (data) {
+				var oldNode = data.replaceNode,
+					newNode = data.replaceWith;
+
+				oldNode.parentNode.replaceChild(newNode, oldNode);
+
+				data.bindings.forEach(function (binding) {
+					console.log(binding);
+				});
+			});
 		},
 
 
@@ -87,25 +105,6 @@ define([
 				bindings: bindings,
 				fragment: docFragment
 			}
-		},
-
-		/**
-		 * @description Compiles marked text-nodes and generates linking
-		 * functions
-		 */
-		_compileTextNodes: function () {
-			this._markedTextNodes.forEach(function (data) {
-				var oldNode = data.replaceNode,
-					newNode = data.replaceWith;
-
-				oldNode.parentNode.replaceChild(newNode, oldNode);
-
-				data.bindings.forEach(function (binding) {
-					console.log(binding);
-				});
-			});
-
-			this._markedTextNodes = [];
 		}
 	});
 });
