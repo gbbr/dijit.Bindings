@@ -52,16 +52,16 @@ define([
 				throw new Error("Invalid template, must have only one element wrapper as the top node!");
 			}
 
-			this._compile(this.domNode);
-			this._link(this);
+			this.compile(this.domNode)(this);
 		},
 
 		/**
 		 * @description Any post-traverse DOM processing is handled during compilation.
 		 * Linking functions (setters) are also generated during this phase
 		 * @param rootNode {HTMLElement} The root of the node tree to be compiled
+		 * @return {Function} Returns the linking function for ease of access
 		 */
-		_compile: function (rootNode) {
+		compile: function (rootNode) {
 			this._traverseDom([
 				this._markTextSubstitutions,
 				this._markAttrSubstitutions
@@ -69,6 +69,8 @@ define([
 
 			this._compileTextNodes();
 			this._createAttrBindings();
+
+			return this._link;
 		},
 
 		/**
