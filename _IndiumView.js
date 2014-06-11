@@ -119,11 +119,15 @@ define([
 		},
 
 		_addGatherer: function (name, fn) {
-			this._gathererData[name] = [];
+			this._getGathererStore(name);
 			this._gatherers.push(fn);
 		},
 
 		_getGathererStore: function (name) {
+			if (!this._gathererData.hasOwnProperty(name)) {
+				this._gathererData[name] = [];
+			}
+
 			return this._gathererData[name];
 		},
 
