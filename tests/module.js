@@ -2,6 +2,6 @@ require(["sinon"]);
 
 define([
 	"./ParserSpec",
-	"./RegistrationServiceSpec"
-	//"./CompilerSpec"
+	"./RegistrationServiceSpec",
+	"./CompilerSpec"
 ], 1);

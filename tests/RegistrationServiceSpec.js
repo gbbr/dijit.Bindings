@@ -90,7 +90,7 @@ define([
 			testSuite.equals("D", this.instance.getCollectorStore("TEST_STORE3")[2].c, "Returned store is different");
 		},
 
-		"Setters: Correctly retrieves added setters": function () {
+		"Setters: Correctly retrieves and executes added setters": function () {
 			var spy1 = sinon.spy(),
 				spy2 = this.spy(),
 				spy3 = this.spy(),

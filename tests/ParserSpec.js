@@ -7,7 +7,7 @@ define([
 	Parser,
 	testSuite
 ) {
-	testSuite("Text node and string parser service", {
+	testSuite("Parser Service", {
 		beforeEach: function () {
 			this.instance = new Parser();
 		},
