@@ -1,12 +1,14 @@
 define([
 	"dojo/_base/declare",
 	"dojo/dom-construct",
+	'dijit/_WidgetBase',
 	"indium/services/Compiler",
 	"indium/mixins/TextNodeMixin",
 	"indium/mixins/ElementAttributeMixin"
 ], function (
 	declare,
 	domConstruct,
+	_WidgetBase,
 	Compiler,
 	TextNodeMixin,
 	ElementAttributeMixin
@@ -18,7 +20,7 @@ define([
 		 */
 		buildRendering: function () {
 			this.inherited(arguments);
-			this.domNode = domConstruct.toDom(this.template || this.templateString);
+			this.domNode = domConstruct.toDom(this.templateString);
 			console.log(this.domNode.innerHTML);
 
 			if (this.domNode.nodeType != 1) {
@@ -29,7 +31,8 @@ define([
 		},
 
 		startup: function () {
-			console.log(this.domNode);
+			this.inherited(arguments);
+			console.log("after create");
 		}
 	});
 });

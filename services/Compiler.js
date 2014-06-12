@@ -56,12 +56,12 @@ define([
 		 * @param rootNode {HTMLElement} The root node for the traversal
 		 */
 		_applyCollectors: function (rootNode) {
-			var node;
+			var node, collectors = this.registrationService.getCollectors();
 
 			if (!document.createTreeWalker) {
 				node = rootNode.childNodes[0];
 				while (node !== null) {
-					this._invokeActions(this.registrationService.getCollectors(), this, node);
+					this._invokeActions(collectors, this, node);
 
 					if (node.hasChildNodes()) {
 						node = node.firstChild;
@@ -76,7 +76,7 @@ define([
 				var walk = document.createTreeWalker(rootNode, NodeFilter.SHOW_ALL, null, false);
 
 				while ((node = walk.nextNode())) {
-					this._invokeActions(this.registrationService.getCollectors(), this, node);
+					this._invokeActions(collectors, this, node);
 				}
 			}
 		},
@@ -86,7 +86,8 @@ define([
 		 * potential future compilations
 		 */
 		_applyCompilers: function () {
-			this._invokeActions(this.registrationService.getCompilers());
+			var compilers = this.registrationService.getCompilers();
+			this._invokeActions(compilers);
 			this.registrationService.clearCollected();
 		},
 

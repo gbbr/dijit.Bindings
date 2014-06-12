@@ -17,7 +17,7 @@ define([
 	_IndiumView
 ) {
 	return declare("widjit", [_WidgetBase, _WidgetsInTemplateMixin, _IndiumView], {
-		template: template,
+		templateString: template,
 
 		constructor: function () {
 			this.content = {
