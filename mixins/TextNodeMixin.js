@@ -43,7 +43,6 @@ define([
 			var collection = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
 
 			collection.forEach(function (collector) {
-				console.log(collector);
 				var oldNode = collector.replaceNode,
 					newNode = collector.replaceWith;
 
