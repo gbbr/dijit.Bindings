@@ -8,10 +8,8 @@ define([
 	return declare("RegistrationService", [Destroyable], {
 
 		_compilers: [],
-
 		_collectors: [],
 		_collectorStore: [],
-
 		_setters: {},
 
 		constructor: function () {

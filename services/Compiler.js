@@ -4,7 +4,7 @@ define([
 	"dojo/store/Memory",
 	"dijit/Destroyable",
 	"indium/services/RegistrationService",
-	"indium/services/Parser",
+	"indium/services/Parser"
 ], function (
 	declare,
 	lang,

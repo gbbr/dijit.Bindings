@@ -49,7 +49,7 @@ define([
 			var gatherer = this.registrationService.getCollectorStore(this.registrationService.COLLECTOR_ATTRIBUTES);
 
 			gatherer.forEach(function (data) {
-				console.log(data);
+				//console.log(data);
 				//registrationService.getSetter
 			});
 		},

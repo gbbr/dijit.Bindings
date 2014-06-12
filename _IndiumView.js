@@ -19,12 +19,17 @@ define([
 		buildRendering: function () {
 			this.inherited(arguments);
 			this.domNode = domConstruct.toDom(this.template || this.templateString);
+			console.log(this.domNode.innerHTML);
 
 			if (this.domNode.nodeType != 1) {
 				throw new Error("Invalid template, must have only one element starting on the first line!");
 			}
 
 			this.compile(this.domNode)(this);
+		},
+
+		startup: function () {
+			console.log(this.domNode);
 		}
 	});
 });
