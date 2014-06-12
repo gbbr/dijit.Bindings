@@ -1,11 +1,11 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/lang"
+	"dijit/Destroyable"
 ], function (
 	declare,
-	lang
+	Destroyable
 ) {
-	return declare("RegistrationService", [], {
+	return declare("RegistrationService", [Destroyable], {
 
 		_compilers: [],
 
@@ -13,6 +13,15 @@ define([
 		_collectorStore: [],
 
 		_setters: {},
+
+		constructor: function () {
+			this.own(
+				this._compilers,
+				this._collectors,
+				this._collectorStore,
+				this._setters
+			)
+		},
 
 		/**
 		 * @description Adds a compiler to be run after the gathering phase

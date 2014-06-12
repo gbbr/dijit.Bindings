@@ -1,5 +1,3 @@
-require(["sinon"]);
-
 define([
 	"doh/runner",
 	"indium/_IndiumView",
@@ -10,13 +8,10 @@ define([
 	IndiumView,
 	TestWidgets,
 	testSuite
-) {
-	testSuite("view", {
+	) {
+	testSuite("view asd", {
 		"Compiles DOM correctly": function () {
-			var w = TestWidgets.WIDGET_WITH_BINDINGS();
-			w._applyCompilers = sinon.spy();
-			w.compile(w.domNode);
-			doh.assertTrue(w._applyCompilers.calledOnce);
+
 		}
 	});
 });

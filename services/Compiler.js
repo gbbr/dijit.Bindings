@@ -2,16 +2,18 @@ define([
 	"dojo/_base/declare",
 	"dojo/_base/lang",
 	"dojo/store/Memory",
+	"dijit/Destroyable",
 	"indium/services/RegistrationService",
 	"indium/services/Parser",
 ], function (
 	declare,
 	lang,
 	Memory,
+	Destroyable,
 	RegistrationService,
 	Parser
 ) {
-	return declare("Compiler", [Parser], {
+	return declare("Compiler", [Parser, Destroyable], {
 		/**
 		 * @description Stores substitution data and linking functions
 		 * @type {dojo/store/Memory}
@@ -26,6 +28,11 @@ define([
 		constructor: function () {
 			this.$bindingStore = new Memory();
 			this.registrationService = new RegistrationService();
+
+			this.own(
+				this.$bindingStore,
+				this.registrationService
+			);
 		},
 
 		/**
