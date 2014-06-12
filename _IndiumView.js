@@ -1,45 +1,17 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/lang",
-	"dojo/query",
 	"dojo/dom-construct",
-	"dijit/Destroyable",
-	"indium/_TextBindingsMixin",
-	"indium/_AttributeBindingsMixin",
-	"indium/_IndiumViewHelpers"
+	"indium/services/Compiler",
+	"indium/mixins/TextNodeMixin",
+	"indium/mixins/ElementAttributeMixin"
 ], function (
 	declare,
-	lang,
-	query,
 	domConstruct,
-	Destroyable,
-	_TextBindingsMixin,
-	_AttributeBindingsMixin,
-	_IndiumViewHelpers
+	Compiler,
+	TextNodeMixin,
+	ElementAttributeMixin
 ) {
-	return declare("indium/_IndiumView", [_TextBindingsMixin, _AttributeBindingsMixin,
-		_IndiumViewHelpers, Destroyable], {
-
-		/**
-		 * @description Stores substitution data and linking functions
-		 * @type {Dojo.Memory}
-		 */
-		$bindingStore: null,
-
-		/**
-		 * @description Constants for substitution matching on template
-		 */
-		SUBSTITUTIONS_ALL: /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/g,
-		SUBSTITUTIONS_FIRST:  /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/,
-
-		/**
-		 * @description Constructs _IndiumView, initiates and destroys $bindingStore
-		 */
-		constructor: function () {
-			// create store
-			// this.own(this.$bindingStore);
-		},
-
+	return declare("indium/_IndiumView", [Compiler, TextNodeMixin, ElementAttributeMixin], {
 		/**
 		 * @description Dijit life-cycle method, builds, traverses, compiles and
 		 * links DOM nodes to model and/or instance properties
@@ -53,71 +25,6 @@ define([
 			}
 
 			this.compile(this.domNode)(this);
-		},
-
-		/**
-		 * @description Traverses DOM and gathers binding information, compiles and manipulates
-		 * DOM as necessary and returns a linking function that takes the scope to be bound against
-		 * the given DOM tree.
-		 * @param rootNode {HTMLElement} The root node of the tree to be compiled
-		 * @return {Function} Returns the linking function for ease of access
-		 */
-		compile: function (rootNode) {
-			this._applyGatherers(rootNode);
-			this._applyCompilers();
-
-			return this._link;
-		},
-
-		/**
-		 * @descriptions Traverses the DOM and applies gatherer functions to each
-		 * valid node
-		 * @param actions {Array<Function>} Array of functions, gets node as parameter
-		 * @param rootNode {HTMLElement} The root node for the traversal
-		 */
-		_applyGatherers: function (rootNode) {
-			var node;
-
-			if (!document.createTreeWalker) {
-				node = rootNode.childNodes[0];
-				while (node !== null) {
-					this._callFunctions(this._gatherers, this, node);
-
-					if (node.hasChildNodes()) {
-						node = node.firstChild;
-					} else {
-						while (node.nextSibling === null && node !== rootNode) {
-							node = node.parentNode;
-						}
-						node = node.nextSibling;
-					}
-				}
-			} else {
-				var walk = document.createTreeWalker(rootNode, NodeFilter.SHOW_ALL, null, false);
-
-				while ((node = walk.nextNode())) {
-					this._callFunctions(this._gatherers, this, node);
-				}
-			}
-		},
-
-		/**
-		 * @description Applies all the compiler actions and clears the store for
-		 * potential future compilations
-		 */
-		_applyCompilers: function () {
-			this._callFunctions(this._compilers);
-			this._clearGathererStore();
-		},
-
-		/**
-		 * @description Links all substitutions (via the linking functions) to their
-		 * corresponding model or instance properties
-		 * @param scope {Object} The context which holds the values to be linked
-		 */
-		_link: function (scope) {
-			scope = scope || this;
-			// observe models or properties
 		}
 	});
 });

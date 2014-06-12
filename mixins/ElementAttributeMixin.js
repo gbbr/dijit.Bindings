@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/declare",
+	"../lib/dojo/_base/declare",
 	"dijit/Destroyable"
 ], function (
 	declare,
@@ -11,13 +11,13 @@ define([
 		 * @description HTML Element nodeType value
 		 */
 		NODE_TYPE_ELEMENT: 1,
-		GATHERER_ATTRIBUTES: "GATHERER_ATTRIBUTES",
+		COLLECTOR_ATTRIBUTES: "GATHERER_ATTRIBUTES",
 		SETTER_ATTRIBUTE: "SETTER_ATTRIBUTES",
 
 		constructor: function () {
-			this._registerGatherer(this.GATHERER_ATTRIBUTES, this._gatherAttributes);
-			this._registerCompiler(this._compileAttributes);
-			this._registerSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
+			this.registrationService.addCollector(this.COLLECTOR_ATTRIBUTES, this._gatherAttributes);
+			this.registrationService.addCompiler(this._compileAttributes);
+			this.registrationService.addSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
 		},
 
 		/**
@@ -27,7 +27,7 @@ define([
 		 */
 		_gatherAttributes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_ELEMENT) {
-				var gatherer = this._gathererStore(this.GATHERER_ATTRIBUTES),
+				var gatherer = this.registrationService.getCollectorStore(this.registrationService.COLLECTOR_ATTRIBUTES),
 					i = node.attributes.length;
 
 				while (i--) {
@@ -46,10 +46,11 @@ define([
 		 * @description Creates linking functions and deletes storage
 		 */
 		_compileAttributes: function () {
-			var gatherer = this._gathererStore(this.GATHERER_ATTRIBUTES);
+			var gatherer = this.registrationService.getCollectorStore(this.registrationService.COLLECTOR_ATTRIBUTES);
 
 			gatherer.forEach(function (data) {
 				console.log(data);
+				//registrationService.getSetter
 			});
 		},
 

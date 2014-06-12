@@ -8,13 +8,13 @@ define([
 	return declare("indium/_TextBindingsMixin", [Destroyable], {
 
 		NODE_TYPE_TEXT: 3,
-		GATHERER_TEXTNODES: "GATHERER_TEXTNODES",
+		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
 		SETTER_TEXTNODES: "SETTER_TEXTNODES",
 
 		constructor: function () {
-			this._registerGatherer(this.GATHERER_TEXTNODES, this._gatherTextNodes);
-			this._registerCompiler(this._compileTextNodes);
-			this._registerSetter(this.SETTER_TEXTNODES, this._setNodeValue);
+			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
+			this.registrationService.addCompiler(this._compileTextNodes);
+			this.registrationService.addSetter(this.SETTER_TEXTNODES, this._setNodeValue);
 		},
 
 		/**
@@ -24,10 +24,10 @@ define([
 		 */
 		_gatherTextNodes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				var gatherer = this._gathererStore(this.GATHERER_TEXTNODES),
+				var collectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES),
 					splitTextNode = this._breakTextNode(node);
 
-				gatherer.push({
+				collectorStore.push({
 					replaceNode: node,
 					replaceWith: splitTextNode.fragment,
 					bindings: splitTextNode.bindings
@@ -40,16 +40,18 @@ define([
 		 * functions
 		 */
 		_compileTextNodes: function () {
-			var gatherer = this._gathererStore(this.GATHERER_TEXTNODES);
+			var collection = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
 
-			gatherer.forEach(function (data) {
-				var oldNode = data.replaceNode,
-					newNode = data.replaceWith;
+			collection.forEach(function (collector) {
+				console.log(collector);
+				var oldNode = collector.replaceNode,
+					newNode = collector.replaceWith;
 
 				oldNode.parentNode.replaceChild(newNode, oldNode);
 
-				data.bindings.forEach(function (binding) {
+				collector.bindings.forEach(function (binding) {
 					console.log(binding);
+					//registrationService.getSetter
 				});
 			});
 		},
