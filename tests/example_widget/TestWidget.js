@@ -24,7 +24,6 @@ define([
 
 		postCreate: function () {
 			this.inherited(arguments);
-
 		}
 	});
 });

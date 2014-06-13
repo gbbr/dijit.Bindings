@@ -1,18 +1,10 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/lang",
-	"dojo/dom-construct",
-	'dijit/_WidgetBase',
-	"dijit/_WidgetsInTemplateMixin",
 	"indium/services/Compiler",
 	"indium/mixins/TextNodeMixin",
 	"indium/mixins/ElementAttributeMixin"
 ], function (
 	declare,
-	lang,
-	domConstruct,
-	_WidgetBase,
-	_WidgetsInTemplateMixin,
 	Compiler,
 	TextNodeMixin,
 	ElementAttributeMixin
