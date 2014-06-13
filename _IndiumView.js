@@ -1,14 +1,18 @@
 define([
 	"dojo/_base/declare",
+	"dojo/_base/lang",
 	"dojo/dom-construct",
 	'dijit/_WidgetBase',
+	"dijit/_WidgetsInTemplateMixin",
 	"indium/services/Compiler",
 	"indium/mixins/TextNodeMixin",
 	"indium/mixins/ElementAttributeMixin"
 ], function (
 	declare,
+	lang,
 	domConstruct,
 	_WidgetBase,
+	_WidgetsInTemplateMixin,
 	Compiler,
 	TextNodeMixin,
 	ElementAttributeMixin
@@ -20,19 +24,13 @@ define([
 		 */
 		buildRendering: function () {
 			this.inherited(arguments);
-			this.domNode = domConstruct.toDom(this.templateString);
-			console.log(this.domNode.innerHTML);
+			this.domNode = domConstruct.toDom(lang.trim(this.templateString));
 
 			if (this.domNode.nodeType != 1) {
 				throw new Error("Invalid template, must have only one element starting on the first line!");
 			}
 
 			this.compile(this.domNode)(this);
-		},
-
-		startup: function () {
-			this.inherited(arguments);
-			console.log("after create");
 		}
 	});
 });
