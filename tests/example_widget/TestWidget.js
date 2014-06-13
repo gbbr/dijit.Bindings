@@ -20,7 +20,7 @@ define([
 	return declare("widjit", [_WidgetBase, _TemplatedMixin, _IndiumView], {
 		templateString: template,
 
-		asd: 2,
+		asd: "IT WORKS (replaced by Templated)!",
 
 		postCreate: function () {
 			this.inherited(arguments);
