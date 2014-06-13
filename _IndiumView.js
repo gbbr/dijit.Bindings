@@ -24,12 +24,6 @@ define([
 		 */
 		buildRendering: function () {
 			this.inherited(arguments);
-			this.domNode = domConstruct.toDom(lang.trim(this.templateString));
-
-			if (this.domNode.nodeType != 1) {
-				throw new Error("Invalid template, must have only one element starting on the first line!");
-			}
-
 			this.compile(this.domNode)(this);
 		}
 	});
