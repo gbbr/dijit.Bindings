@@ -22,6 +22,10 @@ define([
 
 		asd: "IT WORKS (replaced by Templated)!",
 
+		transformFn: function (value) {
+			return "_**_" + value + "_**_"
+		},
+
 		postCreate: function () {
 			this.inherited(arguments);
 		}

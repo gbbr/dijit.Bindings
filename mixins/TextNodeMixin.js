@@ -11,6 +11,8 @@ define([
 		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
 		SETTER_TEXTNODES: "SETTER_TEXTNODES",
 
+		collectorStore: null,
+
 		constructor: function () {
 			this.collectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
 
