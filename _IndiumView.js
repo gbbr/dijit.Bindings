@@ -11,8 +11,8 @@ define([
 ) {
 	return declare("indium/_IndiumView", [Compiler, TextNodeMixin, ElementAttributeMixin], {
 		/**
-		 * @description Dijit life-cycle method, builds, traverses, compiles and
-		 * links DOM nodes to model and/or instance properties
+		 * @description Dijit life-cycle method. Creates a DOM node but
+		 * does not insert it into the page.
 		 */
 		buildRendering: function () {
 			this.inherited(arguments);

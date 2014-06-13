@@ -1,11 +1,20 @@
+// LinkingService ?
+
 define([
 	"dojo/_base/declare",
+	"dojo/store/Memory",
 	"dijit/Destroyable"
 ], function (
 	declare,
+	Memory,
 	Destroyable
 ) {
 	return declare("RegistrationService", [Destroyable], {
+		/**
+		 * @description Stores substitution data and linking functions
+		 * @type {dojo/store/Memory}
+		 */
+		$bindingStore: null,
 
 		_compilers: [],
 		_collectors: [],
@@ -19,6 +28,13 @@ define([
 				this._collectorStore,
 				this._setters
 			)
+		},
+
+		createBindingStore: function () {
+			this.$bindingStore = new Memory();
+			this.own(this.$bindingStore);
+
+			return this.$bindingStore;
 		},
 
 		/**

@@ -1,38 +1,50 @@
 define([
 	"dojo/_base/declare",
 	"dojo/_base/lang",
-	"dojo/store/Memory",
 	"dijit/Destroyable",
 	"indium/services/RegistrationService",
 	"indium/services/Parser"
 ], function (
 	declare,
 	lang,
-	Memory,
 	Destroyable,
 	RegistrationService,
 	Parser
 ) {
+	/**
+	 * @module Compiler
+	 * @description Links the widget's DOM node to its model.
+	 *
+	 * Mixins can register actions with the compiler via the RegistrationService.
+	 * These actions will be used on the widget's DOM tree to facilitate bindings
+	 * between a view's model and it's associated DOM tree.
+	 *
+	 * Template format is as follows:
+	 *
+	 * {{model.property|transformFn}}
+	 * If a model is detected the value is observed and a live binding is created.
+	 *
+	 * or:
+	 *
+	 * {{key|transformFn}}
+	 * If an instance property is detected a binding is built. Linking is not created
+	 * but it can be trigered automatically via an exposed method.
+	 *
+	 * Transform function is optional. It can be supplied via the widget's instance for
+	 * the template to pick up.
+	 *
+	 */
 	return declare("Compiler", [Parser, Destroyable], {
-		/**
-		 * @description Stores substitution data and linking functions
-		 * @type {dojo/store/Memory}
-		 */
-		$bindingStore: null,
-
 		/**
 		 * @description Provides a subscription service for plugins
 		 */
 		registrationService: null,
 
 		constructor: function () {
-			this.$bindingStore = new Memory();
 			this.registrationService = new RegistrationService();
+			this.bindingStore = this.registrationService.createBindingStore();
 
-			this.own(
-				this.$bindingStore,
-				this.registrationService
-			);
+			this.own(this.registrationService);
 		},
 
 		/**
@@ -43,19 +55,21 @@ define([
 		 * @return {Function} Returns the linking function for ease of access
 		 */
 		compile: function (rootNode) {
-			this._applyCollectors(rootNode);
-			this._applyCompilers();
+			this._findBindings(rootNode);
+			this._buildBindings();
 
-			return this._link;
+			return this._linkBindings;
 		},
 
 		/**
-		 * @descriptions Traverses the DOM and applies gatherer functions to each
+		 * @descriptions Traverses the DOM and applies collector functions to each
 		 * valid node
 		 * @param actions {Array<Function>} Array of functions, gets node as parameter
 		 * @param rootNode {HTMLElement} The root node for the traversal
+		 *
+		 * TODO: Reduce document.TreeWalker iterations through NodeFilters
 		 */
-		_applyCollectors: function (rootNode) {
+		_findBindings: function (rootNode) {
 			var node, collectors = this.registrationService.getCollectors();
 
 			if (!document.createTreeWalker) {
@@ -82,10 +96,9 @@ define([
 		},
 
 		/**
-		 * @description Applies all the compiler actions and clears the store for
-		 * potential future compilations
+		 * @description Applies all the compiler actions and builds bindings
 		 */
-		_applyCompilers: function () {
+		_buildBindings: function () {
 			var compilers = this.registrationService.getCompilers();
 			this._invokeActions(compilers);
 			this.registrationService.clearCollected();
@@ -96,7 +109,7 @@ define([
 		 * corresponding model or instance properties
 		 * @param scope {Object} The context which holds the values to be linked
 		 */
-		_link: function (scope) {
+		_linkBindings: function (scope) {
 			scope = scope || this;
 			// observe models or properties
 		},

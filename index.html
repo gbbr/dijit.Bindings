@@ -29,13 +29,16 @@
 	<script src="lib/dojo/dojo.js"></script>
 	<script type="text/javascript">
 	    require([
-	    	'dojo/dom',
-            'indium/tests/example_widget/TestWidget'
+	    	"dojo/dom",
+			"dojo/store/Memory",
+            "indium/tests/example_widget/TestWidget"
         ], function(
         	dom,
+			Memory,
             Widjit
         ) {
             window.w = new Widjit();
+			window.Memory = Memory;
             w.placeAt(dom.byId("placeholder"));
 			w.startup();
         });

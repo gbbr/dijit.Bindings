@@ -12,6 +12,8 @@ define([
 		SETTER_TEXTNODES: "SETTER_TEXTNODES",
 
 		constructor: function () {
+			this.collectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
+
 			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
 			this.registrationService.addCompiler(this._compileTextNodes);
 			this.registrationService.addSetter(this.SETTER_TEXTNODES, this._setNodeValue);
@@ -24,10 +26,9 @@ define([
 		 */
 		_gatherTextNodes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				var collectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES),
-					splitTextNode = this._breakTextNode(node);
+				var	splitTextNode = this._breakTextNode(node);
 
-				collectorStore.push({
+				this.collectorStore.push({
 					replaceNode: node,
 					replaceWith: splitTextNode.fragment,
 					bindings: splitTextNode.bindings
@@ -40,9 +41,7 @@ define([
 		 * functions
 		 */
 		_compileTextNodes: function () {
-			var collection = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
-
-			collection.forEach(function (collector) {
+			this.collectorStore.forEach(function (collector) {
 				var oldNode = collector.replaceNode,
 					newNode = collector.replaceWith;
 
