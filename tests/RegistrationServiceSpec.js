@@ -26,10 +26,10 @@ define([
 				registeredCompilers;
 
 			functionsAndNames.forEach(function (test) {
-				this.instance.addCompiler(test[0]);
+				this.instance.addBuilder(test[0]);
 			}, this);
 
-			registeredCompilers = this.instance.getCompilers();
+			registeredCompilers = this.instance.getBuilders();
 
 			testSuite.equals(4, registeredCompilers.length, "Less compilers than expected");
 

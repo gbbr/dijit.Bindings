@@ -21,7 +21,7 @@ define([
 			this._textCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
 
 			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
-			this.registrationService.addCompiler(this._compileTextNodes);
+			this.registrationService.addBuilder(this._compileTextNodes);
 			this.registrationService.addSetter(this.SETTER_TEXTNODES, this._setNodeValue);
 		},
 

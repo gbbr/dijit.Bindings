@@ -99,7 +99,7 @@ define([
 		 * @description Applies all the compiler actions and builds bindings
 		 */
 		_buildBindings: function () {
-			var compilers = this.registrationService.getCompilers();
+			var compilers = this.registrationService.getBuilders();
 			this._invokeActions(compilers);
 			this.registrationService.clearCollected();
 		},

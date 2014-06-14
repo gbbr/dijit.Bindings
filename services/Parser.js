@@ -16,7 +16,7 @@ define([
 		 * @description Returns and interpolation function along
 		 * with separators and expressions
 		 * @param str {string} String to be processed
-		 * @return {Function} Returns parts, separators, expressions
+		 * @return interpolationFn {Function} Returns parts, separators, expressions
 		 * and Interpolation Function
 		 */
 		interpolateString: function (str) {
@@ -31,7 +31,6 @@ define([
 			}
 
 			// Find expressions and separators
-
 			str.replace(pattern, function (expression) {
 				var remainingParts = remainingString.split(expression),
 					leftSide = remainingParts[0],
@@ -54,25 +53,26 @@ define([
 			}
 
 			// Interpolation function
+			var interpolationFn = function (context) {
+				return str.replace(pattern, function (match, binding, formatFn) {
+					if (context.hasOwnProperty(binding)) {
+						return lang.isFunction(context[formatFn]) ?
+							context[formatFn](context[binding]) : context[binding];
+					} else {
+						return match;
+					}
+				});
+			};
 
-			var interpolationFn = this._interpolationFunction;
-
+			// All expressions and separators in an array, under
+			// their original order
 			interpolationFn.parts = parts;
+			// Array of separators
 			interpolationFn.separators = separators;
+			// Array of expressions
 			interpolationFn.expressions = expressions;
 
 			return interpolationFn;
-		},
-
-		_interpolationFunction: function (context) {
-			return str.replace(pattern, function (match, binding, formatFn) {
-				if (context.hasOwnProperty(binding)) {
-					return lang.isFunction(context[formatFn]) ?
-						context[formatFn](context[binding]) : context[binding];
-				} else {
-					return match;
-				}
-			});
 		},
 
 		parseExpression: function (expression) {

@@ -29,11 +29,11 @@ define([
 		 * @description Adds a compiler to be run after the gathering phase
 		 * @param fn {Function} The compiler function to run
 		 */
-		addCompiler: function (fn) {
+		addBuilder: function (fn) {
 			this._compilers.push(fn);
 		},
 
-		getCompilers: function () {
+		getBuilders: function () {
 			return this._compilers;
 		},
 
