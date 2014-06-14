@@ -1,8 +1,12 @@
 define([
 	"dojo/_base/declare",
+	"dojo/_base/array",
+	"dojo/_base/lang",
 	"dijit/Destroyable"
 ], function (
 	declare,
+	array,
+	lang,
 	Destroyable
 ) {
 	return declare("indium/_TextBindingsMixin", [Destroyable], {
@@ -28,13 +32,7 @@ define([
 		 */
 		_gatherTextNodes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				var	splitTextNode = this._breakTextNode(node);
-
-				this.collectorStore.push({
-					replaceNode: node,
-					replaceWith: splitTextNode.fragment,
-					bindings: splitTextNode.bindings
-				});
+				this.collectorStore.push(node);
 			}
 		},
 
@@ -43,17 +41,46 @@ define([
 		 * functions
 		 */
 		_compileTextNodes: function () {
-			this.collectorStore.forEach(function (collector) {
-				var oldNode = collector.replaceNode,
-					newNode = collector.replaceWith;
+			this.collectorStore.forEach(function (node) {
+				var interpolateFn = this.interpolateString(node.nodeValue),
+					expressions = interpolateFn.expressions,
+					fragment = null, parsedExpr, textNode, setterFn;
 
-				oldNode.parentNode.replaceChild(newNode, oldNode);
 
-				collector.bindings.forEach(function (binding) {
-					console.log(binding);
-					//registrationService.getSetter
-				});
-			});
+				if (interpolateFn.parts.length > 1) {
+					fragment = document.createDocumentFragment();
+
+					interpolateFn.parts.forEach(function (part) {
+						textNode = document.createTextNode(part);
+
+						if (expressions.indexOf(part) >= 0) {
+							parsedExpr = this.parseExpression(part);
+
+							setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
+								"node": textNode,
+								"formatFn": parsedExpr.formatFn
+							});
+
+							this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+						}
+
+						fragment.appendChild(textNode);
+					}, this);
+
+					node.parentNode.replaceChild(fragment, node);
+
+				} else if (expressions.length === 1) {
+					parsedExpr = this.parseExpression(expressions[0]);
+					setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
+						"node": node,
+						"formatFn": parsedExpr.formatFn
+					});
+
+					this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+				}
+			}, this);
+
+			console.log(this.registrationService.$bindingStore);
 		},
 
 		/**
@@ -64,55 +91,16 @@ define([
 		 * object describing specifics set during generation
 		 */
 		_setNodeValue: function (args) {
-			var value = args[1], data = args[0],
-				formatFn = data.formatFn;
+			var value = args[1], nodeData = args[0],
+				formatFn = nodeData.formatFn;
 
-			data.node.nodeValue = formatFn ? formatFn.call(this, value) : value;
-		},
-
-		/**
-		 * Takes a text-node with multiple bindings and breaks it so that there
-		 * is only one text node for each binding
-		 * @param node {HTMLElement} The text-node to process
-		 * @returns {{bindings: Array, fragment: DocumentFragment}} Returns an array
-		 * of bindings as well as the resulting DOM fragment
-		 * @private
-		 */
-		_breakTextNode: function (node) {
-			var bindings = [],
-				partialNode = node,
-				docFragment = document.createDocumentFragment(),
-				textParts;
-
-			// To correctly store binding(s) we must first split it into a
-			// stand-alone text-node
-			while (partialNode && this._bindingCount(partialNode.nodeValue)) {
-				partialNode.nodeValue.replace(this.SUBSTITUTIONS_FIRST,
-					function (match, binding, formatFn, position, originalString) {
-						// Separate match from surroundings
-						textParts = originalString.split(match);
-						// If there was text to the left, keep it
-						if (textParts[0].length > 0) {
-							docFragment.appendChild(document.createTextNode(textParts[0]));
-						}
-						// Save a reference to the match and add it to fragment
-						bindings.push({ binding: binding, formatFn: formatFn, node: document.createTextNode(match) });
-						docFragment.appendChild(bindings[bindings.length - 1].node);
-						// If there was text to the right, continue, otherwise finish
-						partialNode = textParts[1] ? document.createTextNode(textParts[1]) : null;
-					});
+			if (lang.isFunction(this[formatFn])) {
+				formatFn = this[formatFn];
+			} else if (formatFn) {
+				throw new Error("Format function '" + formatFn + "' does not exist");
 			}
 
-			// Is there anything left?
-            // TODO: dangerous reference here
-			if (textParts[1] && textParts[1].length) {
-				docFragment.appendChild(document.createTextNode(textParts[1]));
-			}
-
-			return {
-				bindings: bindings,
-				fragment: docFragment
-			};
+			nodeData.node.nodeValue = formatFn ? formatFn.call(this, value) : value;
 		}
 	});
 });

@@ -3,38 +3,26 @@
 define([
 	"dojo/_base/declare",
 	"dojo/store/Memory",
-	"dijit/Destroyable"
+	"dijit/Destroyable",
+	"indium/services/StorageService"
 ], function (
 	declare,
 	Memory,
-	Destroyable
+	Destroyable,
+	StorageService
 ) {
-	return declare("RegistrationService", [Destroyable], {
-		/**
-		 * @description Stores substitution data and linking functions
-		 * @type {dojo/store/Memory}
-		 */
-		$bindingStore: null,
+	return declare("RegistrationService", [StorageService, Destroyable], {
 
 		_compilers: [],
 		_collectors: [],
-		_collectorStore: [],
 		_setters: {},
 
 		constructor: function () {
 			this.own(
 				this._compilers,
 				this._collectors,
-				this._collectorStore,
 				this._setters
 			)
-		},
-
-		createBindingStore: function () {
-			this.$bindingStore = new Memory();
-			this.own(this.$bindingStore);
-
-			return this.$bindingStore;
 		},
 
 		/**
@@ -64,26 +52,6 @@ define([
 		},
 
 		/**
-		 * @description Returns an existing store or creates a new one
-		 * @param name {string} The name of the store to be returned
-		 * @returns {Array<*>} Returns an array for storing gatherer data
-		 */
-		getCollectorStore: function (name) {
-			if (!this._collectorStore.hasOwnProperty(name)) {
-				this._collectorStore[name] = [];
-			}
-
-			return this._collectorStore[name];
-		},
-
-		/**
-		 * @description Clears all gatherer data
-		 */
-		clearCollected: function () {
-			this._collectorStore = {};
-		},
-
-		/**
 		 * Registers a setter function on the object
 		 * @param type {string} Setter type (ie. SETTER_REPEATER, etc.)
 		 * @param fn {Function} The function corresponding to this type
@@ -98,11 +66,12 @@ define([
 		 * Setter functions take a single value attribute and set it on the
 		 * node that they have been linked to using the setting type defined.
 		 * @param context {Object} The context in which the setter should run
-		 * @param type {Number} The setter type (ie. SETTER_ATTRIBUTE, etc.)
+		 * @param type {string} The setter type (ie. SETTER_ATTRIBUTE, etc.)
 		 * @param configObj {Object} Node, formatFn... depending on setter type
 		 * @returns {function(value)} Return a setter function
 		 */
 		getSetter: function (context, type, configObj) {
+			console.log(configObj);
 			var setter = this._setters[type];
 			return function (value) {
 				setter.call(context, arguments);

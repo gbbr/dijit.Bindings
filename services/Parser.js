@@ -9,8 +9,79 @@ define([
 		/**
 		 * @description Constants for substitution matching on template
 		 */
-		SUBSTITUTIONS_ALL: /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/g,
-		SUBSTITUTIONS_FIRST:  /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/,
+		EXPRESSIONS_ALL: /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/g,
+		EXPRESSION_ONCE:  /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/,
+
+		/**
+		 * @description Returns and interpolation function along
+		 * with separators and expressions
+		 * @param str {string} String to be processed
+		 * @return interpolationFn {Object} Returns text, separators, expressions
+		 * and Interpolation Function
+		 */
+		interpolateString: function (str) {
+			var separators = [],
+				expressions = [],
+				parts = [],
+				remainingString = str,
+				remainingParts,
+				pattern = this.EXPRESSIONS_ALL;
+
+			if (!this._bindingCount(str)) {
+				return;
+			}
+
+			// Find expressions and separators
+			str.replace(pattern, function (match) {
+				remainingParts = remainingString.split(match);
+
+				if (remainingParts[0].length > 0) {
+					separators.push(remainingParts[0]);
+					parts.push(remainingParts[0]);
+				}
+
+				expressions.push(match);
+				parts.push(match);
+				remainingString = remainingParts[1];
+			});
+
+			if (remainingString.length > 0) {
+				separators.push(remainingString);
+				parts.push(remainingString);
+			}
+
+			// Build interpolation function
+			var interpolationFn = function (context) {
+				return str.replace(pattern, function (match, binding, formatFn) {
+					if (context.hasOwnProperty(binding)) {
+						return lang.isFunction(context[formatFn]) ?
+							context[formatFn](context[binding]) : context[binding];
+					} else {
+						return match;
+					}
+				});
+			};
+
+			// Attach interpolation data
+			interpolationFn.parts = parts;
+			interpolationFn.separators = separators;
+			interpolationFn.expressions = expressions;
+
+			return interpolationFn;
+		},
+
+		parseExpression: function (expression) {
+			var data;
+
+			expression.replace(this.EXPRESSION_ONCE, function (match, binding, formatFn) {
+				data = {
+					binding: binding,
+					formatFn: formatFn
+				}
+			});
+
+			return data;
+		},
 
 		/**
 		 * @description Counts the number of substitutions in a given string
@@ -18,7 +89,7 @@ define([
 		 * @returns {Number} Number of bindings found
 		 */
 		_bindingCount: function (str) {
-			var matches = str.match(this.SUBSTITUTIONS_ALL);
+			var matches = str.match(this.EXPRESSIONS_ALL);
 			return matches ? matches.length : 0;
 		}
 	});

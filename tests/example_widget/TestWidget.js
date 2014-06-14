@@ -22,8 +22,12 @@ define([
 
 		asd: "IT WORKS (replaced by Templated)!",
 
-		transformFn: function (value) {
+		transformFn2: function (value) {
 			return "_**_" + value + "_**_"
+		},
+
+		transformFn: function (value) {
+			return value;
 		},
 
 		postCreate: function () {
