@@ -14,7 +14,11 @@ define([
 		COLLECTOR_ATTRIBUTES: "GATHERER_ATTRIBUTES",
 		SETTER_ATTRIBUTE: "SETTER_ATTRIBUTES",
 
+		_attributeCollectorStore: null,
+
 		constructor: function () {
+			this._attributeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
+
 			this.registrationService.addCollector(this.COLLECTOR_ATTRIBUTES, this._gatherAttributes);
 			this.registrationService.addBuilder(this._compileAttributes);
 			this.registrationService.addSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
@@ -27,15 +31,16 @@ define([
 		 */
 		_gatherAttributes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_ELEMENT) {
-				var gatherer = this.registrationService.getCollectorStore(this.registrationService.COLLECTOR_ATTRIBUTES),
-					i = node.attributes.length;
+				var i = node.attributes.length, attribute;
 
 				while (i--) {
-					if (this._bindingCount(node.attributes[i].value)) {
-						gatherer.push({
+					attribute = node.attributes[i];
+
+					if (this._bindingCount(attribute.value) > 0) {
+						this._attributeCollectorStore.push({
 							node: node,
-							attributeName: node.attributes[i].name,
-							attributeTemplate: node.attributes[i].value
+							attributeName: attribute.name,
+							attributeTemplate: attribute.value
 						});
 					}
 				}
@@ -46,12 +51,21 @@ define([
 		 * @description Creates linking functions and deletes storage
 		 */
 		_compileAttributes: function () {
-			var gatherer = this.registrationService.getCollectorStore(this.registrationService.COLLECTOR_ATTRIBUTES);
+			this._attributeCollectorStore.forEach(function (data) {
+				var interpolateAttribute = this.interpolateString(data.attributeTemplate);
 
-			gatherer.forEach(function (data) {
-				//console.log(data);
-				//registrationService.getSetter
-			});
+				interpolateAttribute.expressions.forEach(function (expression) {
+					var parsedExpr = this.parseExpression(expression),
+						setterFn = this.registrationService.getSetter(this, this.SETTER_ATTRIBUTE, {
+							node: data.node,
+							formatFn: parsedExpr.formatFn,
+							attributeName: data.attributeName,
+							attributeTemplate: data.attributeTemplate
+						});
+
+					this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+				}, this);
+			}, this);
 		},
 
 		/**
@@ -61,12 +75,8 @@ define([
 		 * object describing specifics set during generation
 		 */
 		_setNodeAttribute: function(args) {
-			/*
-			 { node, attrName, value, formatFn, substitution.name(?) }
-			 Always keep current value so we can replace with new value even
-			 if the classes position changes in the classList
-			 */
 			var value = args[1], data = args[0];
+			console.log(data);
 		}
 	});
 });
