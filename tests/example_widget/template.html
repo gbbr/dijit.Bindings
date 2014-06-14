@@ -9,12 +9,23 @@
 
 	${asd}
 
+	<div>
+		{{content.body}}
+		<div>
+			<h1>{{content.title}}</h1>
+			<div>{{footer}}</div>
+			<div>{{footer|transformFn2}}</div>
+			<div>{{footer}}</div>
+		</div>
+	</div>
+
 	<p>
-		<span class="{{content.className|formatMe}} other">
-			{{content.abstract|transformFn}}{{content.body|transformFn}}
+		<span class="other">
+			{{content.abstract}}{{content.body}}
 		</span>
 		<span>
-			<div>asd{{content.subtitle}}ioqweu<span>{{content.subtitle}}asd</span></div>
+				asd{{content.subtitle}}ioqweu
+				<span>{{content.subtitle}}asd</span>
 		</span>
 	</p>
 

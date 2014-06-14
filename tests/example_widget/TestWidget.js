@@ -23,15 +23,15 @@ define([
 		asd: "IT WORKS (replaced by Templated)!",
 
 		transformFn3: function (value) {
-			return "||||AAA||||" + value + "|||BBB|||"
+			return "||||AAA||||" + value + "|||BBB|||";
 		},
 
 		transformFn2: function (value) {
-			return "_**_" + value + "_**_"
+			return "_**_" + value + "_**_";
 		},
 
 		transformFn: function (value) {
-			return value;
+			return "ooO " + value + " Ooo";
 		},
 
 		postCreate: function () {
