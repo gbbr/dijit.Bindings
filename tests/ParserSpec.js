@@ -36,30 +36,14 @@ define([
 
 		"Parse expression: should return binding name and formatFn or undefined": function () {
 			var testCases = [
-					[
-						"{{A|B}}", { binding: "A", formatFn: "B" }
-					],
-					[
-						"random text", void 0
-					],
-					[
-						"", void 0
-					],
-					[
-						"{{model.key|formatFn}}", { binding: "model.key", formatFn: "formatFn" }
-					],
-					[
-						"{{}}", void 0
-					],
-					[
-						"{{model.key}}", { binding: "model.key", formatFn: void 0 }
-					],
-					[
-						"{{|formatFn}}", void 0
-					],
-					[
-						"{{color}}", { binding: "color", formatFn: void 0 }
-					]
+					[ "{{A|B}}", { binding: "A", formatFn: "B" } ],
+					[ "random text", void 0 ],
+					[ "", void 0 ],
+					[ "{{model.key|formatFn}}", { binding: "model.key", formatFn: "formatFn" } ],
+					[ "{{}}", void 0 ],
+					[ "{{model.key}}", { binding: "model.key", formatFn: void 0 } ],
+					[ "{{|formatFn}}", void 0 ],
+					[ "{{color}}", { binding: "color", formatFn: void 0 } ]
 				], result;
 
 			testCases.forEach(function (test) {
@@ -77,13 +61,33 @@ define([
 				["{{A}} space {{B}}", 	 { separators: [' space '],      	   expressions: ['{{A}}', '{{B}}'] }],
 				["{{A|transformFn}}asd", { separators: ['asd'],				   expressions: ['{{A|transformFn}}'] }],
 				[" {{prop.key|fn}}asd",  { separators: [' ', 'asd'],           expressions: ['{{prop.key|fn}}'] }],
-				["zxc {{A}}abc{{B}}qwe", { separators: ["zxc ", "abc", "qwe"], expressions: ['{{A}}', '{{B}}'] }]
+				["zxc {{A}} abc {{B}} qwe", { separators: ["zxc ", " abc ", " qwe"], expressions: ['{{A}}', '{{B}}'] }]
 			];
 
 			testCases.forEach(function (test) {
 				var interpolateFn = this.instance.interpolateString(test[0]);
 				testSuite.equals(test[1].separators, interpolateFn.separators, "Separators did not match on " + test[0]);
 				testSuite.equals(test[1].expressions, interpolateFn.expressions, "Expressions did not match on " + test[0]);
+			}, this);
+		},
+
+		"Interpolate function: Should corerctly do replacements and react to unavailable data": function () {
+			var toUppercase = function (str) {
+					return str.toUpperCase();
+				},
+				dummyFunction = function () {},
+				testCases = [
+					["Hello {{name}} !", { name: "John" }, "Hello John !"],
+					["Today is {{day|uppercase}}", { day: "FriDay", uppercase: toUppercase }, "Today is FRIDAY"],
+					["{{a}}", { a: 2 }, "2"],
+					["{{value|inexistingFn}}tastic", { value: "output" }, "outputtastic"],
+					["{{foo}}{{bar|toUppercase}}", { toUppercase: dummyFunction }, "{{foo}}{{bar|toUppercase}}"],
+					["{{foo|toUppercase}}{{bar}}", { foo: "loo", toUppercase: toUppercase }, "LOO{{bar}}"]
+				];
+
+			testCases.forEach(function (test) {
+				testSuite.equals(test[2], this.instance.interpolateString(test[0])(test[1]),
+						"Did not interpolate correctly at " + test[0]);
 			}, this);
 		}
 	});

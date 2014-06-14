@@ -16,7 +16,7 @@ define([
 		 * @description Returns and interpolation function along
 		 * with separators and expressions
 		 * @param str {string} String to be processed
-		 * @return interpolationFn {Object} Returns text, separators, expressions
+		 * @return interpolationFn {Function} Returns parts, separators, expressions
 		 * and Interpolation Function
 		 */
 		interpolateString: function (str) {
@@ -66,9 +66,9 @@ define([
 			// All expressions and separators in an array, under
 			// their original order
 			interpolationFn.parts = parts;
-			// Array of separators in their original order
+			// Array of separators
 			interpolationFn.separators = separators;
-			// Array of expressions found in the string
+			// Array of expressions
 			interpolationFn.expressions = expressions;
 
 			return interpolationFn;
