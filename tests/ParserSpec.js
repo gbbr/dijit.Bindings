@@ -108,7 +108,7 @@ define([
 			}, this);
 		},
 
-		"Interpolate function: Should corerctly do replacements and react to unavailable data": function () {
+		"Interpolate function: Should correctly do replacements and react to unavailable data": function () {
 			var toUppercase = function (str) {
 					return str.toUpperCase();
 				},

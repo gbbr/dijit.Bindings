@@ -50,6 +50,7 @@ define([
 				if (parts.length > 1) {
 					fragment = this._createBindingsFromFragment(parts, expressions);
 					node.parentNode.replaceChild(fragment, node);
+
 				} else if (expressions.length === 1) {
 					this._registerTextNodeSetter(expressions[0], node);
 				}
