@@ -65,19 +65,13 @@ define([
 		},
 
 		"Collectors: Returns correct collector store when requested": function () {
-			var initStore = this.instance.getCollectorStore("TEST_STORE2"),
-				readStore;
+			var initStore, readStore;
 
-			initStore.push(1);
-			initStore.push("A");
-			initStore.push({ a: 2, b: "C" });
+			initStore = this.instance.getCollectorStore("TEST_STORE2");
+			initStore.push(1, "A", { a: 2, b: "C" });
 
 			readStore = this.instance.getCollectorStore("TEST_STORE3");
-
-			readStore.push(2);
-			readStore.push("B");
-			readStore.push({ b: 3, c: "D" });
-			readStore.push({ asd: 3, qwe: "D" });
+			readStore.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
 
 			testSuite.equals(3, this.instance.getCollectorStore("TEST_STORE2").length, "Returned store is different in length");
 			testSuite.equals(1, this.instance.getCollectorStore("TEST_STORE2")[0], "Returned store is different");
