@@ -79,8 +79,6 @@ define([
 					this.registrationService.attachSetter(parsedExpr.binding, setterFn);
 				}
 			}, this);
-
-			console.log(this.registrationService.$bindingStore);
 		},
 
 		/**

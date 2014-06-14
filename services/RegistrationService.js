@@ -71,7 +71,6 @@ define([
 		 * @returns {function(value)} Return a setter function
 		 */
 		getSetter: function (context, type, configObj) {
-			console.log(configObj);
 			var setter = this._setters[type];
 			return function (value) {
 				setter.call(context, arguments);

@@ -58,7 +58,7 @@ define([
 			this._findBindings(rootNode);
 			this._buildBindings();
 
-			return this._linkBindings;
+			return this._linkBindings.bind(this);
 		},
 
 		/**
@@ -111,7 +111,12 @@ define([
 		 */
 		_linkBindings: function (scope) {
 			scope = scope || this;
+			var store = this.registrationService.$bindingStore;
+
 			// observe models or properties
+			// hook setters
+			// hook getters
+			// hook others
 		},
 
 		/**

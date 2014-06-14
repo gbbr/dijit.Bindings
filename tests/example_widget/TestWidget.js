@@ -22,6 +22,10 @@ define([
 
 		asd: "IT WORKS (replaced by Templated)!",
 
+		transformFn3: function (value) {
+			return "||||AAA||||" + value + "|||BBB|||"
+		},
+
 		transformFn2: function (value) {
 			return "_**_" + value + "_**_"
 		},
