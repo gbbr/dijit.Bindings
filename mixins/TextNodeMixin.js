@@ -46,7 +46,7 @@ define([
 					expressions = interpolateFn.expressions,
 					fragment = null, parsedExpr, textNode, setterFn;
 
-
+				// we need fragmenting
 				if (interpolateFn.parts.length > 1) {
 					fragment = document.createDocumentFragment();
 
@@ -69,6 +69,7 @@ define([
 
 					node.parentNode.replaceChild(fragment, node);
 
+				// no fragmenting
 				} else if (expressions.length === 1) {
 					parsedExpr = this.parseExpression(expressions[0]);
 					setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {

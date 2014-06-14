@@ -111,8 +111,7 @@ define([
 		 */
 		_linkBindings: function (scope) {
 			scope = scope || this;
-			var store = this.registrationService.$bindingStore;
-
+			console.log(this.bindingStore);
 			// observe models or properties
 			// hook setters
 			// hook getters
