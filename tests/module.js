@@ -3,5 +3,6 @@ require(["sinon"]);
 define([
 	"./ParserSpec",
 	"./RegistrationServiceSpec",
-	"./CompilerSpec"
+	"./CompilerSpec",
+	"./TextNodeMixinSpec"
 ], 1);

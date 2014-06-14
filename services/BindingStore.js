@@ -14,8 +14,6 @@ define([
 		 */
 		$bindingStore: null,
 
-		_collectorStore: [],
-
 		constructor: function () {
 			this.$bindingStore = new Memory();
 			this.own(this.$bindingStore);

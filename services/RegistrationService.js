@@ -13,12 +13,14 @@ define([
 
 		_compilers: [],
 		_collectors: [],
+		_collectorStore: [],
 		_setters: {},
 
 		constructor: function () {
 			this.own(
 				this._compilers,
 				this._collectors,
+				this._collectorStore,
 				this._setters
 			)
 		},

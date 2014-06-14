@@ -34,6 +34,10 @@ define([
 			}, this);
 		},
 
+		"Should not return undefined when no bindings are found": function () {
+			testSuite.equals(0, this.instance._bindingCount("asd"), "Did not return 0 at mismatched type")
+		},
+
 		"Parse expression: should return binding name and formatFn or undefined": function () {
 			var testCases = [
 					[ "{{A|B}}", { binding: "A", formatFn: "B" } ],

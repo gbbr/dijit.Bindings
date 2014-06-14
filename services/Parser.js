@@ -93,6 +93,9 @@ define([
 		 * @returns {Number} Number of bindings found
 		 */
 		_bindingCount: function (str) {
+			if (typeof str != "string") {
+				return 0;
+			}
 			var matches = str.match(this.EXPRESSIONS_ALL);
 			return matches ? matches.length : 0;
 		}

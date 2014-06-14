@@ -15,10 +15,10 @@ define([
 		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
 		SETTER_TEXTNODES: "SETTER_TEXTNODES",
 
-		collectorStore: null,
+		_textCollectorStore: null,
 
 		constructor: function () {
-			this.collectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
+			this._textCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
 
 			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
 			this.registrationService.addCompiler(this._compileTextNodes);
@@ -32,7 +32,7 @@ define([
 		 */
 		_gatherTextNodes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				this.collectorStore.push(node);
+				this._textCollectorStore.push(node);
 			}
 		},
 
@@ -41,45 +41,42 @@ define([
 		 * functions
 		 */
 		_compileTextNodes: function () {
-			this.collectorStore.forEach(function (node) {
+			this._textCollectorStore.forEach(function (node) {
 				var interpolateFn = this.interpolateString(node.nodeValue),
 					expressions = interpolateFn.expressions,
-					fragment = null, parsedExpr, textNode, setterFn;
+					fragment = null, textNode;
 
-				// we need fragmenting
+				// multiple bindings per text-node means we create
+				// a document-fragment
 				if (interpolateFn.parts.length > 1) {
 					fragment = document.createDocumentFragment();
 
 					interpolateFn.parts.forEach(function (part) {
 						textNode = document.createTextNode(part);
+						fragment.appendChild(textNode);
 
 						if (expressions.indexOf(part) >= 0) {
-							parsedExpr = this.parseExpression(part);
-
-							setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
-								"node": textNode,
-								"formatFn": parsedExpr.formatFn
-							});
-
-							this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+							this._createTextNodeBinding(part, textNode)
 						}
-
-						fragment.appendChild(textNode);
 					}, this);
 
 					node.parentNode.replaceChild(fragment, node);
 
-				// no fragmenting
+				// no fragment
 				} else if (expressions.length === 1) {
-					parsedExpr = this.parseExpression(expressions[0]);
-					setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
-						"node": node,
-						"formatFn": parsedExpr.formatFn
-					});
-
-					this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+					this._createTextNodeBinding(expressions[0], node);
 				}
 			}, this);
+		},
+
+		_createTextNodeBinding: function (expression, node) {
+			var parsedExpr = this.parseExpression(expression),
+				setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
+					"node": node,
+					"formatFn": parsedExpr.formatFn
+				});
+
+			this.registrationService.attachSetter(parsedExpr.binding, setterFn);
 		},
 
 		/**
