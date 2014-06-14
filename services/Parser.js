@@ -28,7 +28,7 @@ define([
 				pattern = this.EXPRESSIONS_ALL;
 
 			if (!this._bindingCount(str)) {
-				return;
+				throw new Error("Interpolate received a string without expressions: " + str);
 			}
 
 			// Find expressions and separators
@@ -42,6 +42,7 @@ define([
 
 				expressions.push(match);
 				parts.push(match);
+
 				remainingString = remainingParts[1];
 			});
 
@@ -50,7 +51,7 @@ define([
 				parts.push(remainingString);
 			}
 
-			// Build interpolation function
+			// Interpolation function
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
 					if (context.hasOwnProperty(binding)) {
@@ -62,9 +63,12 @@ define([
 				});
 			};
 
-			// Attach interpolation data
+			// All expressions and separators in an array, under
+			// their original order
 			interpolationFn.parts = parts;
+			// Array of separators in their original order
 			interpolationFn.separators = separators;
+			// Array of expressions found in the string
 			interpolationFn.expressions = expressions;
 
 			return interpolationFn;
