@@ -54,20 +54,53 @@ define([
 
 		"Interpolate string: should not miss any expressions or separators": function () {
 			var testCases = [
-				["{{A}}", 				 { separators: [],                     expressions: ['{{A}}']	}],
-				["{{A}} ", 				 { separators: [' '],                  expressions: ['{{A}}']	}],
-				[" {{A}} ", 			 { separators: [' ',' '],              expressions: ['{{A}}']	}],
-				["{{A}}{{B}}", 			 { separators: [],                     expressions: ['{{A}}', '{{B}}'] }],
-				["{{A}} space {{B}}", 	 { separators: [' space '],      	   expressions: ['{{A}}', '{{B}}'] }],
-				["{{A|transformFn}}asd", { separators: ['asd'],				   expressions: ['{{A|transformFn}}'] }],
-				[" {{prop.key|fn}}asd",  { separators: [' ', 'asd'],           expressions: ['{{prop.key|fn}}'] }],
-				["zxc {{A}} abc {{B}} qwe", { separators: ["zxc ", " abc ", " qwe"], expressions: ['{{A}}', '{{B}}'] }]
+				["{{A}}", 				 {
+					separators: [],
+					expressions: ['{{A}}'],
+					parts: ["{{A}}"]
+				}],
+				["{{A}} ", 				 {
+					separators: [' '],
+					expressions: ['{{A}}'],
+					parts: ["{{A}}", " "]
+				}],
+				[" {{A}} ", 			 {
+					separators: [' ',' '],
+					expressions: ['{{A}}'],
+					parts: [" ", "{{A}}", " "]
+				}],
+				["{{A}}{{B}}", 			 {
+					separators: [],
+					expressions: ['{{A}}', '{{B}}'],
+					parts: ["{{A}}", "{{B}}"]
+				}],
+				["{{prop}} space {{model.key}}", 	 {
+					separators: [' space '],
+					expressions: ['{{prop}}', '{{model.key}}'],
+					parts: ["{{prop}}", " space ", "{{model.key}}"]
+				}],
+				["{{A|transformFn}}asd", {
+					separators: ['asd'],
+					expressions: ['{{A|transformFn}}'],
+					parts: ["{{A|transformFn}}", "asd"]
+				}],
+				[" {{prop.key|fn}}asd",  {
+					separators: [' ', 'asd'],
+					expressions: ['{{prop.key|fn}}'],
+					parts: [" ", "{{prop.key|fn}}", "asd"]
+				}],
+				["zxc {{A}} abc {{B}} qwe", {
+					separators: ["zxc ", " abc ", " qwe"],
+					expressions: ['{{A}}', '{{B}}'],
+					parts: ["zxc ", "{{A}}", " abc ", "{{B}}", " qwe"]
+				}]
 			];
 
 			testCases.forEach(function (test) {
 				var interpolateFn = this.instance.interpolateString(test[0]);
 				testSuite.equals(test[1].separators, interpolateFn.separators, "Separators did not match on " + test[0]);
 				testSuite.equals(test[1].expressions, interpolateFn.expressions, "Expressions did not match on " + test[0]);
+				testSuite.equals(test[1].parts, interpolateFn.parts, "Parts did not match on " + test[0]);
 			}, this);
 		},
 
