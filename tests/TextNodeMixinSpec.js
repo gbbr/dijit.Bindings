@@ -5,6 +5,7 @@ define([
 	"dojo/_base/declare",
 	"indium/services/Compiler",
 	"indium/mixins/TextNodeMixin",
+	'dojo/text!indium/tests/example_widget/template.html',
 	"testSuite"
 ], function (
 	doh,
@@ -13,6 +14,7 @@ define([
 	declare,
 	Compiler,
 	TextNodeMixin,
+	template,
 	testSuite
 ) {
 	var CompilerWithMixin = declare("TestCompiler", [Compiler, TextNodeMixin], {}),
@@ -52,6 +54,16 @@ define([
 
 			testSuite.equals(3, this.instance.registrationService.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES).length,
 				"Unexpected number of nodes collected.")
+		},
+
+		"Correctly breaks text nodes": function () {
+
+		},
+
+		"xDoes not crash when parentNode is not found": function () {
+			var dom = domConstruct.toDom(template.trim());
+			console.log(dom);
+			this.instance.compile(dom);
 		}
 	});
 });

@@ -1,11 +1,9 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/array",
 	"dojo/_base/lang",
 	"dijit/Destroyable"
 ], function (
 	declare,
-	array,
 	lang,
 	Destroyable
 ) {
@@ -18,7 +16,7 @@ define([
 		_textCollectorStore: null,
 
 		constructor: function () {
-			this._textCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
+			this._textCollectorStore = this.registrationService.createCollectorStore(this.COLLECTOR_TEXT_NODES);
 
 			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
 			this.registrationService.addBuilder(this._compileTextNodes);
@@ -48,7 +46,7 @@ define([
 					fragment = null;
 
 				if (parts.length > 1) {
-					fragment = this._createBindingsFromFragment(parts, expressions);
+					fragment = this._createBindingsFromFragment(parts, expressions);if(!node.parentNode) debugger
 					node.parentNode.replaceChild(fragment, node);
 
 				} else if (expressions.length === 1) {

@@ -43,7 +43,6 @@ define([
 		 * @param fn {Function} The gatherer function
 		 */
 		addCollector: function (name, fn) {
-			this.getCollectorStore(name);
 			this._collectors.push(fn);
 		},
 
@@ -56,15 +55,16 @@ define([
 		},
 
 		/**
-		 * @description Returns an existing store or creates a new one
+		 * @description Creates and returns a new collector store
 		 * @param name {string} The name of the store to be returned
 		 * @returns {Array<*>} Returns an array for storing gatherer data
 		 */
-		getCollectorStore: function (name) {
-			if (!this._collectorStore.hasOwnProperty(name)) {
-				this._collectorStore[name] = [];
-			}
+		createCollectorStore: function (name) {
+			this._collectorStore[name] = [];
+			return this.getCollectorStore(name);
+		},
 
+		getCollectorStore: function (name) {
 			return this._collectorStore[name];
 		},
 

@@ -1,12 +1,14 @@
 define([
 	"doh/runner",
+	"dojo/dom-construct",
 	"indium/services/Compiler",
-	"indium/tests/templates/TestWidgets",
+	'dojo/text!indium/tests/example_widget/template.html',
 	"testSuite"
 ], function (
 	doh,
+	domConstruct,
 	Compiler,
-	TestWidgets,
+	template,
 	testSuite
 ) {
 	testSuite("Compiler service", {
@@ -27,6 +29,12 @@ define([
 				testSuite.isTrue(spy.calledOnce, "Function was not called once");
 				testSuite.isTrue(spy.calledWith(5), "Argument was not passed");
 			});
+		},
+
+		"Correctly recompiles a document": function () {
+//			var dom = domConstruct.toDom(template);
+//			console.log(this.instance.compile(dom)(this));
+//			console.log(this.instance.registrationService.$bindingStore);
 		}
 	});
 });
