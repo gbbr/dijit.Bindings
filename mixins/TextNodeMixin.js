@@ -44,29 +44,31 @@ define([
 			this._textCollectorStore.forEach(function (node) {
 				var interpolateFn = this.interpolateString(node.nodeValue),
 					expressions = interpolateFn.expressions,
-					fragment = null, textNode;
+					parts = interpolateFn.parts,
+					fragment = null;
 
-				// multiple bindings per text-node means we create
-				// a document-fragment
-				if (interpolateFn.parts.length > 1) {
-					fragment = document.createDocumentFragment();
-
-					interpolateFn.parts.forEach(function (part) {
-						textNode = document.createTextNode(part);
-						fragment.appendChild(textNode);
-
-						if (expressions.indexOf(part) >= 0) {
-							this._createTextNodeBinding(part, textNode)
-						}
-					}, this);
-
+				if (parts.length > 1) {
+					fragment = this._createBindingsFromFragment(parts, expressions);
 					node.parentNode.replaceChild(fragment, node);
-
-				// no fragment
 				} else if (expressions.length === 1) {
 					this._createTextNodeBinding(expressions[0], node);
 				}
 			}, this);
+		},
+
+		_createBindingsFromFragment: function (parts, expressions) {
+			var fragment = document.createDocumentFragment();
+
+			parts.forEach(function (part) {
+				var textNode = document.createTextNode(part);
+				fragment.appendChild(textNode);
+
+				if (expressions.indexOf(part) >= 0) {
+					this._createTextNodeBinding(part, textNode)
+				}
+			}, this);
+
+			return fragment;
 		},
 
 		_createTextNodeBinding: function (expression, node) {
