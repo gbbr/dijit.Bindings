@@ -90,7 +90,8 @@ define([
 		 */
 		_setNodeValue: function (args) {
 			var value = args[1], nodeData = args[0],
-				formatFn = nodeData.formatFn;
+				formatFn = nodeData.formatFn,
+				node = nodeData.node;
 
 			if (lang.isFunction(this[formatFn])) {
 				formatFn = this[formatFn];
@@ -98,7 +99,7 @@ define([
 				throw new Error("Format function '" + formatFn + "' does not exist");
 			}
 
-			nodeData.node.nodeValue = formatFn ? formatFn.call(this, value) : value;
+			node.nodeValue = formatFn ? formatFn.call(this, value) : value;
 		}
 	});
 });
