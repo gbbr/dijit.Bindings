@@ -27,7 +27,7 @@ define([
 		},
 
 		transformFn2: function (value) {
-			return "_**_" + value + "_**_";
+			return "show-" + value;
 		},
 
 		transformFn: function (value) {

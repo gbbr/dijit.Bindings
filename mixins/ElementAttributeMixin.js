@@ -60,7 +60,8 @@ define([
 							node: data.node,
 							formatFn: parsedExpr.formatFn,
 							attributeName: data.attributeName,
-							attributeTemplate: data.attributeTemplate
+							attributeTemplate: data.attributeTemplate,
+							interpolationFn: interpolateAttribute
 						});
 
 					this.registrationService.attachSetter(parsedExpr.binding, setterFn);
@@ -75,8 +76,13 @@ define([
 		 * object describing specifics set during generation
 		 */
 		_setNodeAttribute: function(args) {
-			var value = args[1], data = args[0];
-			console.log(data);
+			var value = args[1], data = args[0],
+				parsedExpr;
+
+			data.interpolationFn.expressions.forEach(function (expression) {
+				parsedExpr = this.parseExpression(expression);
+				console.log(parsedExpr);
+			}, this);
 		}
 	});
 });
