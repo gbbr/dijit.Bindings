@@ -67,8 +67,6 @@ define([
 		 * valid node
 		 * @param actions {Array<Function>} Array of functions, gets node as parameter
 		 * @param rootNode {HTMLElement} The root node for the traversal
-		 *
-		 * TODO: Reduce document.TreeWalker iterations through NodeFilters
 		 */
 		_findBindings: function (rootNode) {
 			var node, collectors = this.registrationService.getCollectors();
