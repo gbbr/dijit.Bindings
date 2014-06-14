@@ -51,7 +51,7 @@ define([
 					fragment = this._createBindingsFromFragment(parts, expressions);
 					node.parentNode.replaceChild(fragment, node);
 				} else if (expressions.length === 1) {
-					this._createTextNodeBinding(expressions[0], node);
+					this._registerTextNodeSetter(expressions[0], node);
 				}
 			}, this);
 		},
@@ -64,14 +64,14 @@ define([
 				fragment.appendChild(textNode);
 
 				if (expressions.indexOf(part) >= 0) {
-					this._createTextNodeBinding(part, textNode)
+					this._registerTextNodeSetter(part, textNode)
 				}
 			}, this);
 
 			return fragment;
 		},
 
-		_createTextNodeBinding: function (expression, node) {
+		_registerTextNodeSetter: function (expression, node) {
 			var parsedExpr = this.parseExpression(expression),
 				setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
 					"node": node,
