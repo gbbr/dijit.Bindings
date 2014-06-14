@@ -4,14 +4,14 @@ define([
 	"dojo/_base/declare",
 	"dojo/store/Memory",
 	"dijit/Destroyable",
-	"indium/services/StorageService"
+	"indium/services/BindingStore"
 ], function (
 	declare,
 	Memory,
 	Destroyable,
-	StorageService
+	BindingStore
 ) {
-	return declare("RegistrationService", [StorageService, Destroyable], {
+	return declare("RegistrationService", [BindingStore, Destroyable], {
 
 		_compilers: [],
 		_collectors: [],
@@ -47,8 +47,32 @@ define([
 			this._collectors.push(fn);
 		},
 
+		/**
+		 * @description Return all collector actions
+		 * @returns {Array<Function>} List of functions
+		 */
 		getCollectors: function () {
 			return this._collectors;
+		},
+
+		/**
+		 * @description Returns an existing store or creates a new one
+		 * @param name {string} The name of the store to be returned
+		 * @returns {Array<*>} Returns an array for storing gatherer data
+		 */
+		getCollectorStore: function (name) {
+			if (!this._collectorStore.hasOwnProperty(name)) {
+				this._collectorStore[name] = [];
+			}
+
+			return this._collectorStore[name];
+		},
+
+		/**
+		 * @description Clears all gatherer data
+		 */
+		clearCollected: function () {
+			this._collectorStore = {};
 		},
 
 		/**
