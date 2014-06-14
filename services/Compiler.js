@@ -36,7 +36,8 @@ define([
 	 */
 	return declare("Compiler", [Parser, Destroyable], {
 		/**
-		 * @description Provides a subscription service for plugins
+		 * @description Acts as a gateway between Compiler and Mixins, it also
+		 * provides the binding store.
 		 */
 		registrationService: null,
 
@@ -49,8 +50,8 @@ define([
 
 		/**
 		 * @description Traverses DOM and gathers binding information, compiles and manipulates
-		 * DOM as necessary and returns a linking function that takes the scope to be bound against
-		 * the given DOM tree.
+		 * DOM as necessary and returns a linking function that takes the scope to be bound
+		 * against.
 		 * @param rootNode {HTMLElement} The root node of the tree to be compiled
 		 * @return {Function} Returns the linking function for ease of access
 		 */
