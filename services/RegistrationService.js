@@ -2,12 +2,10 @@
 
 define([
 	"dojo/_base/declare",
-	"dojo/store/Memory",
 	"dijit/Destroyable",
 	"indium/services/BindingStore"
 ], function (
 	declare,
-	Memory,
 	Destroyable,
 	BindingStore
 ) {
