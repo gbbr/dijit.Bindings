@@ -3,11 +3,13 @@
 define([
 	"dojo/_base/declare",
 	"dijit/Destroyable",
-	"indium/services/BindingStore"
+	"indium/services/BindingStore",
+	"lib/lang"
 ], function (
 	declare,
 	Destroyable,
-	BindingStore
+	BindingStore,
+	indiumLang
 ) {
 	return declare("RegistrationService", [BindingStore, Destroyable], {
 
@@ -60,7 +62,9 @@ define([
 		 * @returns {Array<*>} Returns an array for storing gatherer data
 		 */
 		getCollectorStore: function (name) {
-			this._collectorStore[name] = this._collectorStore[name] || [];
+			if(!this._collectorStore.hasOwnProperty(name)) {
+				this._collectorStore[name] = [];
+			}
 			return this._collectorStore[name];
 		},
 
@@ -68,7 +72,9 @@ define([
 		 * @description Clears all gatherer data
 		 */
 		clearCollected: function () {
-			this._collectorStore = {};
+			indiumLang.forEach(this._collectorStore, function (store, key) {
+				delete this._collectorStore[key];
+			}, this);
 		},
 
 		/**
