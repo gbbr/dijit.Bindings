@@ -107,8 +107,19 @@ define([
 			testSuite.equals([{ obj: "ect", a: 2 }, "lorem ipsum"], spy3.getCalls()[0].args[0], "Arguments did not match");
 		},
 
-		"Clears collector store": function () {
+		"Shoudl clear collector store when asked to": function () {
+			var initStore, readStore;
 
+			initStore = this.instance.getCollectorStore("TEST_STORE2");
+			initStore.push(1, "A", { a: 2, b: "C" });
+
+			readStore = this.instance.getCollectorStore("TEST_STORE3");
+			readStore.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
+
+			this.instance.clearCollected();
+
+			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE2").length, "Store not emptied");
+			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length, "Store not emptied");
 		}
 	});
 });
