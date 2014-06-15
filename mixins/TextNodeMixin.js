@@ -13,12 +13,12 @@ define([
 
 		NODE_TYPE_TEXT: 3,
 		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
-		SETTER_TEXTNODES: "SETTER_TEXTNODES",
+		SETTER_TEXT_NODES: "SETTER_TEXTNODES",
 
 		constructor: function () {
 			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
 			this.registrationService.addBuilder(this._compileTextNodes);
-			this.registrationService.addSetter(this.SETTER_TEXTNODES, this._setNodeValue);
+			this.registrationService.addSetter(this.SETTER_TEXT_NODES, this._setNodeValue);
 		},
 
 		/**
@@ -70,7 +70,7 @@ define([
 
 		_registerTextNodeSetter: function (expression, node) {
 			var parsedExpr = this.parseExpression(expression),
-				setterFn = this.registrationService.getSetter(this, this.SETTER_TEXTNODES, {
+				setterFn = this.registrationService.getSetter(this, this.SETTER_TEXT_NODES, {
 					"node": node,
 					"formatFn": parsedExpr.formatFn
 				});
