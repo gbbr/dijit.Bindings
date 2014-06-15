@@ -31,7 +31,7 @@ define([
 			});
 		},
 
-		"Correctly clears collector store after builders": function () {
+		"Correctly clears collector store and subscribers after building phase": function () {
 //			var dom = domConstruct.toDom(template);
 //			console.log(this.instance.compile(dom)(this));
 //			console.log(this.instance.registrationService.$bindingStore);

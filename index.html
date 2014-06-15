@@ -40,11 +40,12 @@
 			Memory,
             Widjit
         ) {
-            window.w = new Widjit.widget1();
-			window.q = new Widjit.widget2();
+			window.w = new Widjit.widget1();
             w.placeAt(dom.byId("placeholder"));
-			q.placeAt(dom.byId("placeholder2"))
 			w.startup();
+
+			window.q = new Widjit.widget2();
+			q.placeAt(w.dapOtherWidget);
 			q.startup();
         });
 	</script>

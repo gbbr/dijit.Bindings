@@ -13,12 +13,17 @@ define([
 ) {
 	return declare("RegistrationService", [BindingStore, Destroyable], {
 
-		_compilers: [],
-		_collectors: [],
-		_collectorStore: [],
-		_setters: {},
+		_compilers: null,
+		_collectors: null,
+		_collectorStore: null,
+		_setters: null,
 
 		constructor: function () {
+			this._compilers = [];
+			this._collectors = [];
+			this._collectorStore = [];
+			this._setters = {};
+
 			this.own(
 				this._compilers,
 				this._collectors,
@@ -69,7 +74,7 @@ define([
 		},
 
 		/**
-		 * @description Clears all gatherer data
+		 * @description Clears all gathered data
 		 */
 		clearCollected: function () {
 			indiumLang.forEach(this._collectorStore, function (store, key) {

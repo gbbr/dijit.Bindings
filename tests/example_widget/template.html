@@ -20,7 +20,7 @@
 	</div>
 
 	<p>
-		<span class="other {{a}} button {{b|transformFn2}}">
+		<span class="other {{x}} button {{z|transformFn2}}">
 			{{content.abstract}}{{content.body}}
 		</span>
 		<span>
@@ -29,7 +29,10 @@
 		</span>
 	</p>
 
-	<div id="otherWidget"></div>
+	<div id="otherWidget">
+		<h1>Other widget</h1>
+		<div data-dojo-attach-point="dapOtherWidget"></div>
+	</div>
 
 	<a href="{{content.link}}">{{content.abstract|transformFn2}}</a>
 

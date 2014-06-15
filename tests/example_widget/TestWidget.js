@@ -23,6 +23,8 @@ define([
 		widget1: declare("widjit", [_WidgetBase, _TemplatedMixin, _IndiumView], {
 			templateString: template,
 
+			dapOtherWidget: null,
+
 			asd: "IT WORKS (replaced by Templated)!",
 
 			transformFn3: function (value) {
@@ -54,7 +56,7 @@ define([
 			postCreate: function () {
 				this.inherited(arguments);
 				console.log('hi this is my store: ');
-				console.log(this.registrationService.$bindingStore);
+				//console.log(this.registrationService.$bindingStore);
 			}
 		})
 	};
