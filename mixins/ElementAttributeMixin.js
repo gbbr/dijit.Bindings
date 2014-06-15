@@ -74,15 +74,14 @@ define([
 		 * @param args {Array<mixed>} Contains two items:
 		 * new value to be set on the attribute and a configuration
 		 * object describing specifics set during generation
+		 *
+		 * //TODO: Set node value from context?
 		 */
 		_setNodeAttribute: function(args) {
 			var value = args[1], data = args[0],
 				parsedExpr;
 
-			data.interpolationFn.expressions.forEach(function (expression) {
-				parsedExpr = this.parseExpression(expression);
-				console.log(parsedExpr);
-			}, this);
+			//interpolate context see TODO
 		}
 	});
 });
