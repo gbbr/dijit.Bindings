@@ -58,9 +58,7 @@ define([
 					var parsedExpr = this.parseExpression(expression),
 						setterFn = this.registrationService.getSetter(this, this.SETTER_ATTRIBUTE, {
 							node: data.node,
-							formatFn: parsedExpr.formatFn,
 							attributeName: data.attributeName,
-							attributeTemplate: data.attributeTemplate,
 							interpolationFn: interpolateAttribute
 						});
 
@@ -78,8 +76,7 @@ define([
 		 * //TODO: Set node value from context?
 		 */
 		_setNodeAttribute: function(args) {
-			var value = args[1], data = args[0],
-				parsedExpr;
+			var context = args[1], data = args[0];
 
 			//interpolate context see TODO
 		}

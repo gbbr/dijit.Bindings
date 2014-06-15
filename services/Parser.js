@@ -20,18 +20,40 @@ define([
 		 * and Interpolation Function
 		 */
 		interpolateString: function (str) {
-			var separators = [],
-				expressions = [],
-				parts = [],
-				remainingString = str,
-				pattern = this.EXPRESSIONS_ALL;
+			var parts, pattern = this.EXPRESSIONS_ALL;
 
 			if (!this._bindingCount(str)) {
 				throw new Error("Interpolate received a string without expressions: " + str);
 			}
 
+			parts = this._getExpressionParts(str);
+
+			var interpolationFn = function (context) {
+				return str.replace(pattern, function (match, binding, formatFn) {
+					if (context.hasOwnProperty(binding)) {
+						return lang.isFunction(context[formatFn]) ?
+							context[formatFn](context[binding]) : context[binding];
+					} else {
+						return match;
+					}
+				});
+			};
+
+			interpolationFn.parts = parts.parts;
+			interpolationFn.separators = parts.separators;
+			interpolationFn.expressions = parts.expressions;
+
+			return interpolationFn;
+		},
+
+		_getExpressionParts: function (str) {
+			var parts = [],
+				separators = [],
+				expressions = [],
+				remainingString = str;
+
 			// Find expressions and separators
-			str.replace(pattern, function (expression) {
+			str.replace(this.EXPRESSIONS_ALL, function (expression) {
 				var remainingParts = remainingString.split(expression),
 					leftSide = remainingParts[0],
 					rightSide = remainingParts[1];
@@ -52,27 +74,11 @@ define([
 				parts.push(remainingString);
 			}
 
-			// Interpolation function
-			var interpolationFn = function (context) {
-				return str.replace(pattern, function (match, binding, formatFn) {
-					if (context.hasOwnProperty(binding)) {
-						return lang.isFunction(context[formatFn]) ?
-							context[formatFn](context[binding]) : context[binding];
-					} else {
-						return match;
-					}
-				});
+			return {
+				parts: parts,
+				expressions: expressions,
+				separators: separators
 			};
-
-			// All expressions and separators in an array, under
-			// their original order
-			interpolationFn.parts = parts;
-			// Array of separators
-			interpolationFn.separators = separators;
-			// Array of expressions
-			interpolationFn.expressions = expressions;
-
-			return interpolationFn;
 		},
 
 		parseExpression: function (expression) {
