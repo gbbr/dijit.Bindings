@@ -3,33 +3,45 @@
 		<li class="{{content.className}}">{{content.title}}</li>
 		<li>{{content.subtitle|transformFn2}}</li>
 	</ul>
-
+<span>
 	qwe {{content.abstract|transformFn}} dasd
 	{{content.body|transformFn}} asdsada
+</span>
+	${asd}
+
+	<div>
+		{{content.body}}
+		<div>
+			<h1>{{content.title}}</h1>
+			<div>{{footer}}</div>
+			<div>{{footer|transformFn2}}</div>
+			<div>{{footer}}</div>
+		</div>
+	</div>
 
 	<p>
-		<span class="{{content.className|formatMe}} other">
-			{{content.abstract|transformFn}}{{content.body|transformFn}}
+		<span class="other {{x}} button {{z|transformFn2}}">
+			{{content.abstract}}{{content.body}}
 		</span>
 		<span>
-			<div>asd{{content.subtitle}}ioqweu<span>{{content.subtitle}}asd</span></div>
+				asd{{content.subtitle}}ioqweu
+				<span>{{content.subtitle}}asd</span>
 		</span>
 	</p>
 
+	<div id="otherWidget">
+		<h1>Other widget</h1>
+		<div data-dojo-attach-point="dapOtherWidget"></div>
+	</div>
+
 	<a href="{{content.link}}">{{content.abstract|transformFn2}}</a>
 
-	<div data-dojo-type="dijit/layout/ContentPane" style="position: relative;">
-		<div data-dojo-type="dijit/layout/TabContainer">
-			<div data-dojo-type="dijit/layout/ContentPane" title="asd">asd {{asd}} adad sdas</div>
-			<div data-dojo-type="dijit/layout/ContentPane" title="{{content.title}}">asdlkjhsal sakjd oai</div>
-			<div data-dojo-type="dijit/layout/ContentPane" title="zxc">uashdas89 d7a9sdh ads</div>
-		</div>
-	</div>
+	<div data-dojo-type="dijit/layout/ContentPane"></div>
 	<br/>{{footer}}
 	<br/>{{footer|transformFn3}}
-	<br/>{{footer}}{{footer}}{{footer}}
+	<br/>{{footer}}
 	<br/><br/>
 
-	<!-- WIDGETS 
-	<input id="typer" type="text" />-->
+	<!-- WIDGETS
+	<input did="typer" type="text" />-->
 </div>
