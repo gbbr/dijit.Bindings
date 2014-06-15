@@ -1,9 +1,11 @@
 define([
 	"dojo/_base/declare",
+	"dojo/dom-construct",
 	"dojo/_base/lang",
 	"dijit/Destroyable"
 ], function (
 	declare,
+	domContruct,
 	lang,
 	Destroyable
 ) {
@@ -46,7 +48,7 @@ define([
 					fragment = null;
 
 				if (parts.length > 1) {
-					fragment = this._createBindingsFromFragment(parts, expressions);if(!node.parentNode) debugger
+					fragment = this._createBindingsFromFragment(parts, expressions);
 					node.parentNode.replaceChild(fragment, node);
 
 				} else if (expressions.length === 1) {
