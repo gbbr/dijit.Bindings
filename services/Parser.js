@@ -13,9 +13,10 @@ define([
 		EXPRESSION_ONCE:  /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/,
 
 		/**
-		 * @description Returns and interpolation function along
-		 * with separators and expressions
-		 * @param str {string} String to be processed
+		 * @description Returns and interpolation function along with separators
+		 * separators and expressions. The interpolation function takes a context
+		 * as argument and returns the interpolated string
+		 * @param str {string} String to be interpolated
 		 * @return interpolationFn {Function} Returns parts, separators, expressions
 		 * and Interpolation Function
 		 */
@@ -46,13 +47,18 @@ define([
 			return interpolationFn;
 		},
 
+		/**
+		 * @description Splits a string and returns its parts, expressions and
+		 * expression separators
+		 * @param str {string} The string to split
+		 * @returns {{parts: Array, expressions: Array, separators: Array}}
+		 */
 		_getExpressionParts: function (str) {
 			var parts = [],
 				separators = [],
 				expressions = [],
 				remainingString = str;
 
-			// Find expressions and separators
 			str.replace(this.EXPRESSIONS_ALL, function (expression) {
 				var remainingParts = remainingString.split(expression),
 					leftSide = remainingParts[0],
