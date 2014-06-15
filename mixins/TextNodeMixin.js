@@ -22,7 +22,7 @@ define([
 		_textNodeCollectorStore: null,
 
 		/**
-		 * @description Creates a store for the collectors, attaches them, adds builders and setters
+		 * @description Creates a store for the collectors, attaches
 		 */
 		constructor: function () {
 			this._textNodeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
