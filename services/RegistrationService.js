@@ -59,12 +59,8 @@ define([
 		 * @param name {string} The name of the store to be returned
 		 * @returns {Array<*>} Returns an array for storing gatherer data
 		 */
-		createCollectorStore: function (name) {
-			this._collectorStore[name] = [];
-			return this.getCollectorStore(name);
-		},
-
 		getCollectorStore: function (name) {
+			this._collectorStore[name] = this._collectorStore[name] || [];
 			return this._collectorStore[name];
 		},
 

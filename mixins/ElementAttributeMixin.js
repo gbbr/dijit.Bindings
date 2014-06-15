@@ -17,7 +17,7 @@ define([
 		_attributeCollectorStore: null,
 
 		constructor: function () {
-			this._attributeCollectorStore = this.registrationService.createCollectorStore(this.COLLECTOR_ATTRIBUTES);
+			this._attributeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
 
 			this.registrationService.addCollector(this.COLLECTOR_ATTRIBUTES, this._gatherAttributes);
 			this.registrationService.addBuilder(this._compileAttributes);

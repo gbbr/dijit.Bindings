@@ -61,16 +61,16 @@ define([
 		},
 
 		"Collectors: Returns empty store when one is not available": function () {
-			testSuite.equals({}, this.instance.createCollectorStore("TEST_STORE1"), "Did not return empty store");
+			testSuite.equals({}, this.instance.getCollectorStore("TEST_STORE1"), "Did not return empty store");
 		},
 
 		"Collectors: Returns correct collector store when requested": function () {
 			var initStore, readStore;
 
-			initStore = this.instance.createCollectorStore("TEST_STORE2");
+			initStore = this.instance.getCollectorStore("TEST_STORE2");
 			initStore.push(1, "A", { a: 2, b: "C" });
 
-			readStore = this.instance.createCollectorStore("TEST_STORE3");
+			readStore = this.instance.getCollectorStore("TEST_STORE3");
 			readStore.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
 
 			testSuite.equals(3, this.instance.getCollectorStore("TEST_STORE2").length, "Returned store is different in length");

@@ -41,15 +41,16 @@ define([
 			var node;
 
 			testNodes.forEach(function (test) {
-				this.spy(this.instance._textCollectorStore, "push");
+				var store = this.instance.registrationService.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES);
+				this.spy(store, "push");
 
 				node = domConstruct.toDom(test[0]);
 				this.instance._gatherTextNodes(node);
 
-				testSuite.equals(test[1], this.instance._textCollectorStore.push.callCount,
+				testSuite.equals(test[1], store.push.callCount,
 					"Gatherer did not push valid nodes on " + test[0]);
 
-				this.instance._textCollectorStore.push.restore();
+				store.push.restore();
 			}, this);
 
 			testSuite.equals(3, this.instance.registrationService.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES).length,

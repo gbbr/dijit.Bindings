@@ -31,7 +31,7 @@ define([
 			});
 		},
 
-		"Correctly recompiles a document": function () {
+		"Correctly clears collector store after builders": function () {
 //			var dom = domConstruct.toDom(template);
 //			console.log(this.instance.compile(dom)(this));
 //			console.log(this.instance.registrationService.$bindingStore);
