@@ -73,15 +73,23 @@ define([
 			readStore = this.instance.getCollectorStore("TEST_STORE3");
 			readStore.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
 
-			testSuite.equals(3, this.instance.getCollectorStore("TEST_STORE2").length, "Returned store is different in length");
-			testSuite.equals(1, this.instance.getCollectorStore("TEST_STORE2")[0], "Returned store is different");
-			testSuite.equals("A", this.instance.getCollectorStore("TEST_STORE2")[1], "Returned store is different");
-			testSuite.equals("C", this.instance.getCollectorStore("TEST_STORE2")[2].b, "Returned store is different");
+			testSuite.equals(3, this.instance.getCollectorStore("TEST_STORE2").length,
+				"Returned store is different in length");
+			testSuite.equals(1, this.instance.getCollectorStore("TEST_STORE2")[0],
+				"Returned store is different");
+			testSuite.equals("A", this.instance.getCollectorStore("TEST_STORE2")[1],
+				"Returned store is different");
+			testSuite.equals("C", this.instance.getCollectorStore("TEST_STORE2")[2].b,
+				"Returned store is different");
 
-			testSuite.equals(4, this.instance.getCollectorStore("TEST_STORE3").length, "Returned store is different in length");
-			testSuite.equals(2, this.instance.getCollectorStore("TEST_STORE3")[0], "Returned store is different");
-			testSuite.equals("B", this.instance.getCollectorStore("TEST_STORE3")[1], "Returned store is different");
-			testSuite.equals("D", this.instance.getCollectorStore("TEST_STORE3")[2].c, "Returned store is different");
+			testSuite.equals(4, this.instance.getCollectorStore("TEST_STORE3").length,
+				"Returned store is different in length");
+			testSuite.equals(2, this.instance.getCollectorStore("TEST_STORE3")[0],
+				"Returned store is different");
+			testSuite.equals("B", this.instance.getCollectorStore("TEST_STORE3")[1],
+				"Returned store is different");
+			testSuite.equals("D", this.instance.getCollectorStore("TEST_STORE3")[2].c,
+				"Returned store is different");
 		},
 
 		"Setters: Correctly retrieves and executes added setters": function () {
@@ -102,9 +110,12 @@ define([
 			this.instance.getSetter(this, testSetters[1][1], 5)(2);
 			this.instance.getSetter(this, testSetters[2][1], { obj: "ect", a: 2 })("lorem ipsum");
 
-			testSuite.equals(["test payload", 1], spy1.getCalls()[0].args[0], "Arguments did not match");
-			testSuite.equals([5, 2], spy2.getCalls()[0].args[0], "Arguments did not match");
-			testSuite.equals([{ obj: "ect", a: 2 }, "lorem ipsum"], spy3.getCalls()[0].args[0], "Arguments did not match");
+			testSuite.equals(["test payload", 1], spy1.getCalls()[0].args[0],
+				"Arguments did not match");
+			testSuite.equals([5, 2], spy2.getCalls()[0].args[0],
+				"Arguments did not match");
+			testSuite.equals([{ obj: "ect", a: 2 }, "lorem ipsum"], spy3.getCalls()[0].args[0],
+				"Arguments did not match");
 		},
 
 		"Shoudl clear collector store when asked to": function () {
@@ -118,8 +129,10 @@ define([
 
 			this.instance.clearCollected();
 
-			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE2").length, "Store not emptied");
-			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length, "Store not emptied");
+			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE2").length,
+				"Store not emptied");
+			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length,
+				"Store not emptied");
 		}
 	});
 });

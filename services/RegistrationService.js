@@ -26,7 +26,7 @@ define([
 			this._compilers = [];
 			this._collectors = [];
 			this._collectorStore = [];
-			this._setters = {};
+			this._setters = [];
 
 			this.own(
 				this._compilers,
