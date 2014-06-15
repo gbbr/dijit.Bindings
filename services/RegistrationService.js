@@ -49,7 +49,7 @@ define([
 		 * @param name {string} Name of the store to intialize for this gatherer
 		 * @param fn {Function} The gatherer function
 		 */
-		addCollector: function (name, fn) {
+		addCollector: function (fn) {
 			this._collectors.push(fn);
 		},
 

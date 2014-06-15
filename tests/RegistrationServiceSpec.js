@@ -52,7 +52,7 @@ define([
 				registeredCollectors;
 
 			functionsAndNames.forEach(function (test) {
-				this.instance.addCollector("TEST_COLLECTOR1", test[0]);
+				this.instance.addCollector(test[0]);
 			}, this);
 
 			registeredCollectors = this.instance.getCollectors();

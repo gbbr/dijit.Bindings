@@ -19,7 +19,7 @@ define([
 		constructor: function () {
 			this._attributeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
 
-			this.registrationService.addCollector(this.COLLECTOR_ATTRIBUTES, this._gatherAttributes);
+			this.registrationService.addCollector(this._gatherAttributes);
 			this.registrationService.addBuilder(this._compileAttributes);
 			this.registrationService.addSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
 		},

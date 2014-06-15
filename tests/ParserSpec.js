@@ -112,7 +112,9 @@ define([
 			var toUppercase = function (str) {
 					return str.toUpperCase();
 				},
+
 				dummyFunction = function () {},
+
 				testCases = [
 					["Hello {{name}} !", { name: "John" }, "Hello John !"],
 					["Today is {{day|uppercase}}", { day: "FriDay", uppercase: toUppercase }, "Today is FRIDAY"],

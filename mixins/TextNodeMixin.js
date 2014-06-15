@@ -15,8 +15,12 @@ define([
 		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
 		SETTER_TEXT_NODES: "SETTER_TEXTNODES",
 
+		_textNodeCollectorStore: null,
+
 		constructor: function () {
-			this.registrationService.addCollector(this.COLLECTOR_TEXT_NODES, this._gatherTextNodes);
+			this._textNodeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
+
+			this.registrationService.addCollector(this._gatherTextNodes);
 			this.registrationService.addBuilder(this._compileTextNodes);
 			this.registrationService.addSetter(this.SETTER_TEXT_NODES, this._setNodeValue);
 		},
@@ -28,7 +32,7 @@ define([
 		 */
 		_gatherTextNodes: function (node) {
 			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES).push(node);
+				this._textNodeCollectorStore.push(node);
 			}
 		},
 
@@ -37,7 +41,7 @@ define([
 		 * functions
 		 */
 		_compileTextNodes: function () {
-			this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES).forEach(function (node) {
+			this._textNodeCollectorStore.forEach(function (node) {
 				var interpolateFn = this.interpolateString(node.nodeValue),
 					expressions = interpolateFn.expressions,
 					parts = interpolateFn.parts,

@@ -45,9 +45,9 @@ define([
 		"Invokes all registered collectors": function () {
 			var spies = [this.spy(), this.spy(), this.spy()];
 
-			this.instance.registrationService.addCollector("COLLECTOR_0", spies[0]);
-			this.instance.registrationService.addCollector("COLLECTOR_1", spies[1]);
-			this.instance.registrationService.addCollector("COLLECTOR_2", spies[2]);
+			this.instance.registrationService.addCollector(spies[0]);
+			this.instance.registrationService.addCollector(spies[1]);
+			this.instance.registrationService.addCollector(spies[2]);
 
 			this.instance.compile(this.templateDom);
 
