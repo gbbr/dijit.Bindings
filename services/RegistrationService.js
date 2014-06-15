@@ -1,5 +1,3 @@
-// LinkingService ?
-
 define([
 	"dojo/_base/declare",
 	"dijit/Destroyable",
@@ -11,6 +9,12 @@ define([
 	BindingStore,
 	indiumLang
 ) {
+	/**
+	 * @module RegistrationService
+	 * @description Provides an interface for mixins to communicate with the compiler.
+	 * It allows adding Collectors, Builders, Setters and subscribing to Collector Stores.
+	 * It also extends and provides the BindingStore
+	 */
 	return declare("RegistrationService", [BindingStore, Destroyable], {
 
 		_compilers: null,
