@@ -120,7 +120,7 @@ define([
 		/**
 		 * @description Calls all functions in an array
 		 * @param fnList {Array<Function>} Array of functions to be called
-		 * @param argument {=*} A single argument to pass to the function
+		 * @param argument {=} A single argument of any type to pass to the function
 		 * @param context {=Object} Context to call the function in
 		 */
 		_invokeActions: function(fnList, argument, context) {
