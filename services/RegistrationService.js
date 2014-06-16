@@ -43,7 +43,6 @@ define([
 
 		/**
 		 * @description Adds a gatherer function to be applied to nodes at traversal
-		 * @param name {string} Name of the store to intialize for this gatherer
 		 * @param fn {Function} The gatherer function
 		 */
 		addCollector: function (fn) {
@@ -91,8 +90,7 @@ define([
 
 		/**
 		 * @description Generates a new setter function of the given type.
-		 * Setter functions take a single value attribute and set it on the
-		 * node that they have been linked to using the setting type defined.
+		 * Resulting setter functions take a scope attribute to use for interpolation
 		 * @param context {Object} The context in which the setter should run
 		 * @param type {string} The setter type (ie. SETTER_ATTRIBUTE, etc.)
 		 * @param configObj {Object} Node, formatFn... depending on setter type
@@ -100,7 +98,7 @@ define([
 		 */
 		getSetter: function (context, type, configObj) {
 			var setter = this._setters[type];
-			return function (value) {
+			return function (scope) {
 				setter.call(context, arguments);
 			}.bind(context, configObj);
 		}

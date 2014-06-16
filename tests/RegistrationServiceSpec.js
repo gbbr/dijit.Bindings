@@ -107,18 +107,18 @@ define([
 			}, this);
 
 			this.instance.getSetter(this, testSetters[0][1], "test payload")(1);
-			this.instance.getSetter(this, testSetters[1][1], 5)(2);
+			this.instance.getSetter(this, testSetters[1][1], 5)({ a: 2, b: 3 });
 			this.instance.getSetter(this, testSetters[2][1], { obj: "ect", a: 2 })("lorem ipsum");
 
 			testSuite.equals(["test payload", 1], spy1.getCalls()[0].args[0],
 				"Arguments did not match");
-			testSuite.equals([5, 2], spy2.getCalls()[0].args[0],
+			testSuite.equals([5, { a: 2, b: 3 }], spy2.getCalls()[0].args[0],
 				"Arguments did not match");
 			testSuite.equals([{ obj: "ect", a: 2 }, "lorem ipsum"], spy3.getCalls()[0].args[0],
 				"Arguments did not match");
 		},
 
-		"Shoudl clear collector store when asked to": function () {
+		"Should clear collector store when asked to": function () {
 			var initStore, readStore;
 
 			initStore = this.instance.getCollectorStore("TEST_STORE2");
