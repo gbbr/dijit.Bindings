@@ -31,6 +31,7 @@ define([
 
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
+					// get binding from context via .get if model
 					if (context.hasOwnProperty(binding)) {
 						return lang.isFunction(context[formatFn]) ?
 							context[formatFn](context[binding]) : context[binding];

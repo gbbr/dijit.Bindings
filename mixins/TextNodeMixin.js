@@ -94,9 +94,10 @@ define([
 		 */
 		_registerTextNodeSetter: function (expression, node) {
 			var parsedExpr = this.parseExpression(expression),
+				interpolateFn = this.interpolateString(expression),
 				setterFn = this.registrationService.getSetter(this, this.SETTER_TEXT_NODES, {
 					"node": node,
-					"formatFn": parsedExpr.formatFn
+					"interpolateFn": interpolateFn
 				});
 
 			this.registrationService.attachSetter(parsedExpr.binding, setterFn);
@@ -110,17 +111,11 @@ define([
 		 * object describing specifics set during generation
 		 */
 		_setNodeValue: function (args) {
-			var value = args[1], nodeData = args[0],
-				formatFn = nodeData.formatFn,
-				node = nodeData.node;
+			var scope = args[1], nodeData = args[0],
+				node = nodeData.node,
+				interpolateFn = nodeData.interpolateFn;
 
-			if (lang.isFunction(this[formatFn])) {
-				formatFn = this[formatFn];
-			} else if (formatFn) {
-				throw new Error("Format function '" + formatFn + "' does not exist");
-			}
-
-			node.nodeValue = formatFn ? formatFn.call(this, value) : value;
+			node.nodeValue = interpolateFn(scope);
 		}
 	});
 });
