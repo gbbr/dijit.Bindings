@@ -27,7 +27,7 @@ define([
 				throw new Error("Interpolate received a string without expressions: " + str);
 			}
 
-			parts = this._getExpressionParts(str);
+			parts = this._getStringParts(str);
 
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
@@ -54,7 +54,7 @@ define([
 		 * @param str {string} The string to split
 		 * @returns {{parts: Array, expressions: Array, separators: Array}}
 		 */
-		_getExpressionParts: function (str) {
+		_getStringParts: function (str) {
 			var parts = [],
 				separators = [],
 				expressions = [],
