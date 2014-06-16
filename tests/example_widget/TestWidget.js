@@ -8,7 +8,8 @@ define([
 	'indium/_IndiumView',
 	"dijit/_TemplatedMixin",
 	"dijit/layout/TabContainer",
-	"dijit/layout/ContentPane"
+	"dijit/layout/ContentPane",
+	"indium/lib/_StatefulModel"
 ], function(
 	declare,
 	_WidgetBase,
@@ -17,15 +18,32 @@ define([
 	template,
 	otherTemplate,
 	_IndiumView,
-	_TemplatedMixin
+	_TemplatedMixin,
+	_StatefulModel
 ) {
+	var model1 = declare("Model1", [_StatefulModel], {
+		name: "Johnny",
+		job: "Coder"
+	});
+
+	var model2 = declare("Model2", [_StatefulModel], {
+		name: "Matt",
+		job: "Marketing"
+	});
+
 	return {
 		widget1: declare("widjit", [_WidgetBase, _TemplatedMixin, _IndiumView], {
 			templateString: template,
 
 			dapOtherWidget: null,
 
+			personModel: null,
+
 			asd: "IT WORKS (replaced by Templated)!",
+
+			constructor: function () {
+				this.personModel = new model1();
+			},
 
 			transformFn3: function (value) {
 				return "||||AAA||||" + value + "|||BBB|||";
@@ -48,6 +66,11 @@ define([
 			templateString: otherTemplate,
 
 			name: "Name: ",
+			model: null,
+
+			constructor: function () {
+				this.model = new model2();
+			},
 
 			transformFn: function (value) {
 				return "ooO " + value + " Ooo";
