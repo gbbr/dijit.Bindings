@@ -59,12 +59,6 @@ define([
 
 		"Correctly breaks text nodes": function () {
 
-		},
-
-		"xDoes not crash when parentNode is not found": function () {
-			var dom = domConstruct.toDom(template.trim());
-			console.log(dom);
-			this.instance.compile(dom);
 		}
 	});
 });
