@@ -25,7 +25,7 @@ define([
 		"Correctly invokes a list of functions": function () {
 			var spyList = [this.spy(), this.spy(), this.spy()];
 
-			this.instance._invokeActions(spyList, this, 5);
+			this.instance._invokeActions(spyList, 5);
 
 			spyList.forEach(function (spy) {
 				testSuite.isTrue(spy.calledOnce, "Function was not called once");

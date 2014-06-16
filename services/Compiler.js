@@ -74,7 +74,7 @@ define([
 			if (!document.createTreeWalker) {
 				node = rootNode.childNodes[0];
 				while (node !== null) {
-					this._invokeActions(collectors, this, node);
+					this._invokeActions(collectors, node);
 
 					if (node.hasChildNodes()) {
 						node = node.firstChild;
@@ -89,7 +89,7 @@ define([
 				var walk = document.createTreeWalker(rootNode, NodeFilter.SHOW_ALL, null, false);
 
 				while ((node = walk.nextNode())) {
-					this._invokeActions(collectors, this, node);
+					this._invokeActions(collectors, node);
 				}
 			}
 		},
@@ -120,10 +120,10 @@ define([
 		/**
 		 * @description Calls all functions in an array
 		 * @param fnList {Array<Function>} Array of functions to be called
-		 * @param context {=Object} Context to call the function in
 		 * @param argument {=*} A single argument to pass to the function
+		 * @param context {=Object} Context to call the function in
 		 */
-		_invokeActions: function(fnList, context, argument) {
+		_invokeActions: function(fnList, argument, context) {
 			fnList.forEach(function (fn) {
 				fn.call(context || this, argument);
 			}, this);
