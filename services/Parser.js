@@ -95,7 +95,7 @@ define([
 				data = {
 					binding: binding,
 					formatFn: formatFn
-				}
+				};
 			});
 
 			return data;
@@ -107,7 +107,7 @@ define([
 		 * @returns {Number} Number of bindings found
 		 */
 		_bindingCount: function (str) {
-			if (typeof str != "string") {
+			if (typeof str !== "string") {
 				return 0;
 			}
 			var matches = str.match(this.EXPRESSIONS_ALL);
