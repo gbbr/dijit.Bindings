@@ -75,15 +75,12 @@ define([
 		 * @returns {{parts: Array, expressions: Array, separators: Array}}
 		 */
 		_getStringParts: function (str) {
-			var parts = [],
-				separators = [],
-				expressions = [],
-				remainingString = lang.clone(str);
+			var parts = [], separators = [], expressions = [],
+				remainingString = str;
 
 			str.replace(this.EXPRESSIONS_ALL, function (expression) {
 				var remainingParts = remainingString.split(expression),
-					leftSide = remainingParts[0],
-					rightSide;
+					leftSide = remainingParts[0], rightSide;
 
 				remainingParts.shift();
 				rightSide = remainingParts.join(expression);
