@@ -110,9 +110,7 @@ define([
 
 			this.$bindingStore.query({ type: this.bindingType.MODEL }).
 				forEach(function (binding) {
-					setters = this.$bindingStore.get(binding.id).setters;
-					invokeFn = this._invokeActions.bind(this, setters, scope);
-
+					invokeFn = this._invokeActions.bind(this, binding.setters, scope);
 					binding.model.observe(binding.property, invokeFn);
 					invokeFn();
 				}, this);
