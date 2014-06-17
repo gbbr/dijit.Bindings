@@ -1,12 +1,10 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/lang",
 	"dijit/Destroyable",
 	"indium/services/RegistrationService",
 	"indium/services/Parser"
 ], function (
 	declare,
-	lang,
 	Destroyable,
 	RegistrationService,
 	Parser
