@@ -40,7 +40,7 @@ define([
 				this.$bindingStore.put(lang.mixin({
 					id: name,
 					setters: []
-				}, this._getBindingType(name)));
+				}, this._getBindingTypeData(name)));
 			}
 
 			this.$bindingStore.get(name).setters.push(fn);
@@ -52,7 +52,7 @@ define([
 		 * @param prop {string} Object to check
 		 * @returns {object} "model" or "property"
 		 */
-		_getBindingType: function (prop) {
+		_getBindingTypeData: function (prop) {
 			var parts = prop.split("."),
 				obj = lang.getObject(parts[0], false, this),
 				hasGet;
@@ -61,12 +61,13 @@ define([
 				throw Error(prop + " does not exist or key is occured.");
 			}
 
-			return hasGet ?
-				{
-					type: this.bindingType.MODEL,
-					model: obj,
-					property: parts[1]
-				} : { type: this.bindingType.PROPERTY };
+			return hasGet ? {
+				type: this.bindingType.MODEL,
+				model: obj,
+				property: parts[1]
+			} : {
+				type: this.bindingType.PROPERTY
+			};
 		}
 	});
 });
