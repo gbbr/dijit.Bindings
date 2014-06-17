@@ -41,7 +41,9 @@ define([
 		 * or contains multiple expressions)
 		 */
 		_compileTextNodes: function () {
-			this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES).forEach(function (node) {
+			var store = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
+
+			store.forEach(function (node) {
 				var interpolateFn = this.interpolateString(node.nodeValue),
 					expressions = interpolateFn.expressions,
 					parts = interpolateFn.parts,
