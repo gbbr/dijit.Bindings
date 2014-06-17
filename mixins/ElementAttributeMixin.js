@@ -5,6 +5,13 @@ define([
 	declare,
 	Destroyable
 ) {
+	/**
+	 * @module AttributeBindingsMixin
+	 * @description Adds the capability to use expressions within attribute
+	 * names. It is recommended that once an expression is added within an
+	 * attribute's value to not modify that value by other means than the
+	 * compiler.
+	 */
 	return declare("indium/_AttributeBindingsMixin", [Destroyable], {
 
 		/**
@@ -21,7 +28,8 @@ define([
 		},
 
 		/**
-		 * Identifies and stores all substitutions present in element attributes
+		 * Identifies and stores all substitutions present in element attributes: the original
+		 * template, the node, and the attribute name.
 		 * @param node {HTMLElement} Node to verify
 		 * @private
 		 */
@@ -45,7 +53,8 @@ define([
 		},
 
 		/**
-		 * @description Creates linking functions and deletes storage
+		 * @description Creates linking functions. Attaches information to the setter such as
+		 * node, attribute name and an interpolation function for easy updating.
 		 */
 		_compileAttributes: function () {
 			var store = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
@@ -67,10 +76,9 @@ define([
 		},
 
 		/**
-		 * @desription Node attribute setter function
-		 * @param args {Array<mixed>} Contains two items:
-		 * new value to be set on the attribute and a configuration
-		 * object describing specifics set during generation
+		 * @description Sets the new node value using the data provided.
+		 * @param args {Array<mixed>} Contains two items: evaluation scope
+		 * and details added during the compiling stage (above)
 		 */
 		_setNodeAttribute: function(args) {
 			var context = args[1], data = args[0];

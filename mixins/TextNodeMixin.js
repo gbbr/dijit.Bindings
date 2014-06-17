@@ -9,6 +9,14 @@ define([
 	lang,
 	Destroyable
 ) {
+	/**
+	 * @module TextBindingsMixin
+	 * @description Adds text-node binding capabilities to the compiler.
+	 * When multiple bindings are found within the same text-node, this
+	 * mixin will construct a document fragment to isolate those bindings
+	 * from their surroundings. Performance is improved when bindings are
+	 * isolated by template (ie. contained within an element)
+	 */
 	return declare("indium/_TextBindingsMixin", [Destroyable], {
 
 		NODE_TYPE_TEXT: 3,
