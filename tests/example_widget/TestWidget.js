@@ -19,15 +19,8 @@ define([
 	_TemplatedMixin,
 	_StatefulModel
 ) {
-	var model1 = declare("Model1", [_StatefulModel], {
-		name: "Johnny",
-		job: "Coder"
-	});
-
-	var model2 = declare("Model2", [_StatefulModel], {
-		name: "Matt",
-		job: "Marketing"
-	});
+	var model1 = declare("Model1", [_StatefulModel], {});
+	var model2 = declare("Model2", [_StatefulModel], {});
 
 	return {
 		widget1: declare("widjit", [_WidgetBase, _TemplatedMixin, _IndiumView], {
@@ -45,7 +38,10 @@ define([
 			link: "www.google.com",
 
 			constructor: function () {
-				this.personModel = new model1();
+				this.personModel = new model1({
+					name: "Johnny",
+					job: "Coder"
+				});
 			},
 
 			transformFn3: function (value) {
@@ -73,7 +69,10 @@ define([
 			model: null,
 
 			constructor: function () {
-				this.model = new model2();
+				this.model = new model2({
+					name: "Matt",
+					job: "Marketing"
+				});
 			},
 
 			transformFn: function (value) {
