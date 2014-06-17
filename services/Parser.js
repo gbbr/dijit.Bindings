@@ -78,12 +78,15 @@ define([
 			var parts = [],
 				separators = [],
 				expressions = [],
-				remainingString = str;
+				remainingString = lang.clone(str);
 
 			str.replace(this.EXPRESSIONS_ALL, function (expression) {
 				var remainingParts = remainingString.split(expression),
 					leftSide = remainingParts[0],
-					rightSide = remainingParts[1];
+					rightSide;
+
+				remainingParts.shift();
+				rightSide = remainingParts.join(expression);
 
 				if (leftSide.length > 0) {
 					separators.push(leftSide);
@@ -96,7 +99,7 @@ define([
 				remainingString = rightSide;
 			});
 
-			if (remainingString.length > 0) {
+			if (remainingString && remainingString.length > 0) {
 				separators.push(remainingString);
 				parts.push(remainingString);
 			}
