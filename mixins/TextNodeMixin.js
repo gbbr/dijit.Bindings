@@ -16,17 +16,9 @@ define([
 		SETTER_TEXT_NODES: "SETTER_TEXTNODES",
 
 		/**
-		 * @description Store for collected data
-		 * @type {Array<HTMLElement>}
-		 */
-		_textNodeCollectorStore: null,
-
-		/**
 		 * @description Creates a store for the collectors, attaches
 		 */
 		constructor: function () {
-			this._textNodeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
-
 			this.registrationService.addCollector(this._gatherTextNodes);
 			this.registrationService.addBuilder(this._compileTextNodes);
 			this.registrationService.addSetter(this.SETTER_TEXT_NODES, this._setNodeValue);
@@ -38,8 +30,8 @@ define([
 		 * @param node {HTMLElement} Element to check for substitutions and validity
 		 */
 		_gatherTextNodes: function (node) {
-			if (node.nodeType == this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				this._textNodeCollectorStore.push(node);
+			if (node.nodeType === this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
+				this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES).push(node);
 			}
 		},
 
@@ -49,7 +41,7 @@ define([
 		 * or contains multiple expressions)
 		 */
 		_compileTextNodes: function () {
-			this._textNodeCollectorStore.forEach(function (node) {
+			this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES).forEach(function (node) {
 				var interpolateFn = this.interpolateString(node.nodeValue),
 					expressions = interpolateFn.expressions,
 					parts = interpolateFn.parts,

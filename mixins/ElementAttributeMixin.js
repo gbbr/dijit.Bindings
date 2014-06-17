@@ -14,11 +14,7 @@ define([
 		COLLECTOR_ATTRIBUTES: "GATHERER_ATTRIBUTES",
 		SETTER_ATTRIBUTE: "SETTER_ATTRIBUTES",
 
-		_attributeCollectorStore: null,
-
 		constructor: function () {
-			this._attributeCollectorStore = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
-
 			this.registrationService.addCollector(this._gatherAttributes);
 			this.registrationService.addBuilder(this._compileAttributes);
 			this.registrationService.addSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
@@ -30,14 +26,14 @@ define([
 		 * @private
 		 */
 		_gatherAttributes: function (node) {
-			if (node.nodeType == this.NODE_TYPE_ELEMENT) {
+			if (node.nodeType === this.NODE_TYPE_ELEMENT) {
 				var i = node.attributes.length, attribute;
 
 				while (i--) {
 					attribute = node.attributes[i];
 
 					if (this._bindingCount(attribute.value) > 0) {
-						this._attributeCollectorStore.push({
+						this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES).push({
 							node: node,
 							attributeName: attribute.name,
 							attributeTemplate: attribute.value
@@ -51,7 +47,7 @@ define([
 		 * @description Creates linking functions and deletes storage
 		 */
 		_compileAttributes: function () {
-			this._attributeCollectorStore.forEach(function (data) {
+			this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES).forEach(function (data) {
 				var interpolateAttribute = this.interpolateString(data.attributeTemplate);
 
 				interpolateAttribute.expressions.forEach(function (expression) {
