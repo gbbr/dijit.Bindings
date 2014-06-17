@@ -48,9 +48,9 @@ define([
 		_getBindingType: function (prop) {
 			var parts = prop.split("."),
 				obj = lang.getObject(parts[0], false, this),
-				hasGet = lang.isFunction(obj.get);
+				hasGet;
 
-			if (!obj || hasGet && !parts[1]) {
+			if (!obj || (hasGet = lang.isFunction(obj.get)) && !parts[1]) {
 				throw Error(prop + " does not exist or key is occured.");
 			}
 
