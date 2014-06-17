@@ -120,6 +120,8 @@ define([
 				model.observe(parts[1], invokeFn);
 				invokeFn();
 			}, this);
+
+			this.renderProperty();
 		},
 
 		/**
@@ -132,6 +134,25 @@ define([
 			fnList.forEach(function (fn) {
 				fn.call(context || this, argument);
 			}, this);
+		},
+
+		/**
+		 * @description Renders an instance property to the template
+		 * @param name {=string} Property name (as per $bindingStore)
+		 */
+		renderProperty: function (name) {
+			var prop;
+
+			if (name) {
+				prop = this.$bindingStore.get(name);
+				if (prop && prop.setters) {
+					this._invokeActions(prop.setters, this);
+				}
+			} else {
+				this.$bindingStore.query({ type: "property" }).forEach(function (binding) {
+					this._invokeActions(binding.setters, this);
+				}, this);
+			}
 		}
 	});
 });
