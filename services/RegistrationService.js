@@ -2,7 +2,7 @@ define([
 	"dojo/_base/declare",
 	"dijit/Destroyable",
 	"indium/services/BindingStore",
-	"lib/lang"
+	"indium/lib/lang"
 ], function (
 	declare,
 	Destroyable,
