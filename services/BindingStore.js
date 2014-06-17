@@ -21,6 +21,12 @@ define([
 			this.own(this.$bindingStore);
 		},
 
+		/**
+		 * @description Attaches a setter to a binding and determines
+		 * its type if it hasn't yet been registered
+		 * @param name {string} Name of binding to attach too
+		 * @param fn {Function} Setter function
+		 */
 		attachSetter: function (name, fn) {
 			var parts = name.split(".");
 
@@ -35,6 +41,12 @@ define([
 			this.$bindingStore.get(name).setters.push(fn);
 		},
 
+		/**
+		 * @description Determines a bindings type (model or property)
+		 * by object
+		 * @param prop {string} Object to check
+		 * @returns {string} "model" or "property"
+		 */
 		_getBindingType: function (prop) {
 			var obj = lang.getObject(prop, false, this);
 
