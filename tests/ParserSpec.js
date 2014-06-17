@@ -1,9 +1,11 @@
 define([
 	"doh/runner",
+	"dojo/_base/lang",
 	"indium/services/Parser",
 	"testSuite"
 ], function (
 	doh,
+	lang,
 	Parser,
 	testSuite
 ) {

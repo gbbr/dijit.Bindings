@@ -1,11 +1,13 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/lang"
+	"dojo/_base/lang",
+	"indium/services/BindingStore"
 ], function (
 	declare,
-	lang
+	lang,
+	BindingStore
 ) {
-	return declare("Parser", [], {
+	return declare("Parser", [BindingStore], {
 		/**
 		 * @description Constants for substitution matching on template
 		 */
@@ -50,9 +52,10 @@ define([
 		},
 
 		_getBindingValue: function (name, context) {
-			var parts, model;
+			var parts, model,
+				binding = this.$bindingStore.get(name);
 
-			if (this.$bindingStore.get(name).type === "model") {
+			if (binding && binding.type === "model") {
 				parts = name.split(".");
 				model = lang.getObject(parts[0], false, context);
 				return model.get(parts[1]);
