@@ -62,7 +62,7 @@ define([
 							interpolationFn: interpolateAttribute
 						});
 
-					this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+					this.attachSetter(parsedExpr.binding, setterFn);
 				}, this);
 			}, this);
 		},

@@ -1,18 +1,18 @@
 <div class="testWidget">
 	<ul some-attribute="asd">
-		<li class="{{content.className}}">{{content.title}}</li>
-		<li>{{content.subtitle|transformFn2}}</li>
+		<li class="{{content.className}}">{{personModel.name}}</li>
+		<li>{{personModel.job|transformFn2}}</li>
 	</ul>
 <span>
-	qwe {{content.abstract|transformFn}} dasd
-	{{content.body|transformFn}} asdsada
+	qwe {{personModel.abstract|transformFn}} dasd
+	{{personModel.body|transformFn}} asdsada
 </span>
 	${asd}
 
 	<div>
-		{{content.body}}
+		{{personModel.body}}
 		<div>
-			<h1>{{content.title}}</h1>
+			<h1>{{personModel.title}}</h1>
 			<div>{{footer}}</div>
 			<div>{{footer|transformFn2}}</div>
 			<div>{{footer}}</div>
@@ -21,11 +21,11 @@
 
 	<p>
 		<span class="other {{x}} button {{z|transformFn2}}">
-			{{content.abstract}}{{content.body}}
+			{{personModel.abstract}}{{personModel.body}}
 		</span>
 		<span>
-				asd{{content.subtitle}}ioqweu
-				<span>{{content.subtitle}}asd</span>
+				asd{{personModel.subtitle}}ioqweu
+				<span>{{personModel.subtitle}}asd</span>
 		</span>
 	</p>
 

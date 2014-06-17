@@ -2,12 +2,14 @@ define([
 	"dojo/_base/declare",
 	"dojo/_base/lang",
 	"dijit/Destroyable",
+	"indium/services/BindingStore",
 	"indium/services/RegistrationService",
 	"indium/services/Parser"
 ], function (
 	declare,
 	lang,
 	Destroyable,
+	BindingStore,
 	RegistrationService,
 	Parser
 ) {
@@ -34,7 +36,7 @@ define([
 	 * the template to pick up.
 	 *
 	 */
-	return declare("Compiler", [Parser, Destroyable], {
+	return declare("Compiler", [Parser, BindingStore, Destroyable], {
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins, it also
 		 * provides the binding store.
@@ -43,7 +45,7 @@ define([
 
 		constructor: function () {
 			this.registrationService = new RegistrationService();
-			this.bindingStore = this.registrationService.createBindingStore();
+			this.bindingStore = this.createBindingStore();
 
 			this.own(this.registrationService);
 		},

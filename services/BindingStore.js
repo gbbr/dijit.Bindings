@@ -1,9 +1,11 @@
 define([
 	"dojo/_base/declare",
+	"dojo/_base/lang",
 	"dojo/store/Memory",
 	"dijit/Destroyable"
 ], function (
 	declare,
+	lang,
 	Memory,
 	Destroyable
 ) {
@@ -24,16 +26,32 @@ define([
 		},
 
 		attachSetter: function (name, fn) {
-			if (!this.$bindingStore.hasOwnProperty(name)) {
-				this.$bindingStore[name] = {};
-				this.$bindingStore[name].setters = [];
+			var parts = name.split("."),
+				bindingId = parts[0];
+
+			if (parts[1]) {
+				bindingId += "." + parts[1];
 			}
 
-			this.$bindingStore[name].setters.push(fn);
-		}
+			if (!this.$bindingStore.get(bindingId)) {
+				this.$bindingStore.put({
+					id: bindingId,
+					setters: []
+				});
+			}
 
-		// get binding by name
-		// get binding by type
-		// ...
+			this.$bindingStore.get(bindingId).setters.push(fn);
+			this.$bindingStore.get(bindingId).type = this._getBindingType(parts[0]);
+		},
+
+		_getBindingType: function (prop) {
+			var obj = lang.getObject(prop, false, this);
+
+			if (!obj) {
+				throw Error(obj + " does not exist on instance.");
+			}
+
+			return lang.isFunction(obj.get) ? "model" : "property";
+		}
 	});
 });

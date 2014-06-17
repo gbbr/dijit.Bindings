@@ -80,7 +80,7 @@ define([
 				fragment.appendChild(textNode);
 
 				if (expressions.indexOf(part) >= 0) {
-					this._registerTextNodeSetter(part, textNode)
+					this._registerTextNodeSetter(part, textNode);
 				}
 			}, this);
 
@@ -100,7 +100,7 @@ define([
 					"interpolateFn": interpolateFn
 				});
 
-			this.registrationService.attachSetter(parsedExpr.binding, setterFn);
+			this.attachSetter(parsedExpr.binding, setterFn);
 		},
 
 		/**

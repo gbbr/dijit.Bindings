@@ -15,7 +15,7 @@ define([
 	 * It allows adding Collectors, Builders, Setters and subscribing to Collector Stores.
 	 * It also extends and provides the BindingStore
 	 */
-	return declare("RegistrationService", [BindingStore, Destroyable], {
+	return declare("RegistrationService", [Destroyable], {
 
 		_compilers: null,
 		_collectors: null,
