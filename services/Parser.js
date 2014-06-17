@@ -51,6 +51,13 @@ define([
 			return interpolationFn;
 		},
 
+		/**
+		 * Returns the binding's value according to its type. Results in undefined
+		 * if value is not found
+		 * @param name {string} name of binding as per $bindingStore
+		 * @param context {Object} Context to search for the object in
+		 * @returns {*} Value of the object
+		 */
 		_getBindingValue: function (name, context) {
 			var parts, model,
 				binding = this.$bindingStore.get(name);
