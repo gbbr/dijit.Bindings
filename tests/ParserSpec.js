@@ -75,6 +75,16 @@ define([
 					expressions: ['{{A}}'],
 					parts: [" ", "{{A}}", " "]
 				}],
+				["{{A}}{{A}}", {
+					separators: [],
+					expressions: ['{{A}}', '{{A}}'],
+					parts: ['{{A}}', '{{A}}']
+				}],
+				["{{B}}x{{B}}y{{B}}", {
+					separators: ['x', 'y'],
+					expressions: ['{{B}}', '{{B}}', '{{B}}'],
+					parts: ['{{B}}', 'x', '{{B}}', 'y', '{{B}}']
+				}],
 				["{{A}}{{B}}", 			 {
 					separators: [],
 					expressions: ['{{A}}', '{{B}}'],
