@@ -31,7 +31,7 @@ define([
 
 		/**
 		 * @description Attaches a setter to a binding and determines
-		 * its type if it hasn't yet been registered
+		 * along with relevant information
 		 * @param name {string} Name of binding to attach too
 		 * @param fn {Function} Setter function
 		 */
@@ -48,9 +48,10 @@ define([
 
 		/**
 		 * @description Determines a bindings type (model or property)
-		 * by object
+		 * by object name, as well as its corresponding model and key
 		 * @param prop {string} Object to check
-		 * @returns {object} "model" or "property"
+		 * @returns {object} An object containing a `type`, as well
+		 * as a model & property if necessary
 		 */
 		_extendBindingInformation: function (prop) {
 			var parts = prop.split("."),

@@ -16,7 +16,7 @@ define([
 
 		/**
 		 * @description Returns and interpolation function along with separators
-		 * and expressions. The interpolation function takes a context as argument
+		 * and expressions. The interpolation function takes a context as an argument
 		 * and returns the interpolated string
 		 * @param str {string} String to be interpolated
 		 * @return interpolationFn {Function} Returns parts, separators, expressions
