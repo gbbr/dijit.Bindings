@@ -31,11 +31,12 @@ define([
 			personModel: null,
 
 			asd: "IT WORKS (replaced by Templated)!",
+
 			footer: "dummy text",
 			abstract: "lorem ipsum",
 			className: "none",
 			z: "Z",
-			link: "www.google.com",
+			link: "http://www.google.com",
 
 			constructor: function () {
 				this.personModel = new model1({
