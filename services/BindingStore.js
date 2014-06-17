@@ -28,13 +28,11 @@ define([
 		 * @param fn {Function} Setter function
 		 */
 		attachSetter: function (name, fn) {
-			var parts = name.split(".");
-
 			if (!this.$bindingStore.get(name)) {
 				this.$bindingStore.put({
 					id: name,
 					setters: [],
-					type: this._getBindingType(parts[0])
+					type: this._getBindingType(name)
 				});
 			}
 
@@ -43,18 +41,20 @@ define([
 
 		/**
 		 * @description Determines a bindings type (model or property)
-		 * by object root
+		 * by object
 		 * @param prop {string} Object to check
 		 * @returns {string} "model" or "property"
 		 */
 		_getBindingType: function (prop) {
-			var obj = lang.getObject(prop, false, this);
+			var parts = prop.split("."),
+				obj = lang.getObject(parts[0], false, this),
+				hasGet = lang.isFunction(obj.get);
 
-			if (!obj) {
-				throw Error(prop + " does not exist on instance.");
+			if (!obj || hasGet && !parts[1]) {
+				throw Error(prop + " does not exist or key is occured.");
 			}
 
-			return lang.isFunction(obj.get) ? "model" : "property";
+			return hasGet ? "model": "property";
 		}
 	});
 });
