@@ -15,7 +15,7 @@ define([
 	return declare("indium/_AttributeBindingsMixin", [Destroyable], {
 
 		/**
-		 * @description HTML Element nodeType value
+		 * @description Attribute mixin identifiers
 		 */
 		NODE_TYPE_ELEMENT: 1,
 		COLLECTOR_ATTRIBUTES: "GATHERER_ATTRIBUTES",
