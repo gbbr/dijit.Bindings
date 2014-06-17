@@ -87,7 +87,7 @@ define([
 		_registerTextNodeSetter: function (expression, node) {
 			var parsedExpr = this.parseExpression(expression),
 				interpolateFn = this.interpolateString(expression),
-				setterFn = this.registrationService.getSetter(this, this.SETTER_TEXT_NODES, {
+				setterFn = this.registrationService.getSetter(this.SETTER_TEXT_NODES, {
 					"node": node,
 					"interpolateFn": interpolateFn
 				});

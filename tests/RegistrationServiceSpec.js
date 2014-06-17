@@ -106,9 +106,9 @@ define([
 				this.instance.addSetter(test[1], test[0]);
 			}, this);
 
-			this.instance.getSetter(this, testSetters[0][1], "test payload")(1);
-			this.instance.getSetter(this, testSetters[1][1], 5)({ a: 2, b: 3 });
-			this.instance.getSetter(this, testSetters[2][1], { obj: "ect", a: 2 })("lorem ipsum");
+			this.instance.getSetter(testSetters[0][1], "test payload")(1);
+			this.instance.getSetter(testSetters[1][1], 5)({ a: 2, b: 3 });
+			this.instance.getSetter(testSetters[2][1], { obj: "ect", a: 2 })("lorem ipsum");
 
 			testSuite.equals(["test payload", 1], spy1.getCalls()[0].args[0],
 				"Arguments did not match");

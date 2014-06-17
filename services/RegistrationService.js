@@ -96,11 +96,11 @@ define([
 		 * @param configObj {Object} Node, formatFn... depending on setter type
 		 * @returns {function(value)} Return a setter function
 		 */
-		getSetter: function (context, type, configObj) {
+		getSetter: function (type, configObj) {
 			var setter = this._setters[type];
 			return function (scope) {
-				setter.call(context, arguments);
-			}.bind(context, configObj);
+				setter.call(this, arguments);
+			}.bind(this, configObj);
 		}
 	});
 });

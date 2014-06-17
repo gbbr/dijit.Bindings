@@ -55,7 +55,7 @@ define([
 
 				interpolateAttribute.expressions.forEach(function (expression) {
 					var parsedExpr = this.parseExpression(expression),
-						setterFn = this.registrationService.getSetter(this, this.SETTER_ATTRIBUTE, {
+						setterFn = this.registrationService.getSetter(this.SETTER_ATTRIBUTE, {
 							node: data.node,
 							attributeName: data.attributeName,
 							interpolationFn: interpolateAttribute
