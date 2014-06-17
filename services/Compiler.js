@@ -43,8 +43,6 @@ define([
 
 		constructor: function () {
 			this.registrationService = new RegistrationService();
-			this.bindingStore = this.createBindingStore();
-
 			this.own(this.registrationService);
 		},
 
@@ -109,12 +107,19 @@ define([
 		 * @param scope {Object} The context which holds the values to be linked
 		 */
 		_linkBindings: function (scope) {
+			var parts, model, invokeFn,
+				setters;
 			scope = scope || this;
-			console.log(this.bindingStore);
-			// observe models or properties
-			// hook setters
-			// hook getters
-			// hook others
+
+			this.$bindingStore.query({ type: "model" }).forEach(function (binding) {
+				parts = binding.id.split(".");
+				model = lang.getObject(parts[0], false, scope);
+				setters = this.$bindingStore.get(binding.id).setters;
+				invokeFn = this._invokeActions.bind(this, setters, scope);
+
+				model.observe(parts[1], invokeFn);
+				invokeFn();
+			}, this);
 		},
 
 		/**

@@ -7,8 +7,6 @@ define([
 	'dojo/text!../example_widget/otherwidget.html',
 	'indium/_IndiumView',
 	"dijit/_TemplatedMixin",
-	"dijit/layout/TabContainer",
-	"dijit/layout/ContentPane",
 	"indium/lib/_StatefulModel"
 ], function(
 	declare,
