@@ -43,7 +43,7 @@ define([
 
 		/**
 		 * @description Determines a bindings type (model or property)
-		 * by object
+		 * by object root
 		 * @param prop {string} Object to check
 		 * @returns {string} "model" or "property"
 		 */
