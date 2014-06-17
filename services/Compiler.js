@@ -105,8 +105,7 @@ define([
 		 * @param scope {Object} The context which holds the values to be linked
 		 */
 		_linkBindings: function (scope) {
-			var invokeFn, setters;
-			scope = scope || this;
+			var invokeFn; scope = scope || this;
 
 			this.$bindingStore.query({ type: this.bindingType.MODEL }).
 				forEach(function (binding) {
