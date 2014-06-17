@@ -1,6 +1,6 @@
 <div class="testWidget">
 	<ul some-attribute="asd">
-		<li class="{{content.className}}">{{personModel.name}}</li>
+		<li class="{{className}}">{{personModel.name}}</li>
 		<li>{{personModel.job|transformFn2}}</li>
 	</ul>
 <span>
@@ -20,7 +20,7 @@
 	</div>
 
 	<p>
-		<span class="other {{x}} button {{z|transformFn2}}">
+		<span class="other {{className}} button {{z|transformFn2}}">
 			{{personModel.abstract}}{{personModel.body}}
 		</span>
 		<span>
@@ -34,7 +34,7 @@
 		<div data-dojo-attach-point="dapOtherWidget"></div>
 	</div>
 
-	<a href="{{content.link}}">{{content.abstract|transformFn2}}</a>
+	<a href="{{link}}">{{abstract|transformFn2}}</a>
 
 	<div data-dojo-type="dijit/layout/ContentPane"></div>
 	<br/>{{footer}}

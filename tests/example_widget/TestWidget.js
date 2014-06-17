@@ -40,6 +40,11 @@ define([
 			personModel: null,
 
 			asd: "IT WORKS (replaced by Templated)!",
+			footer: "dummy text",
+			abstract: "lorem ipsum",
+			className: "blue",
+			z: "Z",
+			link: "www.google.com",
 
 			constructor: function () {
 				this.personModel = new model1();
@@ -66,6 +71,7 @@ define([
 			templateString: otherTemplate,
 
 			name: "Name: ",
+			className: "green",
 			model: null,
 
 			constructor: function () {

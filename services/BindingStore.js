@@ -26,29 +26,24 @@ define([
 		},
 
 		attachSetter: function (name, fn) {
-			var parts = name.split("."),
-				bindingId = parts[0];
+			var parts = name.split(".");
 
-			if (parts[1]) {
-				bindingId += "." + parts[1];
-			}
-
-			if (!this.$bindingStore.get(bindingId)) {
+			if (!this.$bindingStore.get(name)) {
 				this.$bindingStore.put({
-					id: bindingId,
-					setters: []
+					id: name,
+					setters: [],
+					type: this._getBindingType(parts[0])
 				});
 			}
 
-			this.$bindingStore.get(bindingId).setters.push(fn);
-			this.$bindingStore.get(bindingId).type = this._getBindingType(parts[0]);
+			this.$bindingStore.get(name).setters.push(fn);
 		},
 
 		_getBindingType: function (prop) {
 			var obj = lang.getObject(prop, false, this);
 
 			if (!obj) {
-				throw Error(obj + " does not exist on instance.");
+				throw Error(prop + " does not exist on instance.");
 			}
 
 			return lang.isFunction(obj.get) ? "model" : "property";
