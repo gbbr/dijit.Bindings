@@ -107,18 +107,15 @@ define([
 		 * @param scope {Object} The context which holds the values to be linked
 		 */
 		_linkBindings: function (scope) {
-			var parts, model, invokeFn,
-				setters;
+			var invokeFn, setters;
 			scope = scope || this;
 
 			this.$bindingStore.query({ type: this.bindingType.MODEL }).
 				forEach(function (binding) {
-					parts = binding.id.split(".");
-					model = lang.getObject(parts[0], false, scope);
 					setters = this.$bindingStore.get(binding.id).setters;
 					invokeFn = this._invokeActions.bind(this, setters, scope);
 
-					model.observe(parts[1], invokeFn);
+					binding.model.observe(binding.property, invokeFn);
 					invokeFn();
 				}, this);
 

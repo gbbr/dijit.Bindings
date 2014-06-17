@@ -59,13 +59,10 @@ define([
 		 * @returns {*} Value of the object
 		 */
 		_getBindingValue: function (name, context) {
-			var parts, model,
-				binding = this.$bindingStore.get(name);
+			var binding = this.$bindingStore.get(name);
 
-			if (binding && binding.type === "model") {
-				parts = name.split(".");
-				model = lang.getObject(parts[0], false, context);
-				return model.get(parts[1]);
+			if (binding && binding.type === this.bindingType.MODEL) {
+				return binding.model.get(binding.property);
 			} else {
 				return lang.getObject(name, false, context);
 			}

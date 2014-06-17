@@ -37,11 +37,10 @@ define([
 		 */
 		attachSetter: function (name, fn) {
 			if (!this.$bindingStore.get(name)) {
-				this.$bindingStore.put({
+				this.$bindingStore.put(lang.mixin({
 					id: name,
-					setters: [],
-					type: this._getBindingType(name)
-				});
+					setters: []
+				}, this._getBindingType(name)));
 			}
 
 			this.$bindingStore.get(name).setters.push(fn);
@@ -51,7 +50,7 @@ define([
 		 * @description Determines a bindings type (model or property)
 		 * by object
 		 * @param prop {string} Object to check
-		 * @returns {string} "model" or "property"
+		 * @returns {object} "model" or "property"
 		 */
 		_getBindingType: function (prop) {
 			var parts = prop.split("."),
@@ -62,7 +61,12 @@ define([
 				throw Error(prop + " does not exist or key is occured.");
 			}
 
-			return hasGet ? this.bindingType.MODEL : this.bindingType.PROPERTY;
+			return hasGet ?
+				{
+					type: this.bindingType.MODEL,
+					model: obj,
+					property: parts[1]
+				} : { type: this.bindingType.PROPERTY };
 		}
 	});
 });
