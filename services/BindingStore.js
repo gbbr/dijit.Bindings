@@ -21,10 +21,6 @@ define([
 			this.own(this.$bindingStore);
 		},
 
-		createBindingStore: function () {
-			return this.$bindingStore;
-		},
-
 		attachSetter: function (name, fn) {
 			var parts = name.split(".");
 
