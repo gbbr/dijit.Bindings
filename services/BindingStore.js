@@ -9,7 +9,13 @@ define([
 	Memory,
 	Destroyable
 ) {
-	return declare("RegistrationService.StorageService", [Destroyable], {
+	/**
+	 * @module BindingStore
+	 * @description Provides the parser with a binding store to evaluate against.
+	 * An API is exposed to mixins via the BindingStore -> Parser -> Compiler
+	 * relationship to help register bindings.
+	 */
+	return declare("BindingStore", [Destroyable], {
 		/**
 		 * @description Stores substitution data and linking functions
 		 * @type {dojo/store/Memory}
