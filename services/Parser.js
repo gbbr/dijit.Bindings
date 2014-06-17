@@ -108,17 +108,20 @@ define([
 			};
 		},
 
+		/**
+		 * Takes an expression and returns the binding name and formatting
+		 * function
+		 * @param expression {string} The expression to evaluate
+		 * @returns {{binding: *, formatFn: *}}
+		 */
 		parseExpression: function (expression) {
-			var data;
-
-			expression.replace(this.EXPRESSION_ONCE, function (match, binding, formatFn) {
-				data = {
-					binding: binding,
-					formatFn: formatFn
+			var data = expression.match(this.EXPRESSION_ONCE);
+			if (data) {
+				return {
+					binding: data[1],
+					formatFn: data[2]
 				};
-			});
-
-			return data;
+			}
 		},
 
 		/**
