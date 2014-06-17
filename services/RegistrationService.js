@@ -37,6 +37,10 @@ define([
 			this._compilers.push(fn);
 		},
 
+		/**
+		 * @description Returns all the compilers
+		 * @returns {Array}
+		 */
 		getBuilders: function () {
 			return this._compilers;
 		},
