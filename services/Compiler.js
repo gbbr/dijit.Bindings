@@ -36,7 +36,7 @@ define([
 	 * the template to pick up.
 	 *
 	 */
-	return declare("Compiler", [Parser, BindingStore, Destroyable], {
+	return declare("Compiler", [BindingStore, Parser, Destroyable], {
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins, it also
 		 * provides the binding store.

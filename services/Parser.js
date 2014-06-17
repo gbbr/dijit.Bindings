@@ -21,7 +21,8 @@ define([
 		 * and Interpolation Function
 		 */
 		interpolateString: function (str) {
-			var parts, pattern = this.EXPRESSIONS_ALL;
+			var parts, pattern = this.EXPRESSIONS_ALL,
+				getValue = this._getBindingValue.bind(this);
 
 			if (!this._bindingCount(str)) {
 				throw new Error("Interpolate received a string without expressions: " + str);
@@ -31,10 +32,10 @@ define([
 
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
-					// get binding from context via .get if model
-					if (context.hasOwnProperty(binding)) {
+					var value = getValue(binding, context);
+					if (value) {
 						return lang.isFunction(context[formatFn]) ?
-							context[formatFn](context[binding]) : context[binding];
+							context[formatFn](value) : value;
 					} else {
 						return match;
 					}
@@ -46,6 +47,18 @@ define([
 			interpolationFn.expressions = parts.expressions;
 
 			return interpolationFn;
+		},
+
+		_getBindingValue: function (name, context) {
+			var parts, model;
+
+			if (this.$bindingStore.get(name).type === "model") {
+				parts = name.split(".");
+				model = lang.getObject(parts[0], false, context);
+				return model.get(parts[1]);
+			} else {
+				return lang.getObject(name, false, context);
+			}
 		},
 
 		/**
