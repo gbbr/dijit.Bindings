@@ -141,10 +141,8 @@ define([
 		 * @param name {=string} Property name (as per $bindingStore)
 		 */
 		renderProperty: function (name) {
-			var prop;
-
 			if (name) {
-				prop = this.$bindingStore.get(name);
+				var prop = this.$bindingStore.get(name);
 				if (prop && prop.setters) {
 					this._invokeActions(prop.setters, this);
 				}
