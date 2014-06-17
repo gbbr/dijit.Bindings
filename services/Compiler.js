@@ -15,18 +15,20 @@ define([
 	 *
 	 * Mixins can register actions with the compiler via the RegistrationService.
 	 * These actions will be used on the widget's DOM tree to facilitate bindings
-	 * between a view's model and it's associated DOM tree.
+	 * between a view's model and it's associated DOM node.
 	 *
 	 * Template format is as follows:
 	 *
 	 * {{model.property|transformFn}}
-	 * If a model is detected the value is observed and a live binding is created.
+	 * If a model is detected the value is observed and a live binding is created. Currently
+	 * only one level is supported (model.property.third will not work)
 	 *
 	 * or:
 	 *
 	 * {{key|transformFn}}
 	 * If an instance property is detected a binding is built. Linking is not created
-	 * but it can be trigered automatically via an exposed method.
+	 * but it can be trigered automatically via renderProperty(<property>) method. Instance
+	 * properties can go multiple levels down.
 	 *
 	 * Transform function is optional. It can be supplied via the widget's instance for
 	 * the template to pick up.
@@ -34,8 +36,7 @@ define([
 	 */
 	return declare("Compiler", [Parser, Destroyable], {
 		/**
-		 * @description Acts as a gateway between Compiler and Mixins, it also
-		 * provides the binding store.
+		 * @description Acts as a gateway between Compiler and Mixins
 		 */
 		registrationService: null,
 
@@ -45,9 +46,8 @@ define([
 		},
 
 		/**
-		 * @description Traverses DOM and gathers binding information, compiles and manipulates
-		 * DOM as necessary and returns a linking function that takes the scope to be bound
-		 * against.
+		 * @description Traverses DOM and gathers binding information, builds setter
+		 * functions and returns a linking function that allows binding to a scope
 		 * @param rootNode {HTMLElement} The root node of the tree to be compiled
 		 * @return {Function} Returns the linking function for ease of access
 		 */
@@ -100,8 +100,7 @@ define([
 		},
 
 		/**
-		 * @description Links all substitutions (via the linking functions) to their
-		 * corresponding model or instance properties
+		 * @description Links all bindings to their built setters
 		 * @param scope {Object} The context which holds the values to be linked
 		 */
 		_linkBindings: function (scope) {
