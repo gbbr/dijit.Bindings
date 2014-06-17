@@ -111,15 +111,16 @@ define([
 				setters;
 			scope = scope || this;
 
-			this.$bindingStore.query({ type: "model" }).forEach(function (binding) {
-				parts = binding.id.split(".");
-				model = lang.getObject(parts[0], false, scope);
-				setters = this.$bindingStore.get(binding.id).setters;
-				invokeFn = this._invokeActions.bind(this, setters, scope);
+			this.$bindingStore.query({ type: this.bindingType.MODEL }).
+				forEach(function (binding) {
+					parts = binding.id.split(".");
+					model = lang.getObject(parts[0], false, scope);
+					setters = this.$bindingStore.get(binding.id).setters;
+					invokeFn = this._invokeActions.bind(this, setters, scope);
 
-				model.observe(parts[1], invokeFn);
-				invokeFn();
-			}, this);
+					model.observe(parts[1], invokeFn);
+					invokeFn();
+				}, this);
 
 			this.renderProperty();
 		},
@@ -147,9 +148,10 @@ define([
 					this._invokeActions(prop.setters, this);
 				}
 			} else {
-				this.$bindingStore.query({ type: "property" }).forEach(function (binding) {
-					this._invokeActions(binding.setters, this);
-				}, this);
+				this.$bindingStore.query({ type: this.bindingType.PROPERTY }).
+					forEach(function (binding) {
+						this._invokeActions(binding.setters, this);
+					}, this);
 			}
 		}
 	});

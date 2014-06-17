@@ -16,6 +16,14 @@ define([
 		 */
 		$bindingStore: null,
 
+		/**
+		 * @description Binding types can be models or instance properties
+		 */
+		bindingType: {
+			PROPERTY: "property",
+			MODEL: "model"
+		},
+
 		constructor: function () {
 			this.$bindingStore = new Memory();
 			this.own(this.$bindingStore);
@@ -54,7 +62,7 @@ define([
 				throw Error(prop + " does not exist or key is occured.");
 			}
 
-			return hasGet ? "model": "property";
+			return hasGet ? this.bindingType.MODEL : this.bindingType.PROPERTY;
 		}
 	});
 });
