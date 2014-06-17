@@ -33,7 +33,7 @@ define([
 			asd: "IT WORKS (replaced by Templated)!",
 			footer: "dummy text",
 			abstract: "lorem ipsum",
-			className: "blue",
+			className: "none",
 			z: "Z",
 			link: "www.google.com",
 
