@@ -85,10 +85,8 @@ define([
 
 			str.replace(this.EXPRESSIONS_ALL, function (expression) {
 				var remainingParts = remainingString.split(expression),
-					leftSide = remainingParts[0], rightSide;
-
-				remainingParts.shift();
-				rightSide = remainingParts.join(expression);
+					leftSide = remainingParts.shift(),
+					rightSide = remainingParts.join(expression);
 
 				if (leftSide.length > 0) {
 					separators.push(leftSide);
