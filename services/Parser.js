@@ -40,7 +40,7 @@ define([
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
 					var value = getValue(binding, context);
-					if (value) {
+					if (typeof value !== "undefined") {
 						return lang.isFunction(context[formatFn]) ?
 							context[formatFn](value) : value;
 					} else {
