@@ -27,7 +27,7 @@ The compiler can be extended with new behaviour by making use of the services it
 
 ## Parser ##
 
-The Parser is the parent of the Compiler and it's only purpose is to expose through the Compiler a set of utilities that help parse expressions of the type 
+The Parser is the parent of the Compiler and it's only purpose is to expose a set of utilities that help parse expressions of the type 
 
 * `{{model.key}}` which would create a live binding to `model.get("key")` if this model is observable and has a getter
 * `{{client.id}}` which would create a binding to your widget's `client.id` property in case this would not be a model and would be found on the instance
