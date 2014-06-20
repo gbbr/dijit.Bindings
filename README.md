@@ -1,3 +1,5 @@
+# Overview
+
 ## Compiler
 By mixing `indium/view/Bindings` into your widget you enable a `Compiler` that parses and interprets expressions in your template. The `Compiler` traverses the DOM and creates a direct link between your Model and template.
 
@@ -43,6 +45,8 @@ You can easily understand the way the binding store is used by looking at the [C
 ## Registration Service ##
 
 The Compiler also provides a Registration Service through `this.registrationService` which allows modules to add new builders and collectors to the compilation phase. I will further try to explain the roles of builders and collectors.
+
+# Extending the Compiler
 
 ## Collectors ##
 
