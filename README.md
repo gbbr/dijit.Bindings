@@ -23,7 +23,7 @@ this.compile(this.myNode, {
 });
 ```
 
-The compiler exposes additional services through the modules that are described below.
+The compiler can be extended with new behaviour by making use of the services it exposes.
 
 ## Parser ##
 
