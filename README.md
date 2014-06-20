@@ -46,7 +46,7 @@ Collectors are actions (functions) that are invoked on each DOM node and take th
 
 The builder functions can also be registered using the Registration Service. They only execute once per module during compilation. The purpose of these functions is to take all the information that is needed out of each node in the CollectorStore, and use it to create _setter functions_ which the compiler will trigger to refresh the DOM when bound models or properties change.
 
-# Setter functions #
+## Setter functions ##
 
 Setter functions, similary to Linking Functions, take the scope as a parameter and use it to set the value of the node that they are linked to. Setter functions are created with pre-bound values to them (using `.bind(this, extraOptions)`). They are created in the Registration Service [line 102](https://github.com/backslashed/IndiumView/blob/master/services/RegistrationService.js#L102) using `getSetter` usually by passing an interpolationFunction along with information about which node it belongs too.
 
