@@ -23,7 +23,7 @@ this.compile(this.myNode, {
 });
 ```
 
-I will further try to explain how actions such as `collectors` and `builders` work with the compiler and how new functionality can be added.
+The compiler exposes additional services through the modules that will be described below.
 
 ## Parser ##
 
