@@ -32,7 +32,7 @@ The Parser is the parent of the Compiler and it's only purpose is to expose thro
 * `{{client.id}}` which would create a binding to your widget's `client.id` property in case this would not be a model and would be found on the instance
 * `{{model.key|transformFn}}` which will pass that model's key through a transform function (that is expected to be found in your scope) which takes the value as a parameter and is expected to return a new value
  
-The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions by passing the necessary objects. The easiest way to understand what the interpolation function does in case you are not familiar with it is by looking at it's tests.
+The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions by passing the necessary objects. The easiest way to understand what the interpolation function does in case you are not familiar with it is by looking at it's tests `indium/test/view/bindings/Parser`.
 
 ## The API ##
 
