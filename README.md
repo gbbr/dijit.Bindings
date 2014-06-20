@@ -28,13 +28,13 @@ I will further try to explain how actions such as `collectors` and `builders` wo
 
 The Parser is the parent of the Compiler and it's only purpose is to expose through the Compiler a set of utilities that help parse expressions of the type 
 
-* `{{model.key}}` which would create a live binding to model.get("key") if this model is observable and has a getter
-* `{{client.id}}` which would create a binding to your widget's client.id property in case this would not be a model and would be found on the instance
-* `{{model.key|transformFn}}` which will pass that model's key through a transform function (that is expected to be found in your scope) which takes the values as a parameter and is expected to return the transformed value
+* `{{model.key}}` which would create a live binding to `model.get("key")` if this model is observable and has a getter
+* `{{client.id}}` which would create a binding to your widget's `client.id` property in case this would not be a model and would be found on the instance
+* `{{model.key|transformFn}}` which will pass that model's key through a transform function (that is expected to be found in your scope) which takes the value as a parameter and is expected to return a new value
  
-The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions by passing the necessary objects.
+The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions by passing the necessary objects. The easiest way to understand what the interpolation function does in case you are not familiar with it is by looking at it's tests.
 
-## Understanding the API ##
+## The API ##
 
 The Compiler provides a Registration Service through `this.registrationService` which allows adding new builders and collectors to the compilation phase. It also extends and provides the `Parser` which gives modules string interpolation and parsing capabilities.
 
