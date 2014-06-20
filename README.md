@@ -34,7 +34,7 @@ The Parser is the parent of the Compiler and it's only purpose is to expose thro
  
 The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions by passing the necessary objects.
 
-## The API ##
+## Understanding the API ##
 
 The Compiler provides a Registration Service through `this.registrationService` which allows adding new builders and collectors to the compilation phase. It also extends and provides the `Parser` which gives modules string interpolation and parsing capabilities.
 
