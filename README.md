@@ -1,6 +1,5 @@
-# Overview
+# The Compiler
 
-## Compiler
 By mixing `indium/view/Bindings` into your widget you enable a `Compiler` that parses and interprets expressions in your template. The `Compiler` traverses the DOM and creates a direct link between your Model and template.
 
 The `Compiler` works in two phases. First, it traverses your widget's DOM tree and [invokes a list of actions](https://github.com/backslashed/IndiumView/blob/master/services/Compiler.js#L73) called *collectors* on each node. Afterwards, it launches a [second set of actions](https://github.com/backslashed/IndiumView/blob/master/services/Compiler.js#L98) called *builders*.
