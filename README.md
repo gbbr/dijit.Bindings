@@ -36,7 +36,7 @@ The parser provides an interpolation function and an expression parsing method t
 
 ## Registration Service ##
 
-The Compiler also provides a Registration Service through `this.registrationService` which allows modules to add new builders and collectors to the compilation phase. 
+The Compiler also provides a Registration Service through `this.registrationService` which allows modules to add new builders and collectors to the compilation phase. I will further try to explain the roles of builders and collectors.
 
 ## Collectors ##
 
