@@ -27,13 +27,15 @@ The compiler can be extended with new behaviour by making use of the services it
 
 ## Parser ##
 
-The Parser is the parent of the Compiler and it's only purpose is to expose a set of utilities that help parse expressions of the type 
+The Parser is the parent of the Compiler and it's only purpose is to expose a set of utilities that allow string parsing and interpolation.
 
-* `{{model.key}}` which would create a live binding to `model.get("key")` if this model is observable and has a getter
-* `{{client.id}}` which would create a binding to your widget's `client.id` property in case this would not be a model and would be found on the instance
-* `{{model.key|transformFn}}` which will pass that model's key through a transform function (that is expected to be found in your scope) which takes the value as a parameter and is expected to return a new value
- 
-The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions by passing the necessary objects. The easiest way to understand what the interpolation function does in case you are not familiar with it is by looking at it's tests `indium/test/view/bindings/Parser`.
+* `{{model.key}}` is evaluated as `model.get(key)` if it is an observable model with a getter
+* `{{id}}` evaluates as `this.id` if it is not a valid model
+* `{{model.key|transformFn}}` evaluates as `this.transformFn(model.get("key"))`
+
+If any of these expressions do not match an Error is thrown. The only exception is when the transformFn is missing, in which case the string replacement will continue without passing through the function.
+
+The parser provides an interpolation function and an expression parsing method that can be used by modules (mixins) to automatically replace these expressions within strings by taking a scope to evaluate against as an argument. The easiest way to understand what the interpolation function does in case you are not familiar with it is by looking at it's tests `indium/test/view/bindings/Parser`.
 
 ## Binding Store ##
 
