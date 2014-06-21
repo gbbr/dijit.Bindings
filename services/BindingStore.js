@@ -47,10 +47,7 @@ define([
 				}, this._getLinkingData(name)));
 			}
 
-			this.$bindingStore.get(name).
-				setters.push(function (scope) {
-					fn.call(this, arguments);
-				}.bind(this, config));
+			this.$bindingStore.get(name).setters.push(fn.bind(this, config));
 		},
 
 		_getLinkingData: function (objectName) {

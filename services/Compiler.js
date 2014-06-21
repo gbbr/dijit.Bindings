@@ -108,13 +108,15 @@ define([
 		_linkBindings: function () {
 			var invokeFn;
 
+			// Link models
 			this.$bindingStore.query({ type: this.objectType.MODEL }).
 				forEach(function (binding) {
-					invokeFn = this._invokeActions.bind(this, binding.setters, this);
+					invokeFn = this._invokeActions.bind(this, binding.setters);
 					binding.model.observe(binding.key, invokeFn);
 					invokeFn();
 				}, this);
 
+			// Link properties
 			this.renderProperty();
 		},
 
@@ -137,12 +139,12 @@ define([
 			if (name) {
 				var prop = this.$bindingStore.get(name);
 				if (prop && prop.setters) {
-					this._invokeActions(prop.setters, this);
+					this._invokeActions(prop.setters);
 				}
 			} else {
 				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
 					forEach(function (binding) {
-						this._invokeActions(binding.setters, this);
+						this._invokeActions(binding.setters);
 					}, this);
 			}
 		}
