@@ -11,9 +11,8 @@ define([
 ) {
 	/**
 	 * @module BindingStore
-	 * @description Provides the parser with a binding store to evaluate against.
-	 * An API is exposed to mixins via the BindingStore -> Parser -> Compiler
-	 * relationship to help register bindings.
+	 * @description Allows the storing of bindings and their
+	 * associated actions
 	 */
 	return declare("BindingStore", [Destroyable], {
 		/**

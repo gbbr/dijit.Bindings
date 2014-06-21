@@ -2,11 +2,13 @@ define([
 	"doh/runner",
 	"dojo/_base/lang",
 	"indium/services/Parser",
+	"indium/lib/_StatefulModel",
 	"testSuite"
 ], function (
 	doh,
 	lang,
 	Parser,
+	_StatefulModel,
 	testSuite
 ) {
 	testSuite("Parser Service", {
@@ -133,7 +135,8 @@ define([
 					["{{a}}", { a: 2 }, "2"],
 					["{{value|inexistingFn}}tastic", { value: "output" }, "outputtastic"],
 					["{{foo}}{{bar|toUppercase}}", { toUppercase: dummyFunction }, "{{foo}}{{bar|toUppercase}}"],
-					["{{foo|toUppercase}}{{bar}}", { foo: "loo", toUppercase: toUppercase }, "LOO{{bar}}"]
+					["{{foo|toUppercase}}{{bar}}", { foo: "loo", toUppercase: toUppercase }, "LOO{{bar}}"],
+					["Hello {{myModel.key}}", { myModel: new _StatefulModel({ "key": "world" }) }, "Hello world"]
 				];
 
 			testCases.forEach(function (test) {
