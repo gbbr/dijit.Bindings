@@ -55,6 +55,7 @@ define([
 
 			testSuite.equals(interpolateFn.expressions, ["{{id}}", "{{title}}"]);
 			testSuite.equals(interpolateFn.separators, []);
+			testSuite.equals(interpolateFn.parts, ["{{id}}", "{{title}}"]);
 
 			interpolateFn = this.instance.interpolateString("{{id}} and {{title}}");
 
@@ -73,6 +74,20 @@ define([
 			testSuite.equals(interpolateFn.expressions, ["{{client.id}}", "{{client.title|toUppercase}}"]);
 			testSuite.equals(interpolateFn.separators, ["With ", " and ", "."]);
 			testSuite.equals(interpolateFn.parts, ["With ", "{{client.id}}", " and ", "{{client.title|toUppercase}}", "."]);
+		},
+
+		"Interpolate function: should not fail with HTML": function () {
+			interpolateFn = this.instance.interpolateString('<div class="{{className}}">{{body}} and {{legs}}.</div>');
+
+			testSuite.equals(interpolateFn.expressions, ["{{className}}", "{{body}}", "{{legs}}"]);
+			testSuite.equals(interpolateFn.separators, ['<div class="', '">', ' and ', '.</div>']);
+			testSuite.equals(interpolateFn.parts, ['<div class="', "{{className}}", '">', "{{body}}", " and ", "{{legs}}", '.</div>']);
+
+			testSuite.equals(interpolateFn({
+				"className": "blue",
+				"body": "Cow",
+				"legs": "chickeN"
+			}), '<div class="blue">Cow and chickeN.</div>');
 		},
 
 		"Interpolate function: Should correctly interpolate against given context": function () {
