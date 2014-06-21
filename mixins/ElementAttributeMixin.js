@@ -19,12 +19,10 @@ define([
 		 */
 		NODE_TYPE_ELEMENT: 1,
 		COLLECTOR_ATTRIBUTES: "GATHERER_ATTRIBUTES",
-		SETTER_ATTRIBUTE: "SETTER_ATTRIBUTES",
 
 		constructor: function () {
 			this.registrationService.addCollector(this._gatherAttributes);
 			this.registrationService.addBuilder(this._compileAttributes);
-			this.registrationService.addSetter(this.SETTER_ATTRIBUTE, this._setNodeAttribute);
 		},
 
 		/**
@@ -63,14 +61,13 @@ define([
 				var interpolateAttribute = this.interpolateString(data.attributeTemplate);
 
 				interpolateAttribute.expressions.forEach(function (expression) {
-					var parsedExpr = this.parseExpression(expression),
-						setterFn = this.registrationService.getSetter(this.SETTER_ATTRIBUTE, {
-							node: data.node,
-							attributeName: data.attributeName,
-							interpolationFn: interpolateAttribute
-						});
+					var parsedExpr = this.parseExpression(expression);
 
-					this.attachSetter(parsedExpr.binding, setterFn);
+					this.createSetter(parsedExpr.binding, this._setNodeAttribute, {
+						node: data.node,
+						attributeName: data.attributeName,
+						interpolationFn: interpolateAttribute
+					});
 				}, this);
 			}, this);
 		},
@@ -81,8 +78,8 @@ define([
 		 * and details added during the compiling stage (above)
 		 */
 		_setNodeAttribute: function(args) {
-			var context = args[1], data = args[0];
-			data.node.setAttribute(data.attributeName, data.interpolationFn(context));
+			var context = args[1], config = args[0];
+			config.node.setAttribute(config.attributeName, config.interpolationFn(context));
 		}
 	});
 });

@@ -21,7 +21,6 @@ define([
 
 		NODE_TYPE_TEXT: 3,
 		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
-		SETTER_TEXT_NODES: "SETTER_TEXTNODES",
 
 		/**
 		 * @description Creates a store for the collectors, attaches
@@ -29,7 +28,6 @@ define([
 		constructor: function () {
 			this.registrationService.addCollector(this._gatherTextNodes);
 			this.registrationService.addBuilder(this._compileTextNodes);
-			this.registrationService.addSetter(this.SETTER_TEXT_NODES, this._setNodeValue);
 		},
 
 		/**
@@ -95,13 +93,12 @@ define([
 		 * @param node {HTMLElement} The node where the expression should be evaluated
 		 */
 		_registerTextNodeSetter: function (expression, node) {
-			var name = this.parseExpression(expression).binding,
-				setterFn = this.registrationService.getSetter(this.SETTER_TEXT_NODES, {
-					"node": node,
-					"interpolateFn": this.interpolateString(expression)
-				});
+			var name = this.parseExpression(expression).binding;
 
-			this.attachSetter(name, setterFn);
+			this.createSetter(name, this._setNodeValue, {
+				"node": node,
+				"interpolateFn": this.interpolateString(expression)
+			});
 		},
 
 		/**
@@ -112,9 +109,9 @@ define([
 		 * object describing specifics set during generation
 		 */
 		_setNodeValue: function (args) {
-			var scope = args[1], nodeData = args[0],
-				node = nodeData.node,
-				interpolateFn = nodeData.interpolateFn;
+			var scope = args[1], config = args[0],
+				node = config.node,
+				interpolateFn = config.interpolateFn;
 
 			node.nodeValue = interpolateFn(scope);
 		}

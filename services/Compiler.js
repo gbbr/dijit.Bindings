@@ -36,7 +36,7 @@ define([
 	 * the template to pick up.
 	 *
 	 */
-	return declare("Compiler", [BindingStore, Parser, Destroyable], {
+	return declare("Compiler", [Parser, BindingStore, Destroyable], {
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins
 		 */
@@ -108,7 +108,7 @@ define([
 		_linkBindings: function (scope) {
 			var invokeFn; scope = scope || this;
 
-			this.$bindingStore.query({ type: this.bindingType.MODEL }).
+			this.$bindingStore.query({ type: this.objectType.MODEL }).
 				forEach(function (binding) {
 					invokeFn = this._invokeActions.bind(this, binding.setters, scope);
 					binding.model.observe(binding.property, invokeFn);
@@ -141,7 +141,7 @@ define([
 					this._invokeActions(prop.setters, this);
 				}
 			} else {
-				this.$bindingStore.query({ type: this.bindingType.PROPERTY }).
+				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
 					forEach(function (binding) {
 						this._invokeActions(binding.setters, this);
 					}, this);

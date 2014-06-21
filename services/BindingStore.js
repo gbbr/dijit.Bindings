@@ -21,14 +21,6 @@ define([
 		 */
 		$bindingStore: null,
 
-		/**
-		 * @description Binding types can be models or instance properties
-		 */
-		bindingType: {
-			PROPERTY: "property",
-			MODEL: "model"
-		},
-
 		constructor: function () {
 			this.$bindingStore = new Memory();
 			this.own(this.$bindingStore);
@@ -40,7 +32,7 @@ define([
 		 * @param name {string} Name of binding to attach too
 		 * @param fn {Function} Setter function
 		 */
-		attachSetter: function (name, fn) {
+		createSetter: function (name, fn, config) {
 			if (!this.$bindingStore.get(name)) {
 				this.$bindingStore.put(lang.mixin({
 					id: name,
@@ -48,7 +40,10 @@ define([
 				}, this._extendBindingInformation(name)));
 			}
 
-			this.$bindingStore.get(name).setters.push(fn);
+			this.$bindingStore.get(name).
+				setters.push(function (scope) {
+					fn.call(this, arguments);
+				}.bind(this, config));
 		},
 
 		/**
@@ -68,11 +63,11 @@ define([
 			}
 
 			return hasGet ? {
-				type: this.bindingType.MODEL,
+				type: this.objectType.MODEL,
 				model: obj,
 				property: parts[1]
 			} : {
-				type: this.bindingType.PROPERTY
+				type: this.objectType.PROPERTY
 			};
 		}
 	});

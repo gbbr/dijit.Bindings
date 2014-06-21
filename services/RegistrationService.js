@@ -19,13 +19,11 @@ define([
 		_compilers: null,
 		_collectors: null,
 		_collectorStore: null,
-		_setters: null,
 
 		constructor: function () {
 			this._compilers = [];
 			this._collectors = [];
 			this._collectorStore = [];
-			this._setters = [];
 		},
 
 		/**
@@ -79,31 +77,6 @@ define([
 			indiumLang.forEach(this._collectorStore, function (store, key) {
 				delete this._collectorStore[key];
 			}, this);
-		},
-
-		/**
-		 * Registers a setter function on the object
-		 * @param type {string} Setter type (ie. SETTER_REPEATER, etc.)
-		 * @param fn {Function} The function corresponding to this type
-		 * of setter
-		 */
-		addSetter: function (type, fn) {
-			this._setters[type] = fn;
-		},
-
-		/**
-		 * @description Generates a new setter function of the given type.
-		 * Resulting setter functions take a scope attribute to use for interpolation
-		 * @param context {Object} The context in which the setter should run
-		 * @param type {string} The setter type (ie. SETTER_ATTRIBUTE, etc.)
-		 * @param configObj {Object} Node, formatFn... depending on setter type
-		 * @returns {function(value)} Return a setter function
-		 */
-		getSetter: function (type, configObj) {
-			var setter = this._setters[type];
-			return function (scope) {
-				setter.call(this, arguments);
-			}.bind(this, configObj);
 		}
 	});
 });

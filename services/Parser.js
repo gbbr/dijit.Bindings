@@ -17,6 +17,15 @@ define([
 		EXPRESSIONS_ALL: /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/g,
 		EXPRESSION_ONCE:  /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/,
 
+
+		/**
+		 * @description Binding types can be models or instance properties
+		 */
+		objectType: {
+			PROPERTY: "property",
+			MODEL: "model"
+		},
+
 		/**
 		 * @description Returns and interpolation function along with separators
 		 * and expressions. The interpolation function takes a context as an argument
