@@ -29,7 +29,7 @@ define([
 		 */
 		interpolateString: function (str) {
 			var parts, pattern = this.EXPRESSIONS_ALL,
-				getValue = this._getBindingValue.bind(this);
+				getValue = this._getObjectByName.bind(this);
 
 			if (!this._bindingCount(str)) {
 				throw new Error("Interpolate received a string without expressions: " + str);
@@ -63,11 +63,12 @@ define([
 		 * @param context {Object} Context to search for the object in
 		 * @returns {*} Value of the object
 		 */
-		_getBindingValue: function (name, context) {
-			var binding = this.$bindingStore.get(name);
+		_getObjectByName: function (name, context) {
+			var parts = name.split("."),
+				obj = lang.getObject(parts[0], false, context);
 
-			if (binding && binding.type === this.bindingType.MODEL) {
-				return binding.model.get(binding.property);
+			if (obj && lang.isFunction(obj.get) && parts[1]) {
+				return obj.get(parts[1]);
 			} else {
 				return lang.getObject(name, false, context);
 			}
