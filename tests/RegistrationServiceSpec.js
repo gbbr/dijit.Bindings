@@ -92,7 +92,7 @@ define([
 				"Returned store is different");
 		},
 
-		"Setters: Correctly retrieves and executes added setters": function () {
+		"xSetters: Correctly retrieves and executes added setters": function () {
 			var spy1 = sinon.spy(),
 				spy2 = this.spy(),
 				spy3 = this.spy(),

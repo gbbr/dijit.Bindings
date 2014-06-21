@@ -122,11 +122,10 @@ define([
 		 * @description Calls all functions in an array and passes one argument
 		 * @param fnList {Array<Function>} Array of functions to be called
 		 * @param argument {=} A single argument of any type to pass to the function
-		 * @param context {=Object} Context to call the function in
 		 */
-		_invokeActions: function(fnList, argument, context) {
+		_invokeActions: function(fnList, argument) {
 			fnList.forEach(function (fn) {
-				fn.call(context || this, argument);
+				fn.call(this, argument);
 			}, this);
 		},
 

@@ -17,7 +17,7 @@ define([
 	return declare("BindingStore", [Destroyable], {
 		/**
 		 * @description Stores substitution data and linking functions
-		 * @type {dojo/store/Memory}
+		 * @type {dojo.store.Memory}
 		 */
 		$bindingStore: null,
 
@@ -27,8 +27,7 @@ define([
 		},
 
 		/**
-		 * @description Attaches a setter to a binding and determines
-		 * along with relevant information
+		 * @description Attaches a setter to a binding
 		 * @param name {string} Name of binding to attach too
 		 * @param fn {Function} Setter function
 		 */
