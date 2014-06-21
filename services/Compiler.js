@@ -1,11 +1,13 @@
 define([
 	"dojo/_base/declare",
+	"dojo/_base/lang",
 	"dijit/Destroyable",
 	"indium/services/RegistrationService",
 	"indium/services/Parser",
 	"indium/services/BindingStore"
 ], function (
 	declare,
+	lang,
 	Destroyable,
 	RegistrationService,
 	Parser,
@@ -56,6 +58,7 @@ define([
 		compile: function (rootNode) {
 			this._findBindings(rootNode);
 			this._buildBindings();
+			this.linkBindingStore();
 		},
 
 		/**
@@ -98,7 +101,49 @@ define([
 			this._invokeActions(builders);
 			// Clean-up after we are finished
 			this.registrationService.clearCollected();
-			this.linkBindingStore();
+		},
+
+		/**
+		 * @description Links all items in binding store to corresponding models
+		 * and/or properties
+		 */
+		linkBindingStore: function () {
+			this.$bindingStore.query().forEach(function (binding) {
+				var parts = binding.id.split("."),
+					obj = lang.getObject(parts[0], false, this),
+					isModel = obj && lang.isFunction(obj.get) && !!parts[1],
+					invokeFn;
+
+				if (isModel) {
+					binding.type = this.objectType.MODEL;
+					invokeFn = this._invokeActions.bind(this, binding.setters);
+					obj.observe(parts[1], invokeFn);
+					invokeFn();
+				} else {
+					binding.type = this.objectType.PROPERTY;
+				}
+			}, this);
+
+			this.renderProperty("*");
+		},
+
+
+		/**
+		 * @description Renders an instance property to the template
+		 * @param {=string} name Property ID
+		 */
+		renderProperty: function (name) {
+			if (name !== "*") {
+				var prop = this.$bindingStore.get(name);
+				if (prop && prop.setters) {
+					this._invokeActions(prop.setters);
+				}
+			} else {
+				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
+					forEach(function (binding) {
+						this._invokeActions(binding.setters);
+					}, this);
+			}
 		},
 
 		/**

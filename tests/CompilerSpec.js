@@ -1,13 +1,17 @@
 define([
 	"doh/runner",
+	"dojo/_base/lang",
 	"dojo/dom-construct",
 	"indium/services/Compiler",
+	"indium/lib/_StatefulModel",
 	'dojo/text!indium/tests/templates/template1.html',
 	"testSuite"
 ], function (
 	doh,
+	lang,
 	domConstruct,
 	Compiler,
+	StatefulModel,
 	template,
 	testSuite
 ) {
@@ -71,6 +75,107 @@ define([
 			testSuite.isTrue(spies[0].calledOnce, "Builder #1 was not reached");
 			testSuite.isTrue(spies[1].calledOnce, "Builder #2 was not reached");
 			testSuite.isTrue(spies[2].calledOnce, "Builder #3 was not reached");
+		},
+
+		"Identifies models in binding store": function () {
+			var scope = lang.mixin(this.instance, {
+					model: new StatefulModel({
+						"key": "555"
+					})
+				});
+
+			this.instance.createSetter("model.key", this.stub());
+			this.instance.linkBindingStore.bind(scope)();
+
+			testSuite.equals(this.instance.$bindingStore.get("model.key").type, this.instance.objectType.MODEL);
+		},
+
+		"Observes models in binding store for changes": function () {
+			var scope = lang.mixin(this.instance, {
+					model: new StatefulModel({
+						"key": "555"
+					})
+				}),
+				setterFn = this.stub();
+
+			this.spy(scope.model, "observe");
+
+			this.instance.createSetter("model.key", setterFn);
+			this.instance.linkBindingStore.bind(scope)();
+
+			testSuite.isTrue(scope.model.observe.calledWith("key"));
+			testSuite.isTrue(setterFn.calledOnce);
+		},
+
+		"Triggers setters when models change": function () {
+			var scope = lang.mixin(this.instance, {
+					model: new StatefulModel({
+						"key": "555"
+					})
+				}),
+				setterFn = this.stub();
+
+			this.instance.createSetter("model.key", setterFn);
+			this.instance.linkBindingStore.bind(scope)();
+
+			setterFn.reset(); // It is already called once at linking
+
+			scope.model.set("key", "666");
+			testSuite.isTrue(setterFn.calledOnce);
+
+			scope.model.set("key", "777");
+			testSuite.isTrue(setterFn.calledTwice);
+		},
+
+		"Identifies widget properties in binding store": function () {
+			var scope = lang.mixin(this.instance, {
+				"client": {
+					"id": 2
+				}
+			});
+
+			this.instance.createSetter("client.id", this.stub());
+			this.instance.linkBindingStore.bind(scope)();
+
+			testSuite.equals(this.instance.$bindingStore.get("client.id").type, this.instance.objectType.PROPERTY);
+		},
+
+		"renderProperty: invokes all setters when '*' is its parameter": function () {
+			var setterFns = [this.stub(), this.stub(), this.stub()],
+				scope = lang.mixin(this.instance, {
+					"prop": 1,
+					"id": 2
+				});
+
+			this.instance.createSetter("prop", setterFns[0]);
+			this.instance.createSetter("prop", setterFns[1]);
+			this.instance.createSetter("id", setterFns[2]);
+
+			this.instance.linkBindingStore.bind(scope)();
+			this.instance.renderProperty("*");
+
+			setterFns.forEach(function (fn) {
+				testSuite.isTrue(fn.calledTwice); // once at linking, once at rendering
+			}, this);
+		},
+
+		"renderProperty: invokes appropriate setters when name is given": function () {
+			var setterFns = [this.stub(), this.stub(), this.stub()],
+				scope = lang.mixin(this.instance, {
+					"prop": 1,
+					"id": 2
+				});
+
+			this.instance.createSetter("prop", setterFns[0]);
+			this.instance.createSetter("prop", setterFns[1]);
+			this.instance.createSetter("id", setterFns[2]);
+
+			this.instance.linkBindingStore.bind(scope)();
+			this.instance.renderProperty("prop");
+
+			testSuite.isTrue(setterFns[0].calledTwice);
+			testSuite.isTrue(setterFns[1].calledTwice);
+			testSuite.isTrue(setterFns[2].calledOnce);
 		}
 	});
 });
