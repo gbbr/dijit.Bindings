@@ -44,7 +44,7 @@ define([
 				this.$bindingStore.put(lang.mixin({
 					id: name,
 					setters: []
-				}, this._attachObjectData(name)));
+				}, this._getLinkingData(name)));
 			}
 
 			this.$bindingStore.get(name).
@@ -53,7 +53,7 @@ define([
 				}.bind(this, config));
 		},
 
-		_attachObjectData: function (objectName) {
+		_getLinkingData: function (objectName) {
 			var parts = objectName.split("."),
 				obj = lang.getObject(parts[0], false, this);
 
