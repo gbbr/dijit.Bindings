@@ -54,17 +54,13 @@ define([
 			var parts = objectName.split("."),
 				obj = lang.getObject(parts[0], false, this);
 
-			if (obj && lang.isFunction(obj.get) && !!parts[1]) {
-				return {
-					type: this.objectType.MODEL,
-					model: obj,
-					key: parts[1]
-				}
-			} else {
-				return {
-					type: this.objectType.PROPERTY
-				}
-			}
+			return (obj && lang.isFunction(obj.get) && !!parts[1]) ? {
+				type: this.objectType.MODEL,
+				model: obj,
+				key: parts[1]
+			} : {
+				type: this.objectType.PROPERTY
+			};
 		}
 	});
 });

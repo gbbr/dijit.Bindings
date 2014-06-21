@@ -44,14 +44,14 @@ define([
 
 		"Parse expression: should return binding name and formatFn or undefined": function () {
 			var testCases = [
-					[ "{{A|B}}", { binding: "A", formatFn: "B" } ],
+					[ "{{A|B}}", { expression: "A", formatFn: "B" } ],
 					[ "random text", void 0 ],
 					[ "", void 0 ],
-					[ "{{model.key|formatFn}}", { binding: "model.key", formatFn: "formatFn" } ],
+					[ "{{model.key|formatFn}}", { expression: "model.key", formatFn: "formatFn" } ],
 					[ "{{}}", void 0 ],
-					[ "{{model.key}}", { binding: "model.key", formatFn: void 0 } ],
+					[ "{{model.key}}", { expression: "model.key", formatFn: void 0 } ],
 					[ "{{|formatFn}}", void 0 ],
-					[ "{{color}}", { binding: "color", formatFn: void 0 } ]
+					[ "{{color}}", { expression: "color", formatFn: void 0 } ]
 				], result;
 
 			testCases.forEach(function (test) {
