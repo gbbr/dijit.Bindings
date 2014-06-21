@@ -16,49 +16,28 @@ define([
 			this.instance.destroy();
 		},
 
-		"Compilers: Adds and returns available compilers": function () {
-			var functionsAndNames = [
-					[function A() {}, "A"],
-					[function B() {}, "B"],
-					[function C() {}, "C"],
-					[function D() {}, "D"]
-				],
-				registeredCompilers;
+		"Adds builders to the service": function () {
+			var builders = [this.stub(), this.stub()];
 
-			functionsAndNames.forEach(function (test) {
-				this.instance.addBuilder(test[0]);
-			}, this);
+			this.instance.addBuilder(builders[0]);
+			this.instance.addBuilder(builders[1]);
 
-			registeredCompilers = this.instance.getBuilders();
-
-			testSuite.equals(4, registeredCompilers.length, "Less compilers than expected");
-
-			registeredCompilers.forEach(function (compilerFunction, index) {
-				testSuite.equals(functionsAndNames[index][1], compilerFunction.name,
-					"Compilers names were not stored correctly at index " + index);
-				testSuite.equals("function", typeof compilerFunction,
-					"Function is not function at index " + index);
-				testSuite.equals(functionsAndNames[index][0], compilerFunction,
-					"Compiler functions were not stored correctly");
-			});
+			testSuite.equals(builders, this.instance.getBuilders());
+			testSuite.equals(2, this.instance.getBuilders().length);
 		},
 
-		"Collectors: Correctly stores added collectors": function () {
-			var functionsAndNames = [
-					[function E() {}, "E"],
-					[function F() {}, "F"],
-					[function G() {}, "G"]
-				],
-				registeredCollectors;
+		"Stores added collectors": function () {
+			var collectors = [this.stub(), this.stub(), this.stub()];
 
-			functionsAndNames.forEach(function (test) {
-				this.instance.addCollector(test[0]);
-			}, this);
+			this.instance.addCollector(collectors[0]);
+			this.instance.addCollector(collectors[1]);
+			this.instance.addCollector(collectors[2]);
 
-			registeredCollectors = this.instance.getCollectors();
-
-			testSuite.equals(3, registeredCollectors.length, "Unexpected number of collectors");
+			testSuite.equals(collectors, this.instance.getCollectors());
+			testSuite.equals(3, this.instance.getCollectors().length);
 		},
+
+
 
 		"Collectors: Returns empty store when one is not available": function () {
 			testSuite.equals({}, this.instance.getCollectorStore("TEST_STORE1"), "Did not return empty store");
@@ -92,6 +71,23 @@ define([
 				"Returned store is different");
 		},
 
+		"Should clear collector store when asked to": function () {
+			var initStore, readStore;
+
+			initStore = this.instance.getCollectorStore("TEST_STORE2");
+			initStore.push(1, "A", { a: 2, b: "C" });
+
+			readStore = this.instance.getCollectorStore("TEST_STORE3");
+			readStore.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
+
+			this.instance.clearCollected();
+
+			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE2").length,
+				"Store not emptied");
+			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length,
+				"Store not emptied");
+		},
+
 		"xSetters: Correctly retrieves and executes added setters": function () {
 			var spy1 = sinon.spy(),
 				spy2 = this.spy(),
@@ -116,23 +112,6 @@ define([
 				"Arguments did not match");
 			testSuite.equals([{ obj: "ect", a: 2 }, "lorem ipsum"], spy3.getCalls()[0].args[0],
 				"Arguments did not match");
-		},
-
-		"Should clear collector store when asked to": function () {
-			var initStore, readStore;
-
-			initStore = this.instance.getCollectorStore("TEST_STORE2");
-			initStore.push(1, "A", { a: 2, b: "C" });
-
-			readStore = this.instance.getCollectorStore("TEST_STORE3");
-			readStore.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
-
-			this.instance.clearCollected();
-
-			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE2").length,
-				"Store not emptied");
-			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length,
-				"Store not emptied");
 		}
 	});
 });

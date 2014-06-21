@@ -75,7 +75,7 @@ define([
 			testSuite.equals(interpolateFn.parts, ["With ", "{{client.id}}", " and ", "{{client.title|toUppercase}}", "."]);
 		},
 
-		"Interpolate function: Should correctly do replacements and react to unavailable data": function () {
+		"Interpolate function: Should correctly interpolate against given context": function () {
 			var toUppercase = function (str) {
 					return str.toUpperCase();
 				},
