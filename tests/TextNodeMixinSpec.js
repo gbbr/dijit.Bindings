@@ -41,7 +41,7 @@ define([
 			var node;
 
 			testNodes.forEach(function (test) {
-				var store = this.instance.compiler.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES);
+				var store = this.instance.registrationService.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES);
 				this.spy(store, "push");
 
 				node = domConstruct.toDom(test[0]);
@@ -53,7 +53,7 @@ define([
 				store.push.restore();
 			}, this);
 
-			testSuite.equals(3, this.instance.compiler.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES).length,
+			testSuite.equals(3, this.instance.registrationService.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES).length,
 				"Unexpected number of nodes collected.")
 		},
 

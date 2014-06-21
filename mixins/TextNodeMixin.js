@@ -26,8 +26,8 @@ define([
 		 * @description Creates a store for the collectors, attaches
 		 */
 		constructor: function () {
-			this.compiler.addCollector(this._gatherTextNodes);
-			this.compiler.addBuilder(this._compileTextNodes);
+			this.registrationService.addCollector(this._gatherTextNodes);
+			this.registrationService.addBuilder(this._compileTextNodes);
 		},
 
 		/**
@@ -37,7 +37,7 @@ define([
 		 */
 		_gatherTextNodes: function (node) {
 			if (node.nodeType === this.NODE_TYPE_TEXT && this._bindingCount(node.nodeValue)) {
-				this.compiler.getCollectorStore(this.COLLECTOR_TEXT_NODES).push(node);
+				this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES).push(node);
 			}
 		},
 
@@ -47,7 +47,7 @@ define([
 		 * or contains multiple expressions)
 		 */
 		_compileTextNodes: function () {
-			var store = this.compiler.getCollectorStore(this.COLLECTOR_TEXT_NODES);
+			var store = this.registrationService.getCollectorStore(this.COLLECTOR_TEXT_NODES);
 
 			store.forEach(function (node) {
 				var interpolateFn = this.interpolateString(node.nodeValue),

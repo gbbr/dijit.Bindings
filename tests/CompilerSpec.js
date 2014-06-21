@@ -34,20 +34,20 @@ define([
 		},
 
 		"Correctly clears collector store after building phase": function () {
-			this.spy(this.instance.compiler, "clearCollected");
+			this.spy(this.instance.registrationService, "clearCollected");
 
 			this.instance.compile(this.templateDom);
 
-			testSuite.isTrue(this.instance.compiler.clearCollected.calledOnce,
+			testSuite.isTrue(this.instance.registrationService.clearCollected.calledOnce,
 				"Compiling phase did not clear collector store");
 		},
 
 		"Invokes all registered collectors": function () {
 			var spies = [this.spy(), this.spy(), this.spy()];
 
-			this.instance.compiler.addCollector(spies[0]);
-			this.instance.compiler.addCollector(spies[1]);
-			this.instance.compiler.addCollector(spies[2]);
+			this.instance.registrationService.addCollector(spies[0]);
+			this.instance.registrationService.addCollector(spies[1]);
+			this.instance.registrationService.addCollector(spies[2]);
 
 			this.instance.compile(this.templateDom);
 
@@ -62,9 +62,9 @@ define([
 		"Invokes all registered builders once": function () {
 			var spies = [this.spy(), this.spy(), this.spy()];
 
-			this.instance.compiler.addBuilder(spies[0]);
-			this.instance.compiler.addBuilder(spies[1]);
-			this.instance.compiler.addBuilder(spies[2]);
+			this.instance.registrationService.addBuilder(spies[0]);
+			this.instance.registrationService.addBuilder(spies[1]);
+			this.instance.registrationService.addBuilder(spies[2]);
 
 			this.instance.compile(this.templateDom);
 

@@ -21,8 +21,8 @@ define([
 		COLLECTOR_ATTRIBUTES: "GATHERER_ATTRIBUTES",
 
 		constructor: function () {
-			this.compiler.addCollector(this._gatherAttributes);
-			this.compiler.addBuilder(this._compileAttributes);
+			this.registrationService.addCollector(this._gatherAttributes);
+			this.registrationService.addBuilder(this._compileAttributes);
 		},
 
 		/**
@@ -33,7 +33,7 @@ define([
 		_gatherAttributes: function (node) {
 			if (node.nodeType === this.NODE_TYPE_ELEMENT) {
 				var i = node.attributes.length, attribute,
-					store = this.compiler.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
+					store = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
 
 				while (i--) {
 					attribute = node.attributes[i];
@@ -54,7 +54,7 @@ define([
 		 * node, attribute name and an interpolation function for easy updating.
 		 */
 		_compileAttributes: function () {
-			var store = this.compiler.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
+			var store = this.registrationService.getCollectorStore(this.COLLECTOR_ATTRIBUTES);
 
 			store.forEach(function (data) {
 				var interpolateAttribute = this.interpolateString(data.attributeTemplate);
