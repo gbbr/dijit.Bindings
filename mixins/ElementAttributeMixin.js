@@ -29,7 +29,6 @@ define([
 		 * Identifies and stores all substitutions present in element attributes: the original
 		 * template, the node, and the attribute name.
 		 * @param node {HTMLElement} Node to verify
-		 * @private
 		 */
 		_gatherAttributes: function (node) {
 			if (node.nodeType === this.NODE_TYPE_ELEMENT) {
