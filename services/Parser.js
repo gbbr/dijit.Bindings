@@ -121,7 +121,7 @@ define([
 			var data = expression.match(this.EXPRESSION_ONCE);
 			if (data) {
 				return {
-					binding: data[1],
+					expression: data[1],
 					formatFn: data[2]
 				};
 			}
