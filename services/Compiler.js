@@ -56,7 +56,6 @@ define([
 		compile: function (rootNode) {
 			this._findBindings(rootNode);
 			this._buildBindings();
-			this._linkBindings();
 		},
 
 		/**
@@ -99,25 +98,7 @@ define([
 			this._invokeActions(builders);
 			// Clean-up after we are finished
 			this.registrationService.clearCollected();
-		},
-
-		/**
-		 * @description Links all bindings to their built setters
-		 * @param scope {Object} The context which holds the values to be linked
-		 */
-		_linkBindings: function () {
-			var invokeFn;
-
-			// Link models
-			this.$bindingStore.query({ type: this.objectType.MODEL }).
-				forEach(function (binding) {
-					invokeFn = this._invokeActions.bind(this, binding.setters);
-					binding.model.observe(binding.key, invokeFn);
-					invokeFn();
-				}, this);
-
-			// Link properties
-			this.renderProperty();
+			this.linkBindingStore();
 		},
 
 		/**
@@ -129,24 +110,6 @@ define([
 			fnList.forEach(function (fn) {
 				fn.call(this, argument);
 			}, this);
-		},
-
-		/**
-		 * @description Renders an instance property to the template
-		 * @param name {=string} Property name (as per $bindingStore)
-		 */
-		renderProperty: function (name) {
-			if (name) {
-				var prop = this.$bindingStore.get(name);
-				if (prop && prop.setters) {
-					this._invokeActions(prop.setters);
-				}
-			} else {
-				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
-					forEach(function (binding) {
-						this._invokeActions(binding.setters);
-					}, this);
-			}
 		}
 	});
 });

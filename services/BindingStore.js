@@ -44,24 +44,49 @@ define([
 				this.$bindingStore.put(lang.mixin({
 					id: name,
 					setters: []
-				}, this._detectBindingType(name)));
+				}));
 			}
 
 			this.$bindingStore.get(name).setters.push(fn.bind(this, config));
 		},
 
-		_detectBindingType: function (objectName) {
-			var parts = objectName.split("."),
-				obj = lang.getObject(parts[0], false, this),
-				isModel = obj && lang.isFunction(obj.get) && !!parts[1];
+		linkBindingStore: function () {
+			this.$bindingStore.query().forEach(function (binding) {
+				var parts = binding.id.split("."),
+					obj = lang.getObject(parts[0], false, this),
+					isModel = obj && lang.isFunction(obj.get) && !!parts[1],
+					invokeFn;
 
-			return isModel ? {
-				type: this.objectType.MODEL,
-				model: obj,
-				key: parts[1]
-			} : {
-				type: this.objectType.PROPERTY
-			};
+				if (isModel) {
+					binding.type = this.objectType.MODEL;
+					invokeFn = this._invokeActions.bind(this, binding.setters);
+					obj.observe(parts[1], invokeFn);
+					invokeFn();
+				} else {
+					binding.type = this.objectType.PROPERTY;
+				}
+			}, this);
+
+			this.renderProperty("*");
+		},
+
+
+		/**
+		 * @description Renders an instance property to the template
+		 * @param name {=string} Property name (as per $bindingStore)
+		 */
+		renderProperty: function (name) {
+			if (name !== "*") {
+				var prop = this.$bindingStore.get(name);
+				if (prop && prop.setters) {
+					this._invokeActions(prop.setters);
+				}
+			} else {
+				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
+					forEach(function (binding) {
+						this._invokeActions(binding.setters);
+					}, this);
+			}
 		}
 	});
 });
