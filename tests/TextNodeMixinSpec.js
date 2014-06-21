@@ -5,6 +5,7 @@ define([
 	"dojo/_base/declare",
 	"indium/services/Compiler",
 	"indium/mixins/TextNodeMixin",
+	"indium/lib/_StatefulModel",
 	'dojo/text!indium/tests/example_widget/template.html',
 	"testSuite"
 ], function (
@@ -14,6 +15,7 @@ define([
 	declare,
 	Compiler,
 	TextNodeMixin,
+	StatefulModel,
 	template,
 	testSuite
 ) {
@@ -89,6 +91,19 @@ define([
 			this.instance.compile(node);
 
 			testSuite.equals(nodeToHtml(node), "<div>Apples and 4</div>")
+		},
+
+		"Compiles nodes from models and properties": function () {
+			var node = domConstruct.toDom("<div>{{count}} {{model.product}}</div>");
+
+			this.instance.count = 1;
+			this.instance.model = new StatefulModel({ "product": "Apple" })
+
+			this.instance.compile(node);
+			testSuite.equals(nodeToHtml(node), "<div>1 Apple</div>");
+
+			this.instance.model.set("product", "Pineapple");
+			testSuite.equals(nodeToHtml(node), "<div>1 Pineapple</div>")
 		}
 	});
 });
