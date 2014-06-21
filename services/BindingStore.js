@@ -36,7 +36,7 @@ define([
 
 		/**
 		 * @description Attaches a setter to a binding
-		 * @param name {string} Name of binding to attach too
+		 * @param name {string} Name of the binding this setter belongs too
 		 * @param fn {Function} Setter function
 		 */
 		createSetter: function (name, fn, config) {

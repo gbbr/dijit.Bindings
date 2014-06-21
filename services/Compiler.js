@@ -56,8 +56,7 @@ define([
 		compile: function (rootNode) {
 			this._findBindings(rootNode);
 			this._buildBindings();
-
-			return this._linkBindings.bind(this);
+			this._linkBindings();
 		},
 
 		/**
@@ -98,6 +97,7 @@ define([
 		_buildBindings: function () {
 			var builders = this.registrationService.getBuilders();
 			this._invokeActions(builders);
+			// Clean-up after we are finished
 			this.registrationService.clearCollected();
 		},
 
@@ -105,12 +105,12 @@ define([
 		 * @description Links all bindings to their built setters
 		 * @param scope {Object} The context which holds the values to be linked
 		 */
-		_linkBindings: function (scope) {
-			var invokeFn; scope = scope || this;
+		_linkBindings: function () {
+			var invokeFn;
 
 			this.$bindingStore.query({ type: this.objectType.MODEL }).
 				forEach(function (binding) {
-					invokeFn = this._invokeActions.bind(this, binding.setters, scope);
+					invokeFn = this._invokeActions.bind(this, binding.setters, this);
 					binding.model.observe(binding.key, invokeFn);
 					invokeFn();
 				}, this);
