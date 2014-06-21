@@ -52,9 +52,10 @@ define([
 
 		_detectBindingType: function (objectName) {
 			var parts = objectName.split("."),
-				obj = lang.getObject(parts[0], false, this);
+				obj = lang.getObject(parts[0], false, this),
+				isModel = obj && lang.isFunction(obj.get) && !!parts[1];
 
-			return obj && lang.isFunction(obj.get) && !!parts[1] ? {
+			return isModel ? {
 				type: this.objectType.MODEL,
 				model: obj,
 				key: parts[1]
