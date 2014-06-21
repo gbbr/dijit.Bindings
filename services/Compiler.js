@@ -40,11 +40,11 @@ define([
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins
 		 */
-		registrationService: null,
+		compiler: null,
 
 		constructor: function () {
-			this.registrationService = new RegistrationService();
-			this.own(this.registrationService);
+			this.compiler = new RegistrationService();
+			this.own(this.compiler);
 		},
 
 		/**
@@ -67,7 +67,7 @@ define([
 		 * @param rootNode {HTMLElement} The root node for the traversal
 		 */
 		_findBindings: function (rootNode) {
-			var node, collectors = this.registrationService.getCollectors();
+			var node, collectors = this.compiler.getCollectors();
 
 			if (!document.createTreeWalker) {
 				node = rootNode.childNodes[0];
@@ -96,9 +96,9 @@ define([
 		 * @description Applies all the compiler actions and builds bindings
 		 */
 		_buildBindings: function () {
-			var builders = this.registrationService.getBuilders();
+			var builders = this.compiler.getBuilders();
 			this._invokeActions(builders);
-			this.registrationService.clearCollected();
+			this.compiler.clearCollected();
 		},
 
 		/**
