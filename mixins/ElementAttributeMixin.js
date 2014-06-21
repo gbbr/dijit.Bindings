@@ -61,7 +61,6 @@ define([
 
 				interpolateAttribute.expressions.forEach(function (expression) {
 					var name = this.parseExpression(expression).expression;
-
 					this.createSetter(name, this._setNodeAttribute, {
 						node: data.node,
 						attributeName: data.attributeName,
