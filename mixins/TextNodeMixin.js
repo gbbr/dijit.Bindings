@@ -108,8 +108,7 @@ define([
 		 * object describing specifics set during generation
 		 */
 		_setNodeValue: function (config) {
-			var
-				node = config.node,
+			var node = config.node,
 				interpolateFn = config.interpolateFn;
 
 			node.nodeValue = interpolateFn(this);
