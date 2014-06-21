@@ -44,17 +44,17 @@ define([
 				this.$bindingStore.put(lang.mixin({
 					id: name,
 					setters: []
-				}, this._getLinkingData(name)));
+				}, this._detectBindingType(name)));
 			}
 
 			this.$bindingStore.get(name).setters.push(fn.bind(this, config));
 		},
 
-		_getLinkingData: function (objectName) {
+		_detectBindingType: function (objectName) {
 			var parts = objectName.split("."),
 				obj = lang.getObject(parts[0], false, this);
 
-			return (obj && lang.isFunction(obj.get) && !!parts[1]) ? {
+			return obj && lang.isFunction(obj.get) && !!parts[1] ? {
 				type: this.objectType.MODEL,
 				model: obj,
 				key: parts[1]
