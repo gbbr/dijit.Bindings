@@ -18,15 +18,12 @@ define([
 	testSuite
 ) {
 	var CompilerWithMixin = declare("TestCompiler", [Compiler, TextNodeMixin], {}),
-		testNodes = [
-			["<div></div>", 0],
-			["<div>text and {{bindindings}}</div>", 0],
-			["{{bindings}}", 1],
-			["{{a}} and {{b}}", 1],
-			["{{a}}{{b}}{{c}}", 1],
-			["hi there", 0],
-			["I have no two-ways ${bindings}", 0]
-		];
+		nodeToHtml = function (node) {
+			var wrapper = document.createElement("span");
+			wrapper.appendChild(node);
+
+			return wrapper.innerHTML;
+		};
 
 	testSuite("TextNode Mixin", {
 		beforeEach: function () {
@@ -38,7 +35,15 @@ define([
 		},
 
 		"Does not collect nodes without bindings or of wrong type": function () {
-			var node;
+			var node, testNodes = [
+				["<div></div>", 0],
+				["<div>text and {{bindindings}}</div>", 0],
+				["{{bindings}}", 1],
+				["{{a}} and {{b}}", 1],
+				["{{a}}{{b}}{{c}}", 1],
+				["hi there", 0],
+				["I have no two-ways ${bindings}", 0]
+			];
 
 			testNodes.forEach(function (test) {
 				var store = this.instance.registrationService.getCollectorStore(this.instance.COLLECTOR_TEXT_NODES);
@@ -57,8 +62,33 @@ define([
 				"Unexpected number of nodes collected.")
 		},
 
-		"Correctly breaks text nodes": function () {
+		"Correctly compiles HTML nodes": function () {
+			var node = domConstruct.toDom("<div>{{item}}</div>");
 
+			this.instance.item = 2;
+			this.instance.compile(node);
+
+			testSuite.equals(nodeToHtml(node), "<div>2</div>")
+		},
+
+		"Correctly compiles HTML fragments": function () {
+			var node = domConstruct.toDom("<div>{{item}} and {{quantity}}</div>");
+
+			this.instance.item = "Apples";
+			this.instance.quantity = 4;
+			this.instance.compile(node);
+
+			testSuite.equals(nodeToHtml(node), "<div>Apples and 4</div>")
+		},
+
+		"Compiles multiple elements": function () {
+			var node = domConstruct.toDom("<div>{{item}} and {{quantity}}</div>");
+
+			this.instance.item = "Apples";
+			this.instance.quantity = 4;
+			this.instance.compile(node);
+
+			testSuite.equals(nodeToHtml(node), "<div>Apples and 4</div>")
 		}
 	});
 });
