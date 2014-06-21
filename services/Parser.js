@@ -36,7 +36,7 @@ define([
 		 */
 		interpolateString: function (str) {
 			var parts, pattern = this.EXPRESSIONS_ALL,
-				getValue = this._getObjectByName.bind(this);
+				getInfo = this._getObjectInformation.bind(this);
 
 			if (!this._bindingCount(str)) {
 				throw new Error("Interpolate received a string without expressions: " + str);
@@ -46,10 +46,10 @@ define([
 
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
-					var value = getValue(binding, context);
-					if (typeof value !== "undefined") {
+					var obj = getInfo(binding, context);
+					if (obj && (typeof obj.value !== "undefined")) {
 						return lang.isFunction(context[formatFn]) ?
-							context[formatFn](value) : value;
+							context[formatFn](obj.value) : obj.value;
 					} else {
 						return match;
 					}
@@ -71,15 +71,28 @@ define([
 		 * @param context {Object} Context to search for the object in
 		 * @returns {*} Value of the object or undefined
 		 */
-		_getObjectByName: function (name, context) {
+		_getObjectInformation: function (name, context) {
 			var parts = name.split("."),
-				obj = lang.getObject(parts[0], false, context);
+				obj = lang.getObject(parts[0], false, context),
+				objInfo;
 
-			if (obj && lang.isFunction(obj.get) && parts[1]) {
-				return obj.get(parts[1]);
-			} else {
-				return lang.getObject(name, false, context);
+			if (obj) {
+				if (lang.isFunction(obj.get) && !!parts[1]) {
+					objInfo = {
+						type: this.objectType.MODEL,
+						model: obj,
+						key: parts[1],
+						value: obj.get(parts[1])
+					};
+				} else {
+					objInfo = {
+						type: this.objectType.PROPERTY,
+						value: obj
+					}
+				}
 			}
+
+			return objInfo;
 		},
 
 		/**
