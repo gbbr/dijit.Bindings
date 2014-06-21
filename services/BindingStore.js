@@ -35,7 +35,7 @@ define([
 		},
 
 		/**
-		 * @description Attaches a setter to a binding
+		 * @description Creates a setter and binds a configuration to it
 		 * @param name {string} Name of the binding this setter belongs too
 		 * @param fn {Function} Setter function
 		 */
@@ -50,6 +50,10 @@ define([
 			this.$bindingStore.get(name).setters.push(fn.bind(this, config));
 		},
 
+		/**
+		 * @description Links all items in binding store to corresponding models
+		 * and/or properties
+		 */
 		linkBindingStore: function () {
 			this.$bindingStore.query().forEach(function (binding) {
 				var parts = binding.id.split("."),
@@ -73,7 +77,7 @@ define([
 
 		/**
 		 * @description Renders an instance property to the template
-		 * @param name {=string} Property name (as per $bindingStore)
+		 * @param {=string} name Property ID
 		 */
 		renderProperty: function (name) {
 			if (name !== "*") {

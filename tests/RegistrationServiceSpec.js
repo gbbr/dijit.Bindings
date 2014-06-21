@@ -86,32 +86,6 @@ define([
 				"Store not emptied");
 			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length,
 				"Store not emptied");
-		},
-
-		"xSetters: Correctly retrieves and executes added setters": function () {
-			var spy1 = sinon.spy(),
-				spy2 = this.spy(),
-				spy3 = this.spy(),
-				testSetters = [
-					[spy1, "TYPE_A"],
-					[spy2, "TYPE_B"],
-					[spy3, "TYPE_C"]
-				];
-
-			testSetters.forEach(function (test) {
-				this.instance.addSetter(test[1], test[0]);
-			}, this);
-
-			this.instance.getSetter(testSetters[0][1], "test payload")(1);
-			this.instance.getSetter(testSetters[1][1], 5)({ a: 2, b: 3 });
-			this.instance.getSetter(testSetters[2][1], { obj: "ect", a: 2 })("lorem ipsum");
-
-			testSuite.equals(["test payload", 1], spy1.getCalls()[0].args[0],
-				"Arguments did not match");
-			testSuite.equals([5, { a: 2, b: 3 }], spy2.getCalls()[0].args[0],
-				"Arguments did not match");
-			testSuite.equals([{ obj: "ect", a: 2 }, "lorem ipsum"], spy3.getCalls()[0].args[0],
-				"Arguments did not match");
 		}
 	});
 });
