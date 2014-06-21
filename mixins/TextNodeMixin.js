@@ -95,14 +95,13 @@ define([
 		 * @param node {HTMLElement} The node where the expression should be evaluated
 		 */
 		_registerTextNodeSetter: function (expression, node) {
-			var parsedExpr = this.parseExpression(expression),
-				interpolateFn = this.interpolateString(expression),
+			var name = this.parseExpression(expression).binding,
 				setterFn = this.registrationService.getSetter(this.SETTER_TEXT_NODES, {
 					"node": node,
-					"interpolateFn": interpolateFn
+					"interpolateFn": this.interpolateString(expression)
 				});
 
-			this.attachSetter(parsedExpr.binding, setterFn);
+			this.attachSetter(name, setterFn);
 		},
 
 		/**
