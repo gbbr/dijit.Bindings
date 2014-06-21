@@ -2,12 +2,14 @@ define([
 	"dojo/_base/declare",
 	"dijit/Destroyable",
 	"indium/services/RegistrationService",
-	"indium/services/Parser"
+	"indium/services/Parser",
+	"indium/services/BindingStore"
 ], function (
 	declare,
 	Destroyable,
 	RegistrationService,
-	Parser
+	Parser,
+	BindingStore
 ) {
 	/**
 	 * @module Compiler
@@ -34,7 +36,7 @@ define([
 	 * the template to pick up.
 	 *
 	 */
-	return declare("Compiler", [Parser, Destroyable], {
+	return declare("Compiler", [BindingStore, Parser, Destroyable], {
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins
 		 */

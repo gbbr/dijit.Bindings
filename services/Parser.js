@@ -1,18 +1,16 @@
 define([
 	"dojo/_base/declare",
-	"dojo/_base/lang",
-	"indium/services/BindingStore"
+	"dojo/_base/lang"
 ], function (
 	declare,
-	lang,
-	BindingStore
+	lang
 ) {
 	/**
 	 * @module Parser
 	 * @description Provides the compiler with string interpolating and expression
 	 * parsing capabilities
 	 */
-	return declare("Parser", [BindingStore], {
+	return declare("Parser", [], {
 		/**
 		 * @description Constants for substitution matching on template
 		 */
@@ -57,11 +55,12 @@ define([
 		},
 
 		/**
-		 * Returns the binding's value according to its type. Results in undefined
-		 * if value is not found
+		 * Returns an object's value by name. If a model is passed,
+		 * the value is read via its get function, otherwise, the object
+		 * is returned from the context or undefined
 		 * @param name {string} name of binding as per $bindingStore
 		 * @param context {Object} Context to search for the object in
-		 * @returns {*} Value of the object
+		 * @returns {*} Value of the object or undefined
 		 */
 		_getObjectByName: function (name, context) {
 			var parts = name.split("."),
