@@ -17,15 +17,6 @@ define([
 		EXPRESSIONS_ALL: /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/g,
 		EXPRESSION_ONCE:  /\{\{([^\s\|\}]+)\|?([^\s\|\}]+)?\}\}/,
 
-
-		/**
-		 * @description Binding types can be models or instance properties
-		 */
-		objectType: {
-			PROPERTY: "property",
-			MODEL: "model"
-		},
-
 		/**
 		 * @description Returns and interpolation function along with separators
 		 * and expressions. The interpolation function takes a context as an argument
@@ -36,7 +27,7 @@ define([
 		 */
 		interpolateString: function (str) {
 			var parts, pattern = this.EXPRESSIONS_ALL,
-				getInfo = this._getObjectInformation.bind(this);
+				getValue = this._getObjectByName.bind(this);
 
 			if (!this._bindingCount(str)) {
 				throw new Error("Interpolate received a string without expressions: " + str);
@@ -46,10 +37,10 @@ define([
 
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
-					var obj = getInfo(binding, context);
-					if (obj && (typeof obj.value !== "undefined")) {
+					var value = getValue(binding, context);
+					if (typeof value !== "undefined") {
 						return lang.isFunction(context[formatFn]) ?
-							context[formatFn](obj.value) : obj.value;
+							context[formatFn](value) : value;
 					} else {
 						return match;
 					}
@@ -71,28 +62,15 @@ define([
 		 * @param context {Object} Context to search for the object in
 		 * @returns {*} Value of the object or undefined
 		 */
-		_getObjectInformation: function (name, context) {
+		_getObjectByName: function (name, context) {
 			var parts = name.split("."),
-				obj = lang.getObject(parts[0], false, context),
-				objInfo;
+				obj = lang.getObject(parts[0], false, context);
 
-			if (obj) {
-				if (lang.isFunction(obj.get) && !!parts[1]) {
-					objInfo = {
-						type: this.objectType.MODEL,
-						model: obj,
-						key: parts[1],
-						value: obj.get(parts[1])
-					};
-				} else {
-					objInfo = {
-						type: this.objectType.PROPERTY,
-						value: obj
-					}
-				}
+			if (obj && lang.isFunction(obj.get) && !!parts[1]) {
+				return obj.get(parts[1])
+			} else {
+				return obj;
 			}
-
-			return objInfo;
 		},
 
 		/**

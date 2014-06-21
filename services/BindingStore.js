@@ -16,6 +16,14 @@ define([
 	 */
 	return declare("BindingStore", [Destroyable], {
 		/**
+		 * @description Binding types can be models or instance properties
+		 */
+		objectType: {
+			PROPERTY: "property",
+			MODEL: "model"
+		},
+
+		/**
 		 * @description Stores substitution data and linking functions
 		 * @type {dojo.store.Memory}
 		 */
@@ -36,13 +44,30 @@ define([
 				this.$bindingStore.put(lang.mixin({
 					id: name,
 					setters: []
-				}, this._getObjectInformation(name, this)));
+				}, this._attachObjectData(name)));
 			}
 
 			this.$bindingStore.get(name).
 				setters.push(function (scope) {
 					fn.call(this, arguments);
 				}.bind(this, config));
+		},
+
+		_attachObjectData: function (objectName) {
+			var parts = objectName.split("."),
+				obj = lang.getObject(parts[0], false, this);
+
+			if (obj && lang.isFunction(obj.get) && !!parts[1]) {
+				return {
+					type: this.objectType.MODEL,
+					model: obj,
+					key: parts[1]
+				}
+			} else {
+				return {
+					type: this.objectType.PROPERTY
+				}
+			}
 		}
 	});
 });
