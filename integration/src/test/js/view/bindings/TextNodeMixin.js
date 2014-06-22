@@ -3,11 +3,10 @@ define([
 	"dojo/dom-construct",
 	"dojo/_base/lang",
 	"dojo/_base/declare",
-	"indium/services/Compiler",
-	"indium/mixins/TextNodeMixin",
-	"indium/lib/_StatefulModel",
-	'dojo/text!indium/tests/example_widget/template.html',
-	"testSuite"
+	"indium/view/bindings/Compiler",
+	"indium/view/bindings/mixin/TextNodeMixin",
+	"indium/model/_StatefulModel",
+	"indium/tests/testSuite"
 ], function (
 	doh,
 	domConstruct,
@@ -16,7 +15,6 @@ define([
 	Compiler,
 	TextNodeMixin,
 	StatefulModel,
-	template,
 	testSuite
 ) {
 	var CompilerWithMixin = declare("TestCompiler", [Compiler, TextNodeMixin], {}),
@@ -27,7 +25,7 @@ define([
 			return wrapper.innerHTML;
 		};
 
-	testSuite("TextNode Mixin", {
+	testSuite("indium/view/bindings/mixin/TextNodeMixin", {
 		beforeEach: function () {
 			this.instance = new CompilerWithMixin();
 		},
@@ -55,7 +53,7 @@ define([
 				this.instance._gatherTextNodes(node);
 
 				testSuite.equals(test[1], store.push.callCount,
-					"Gatherer did not push valid nodes on " + test[0]);
+						"Gatherer did not push valid nodes on " + test[0]);
 
 				store.push.restore();
 			}, this);

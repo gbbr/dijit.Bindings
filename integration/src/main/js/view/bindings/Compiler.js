@@ -2,9 +2,9 @@ define([
 	"dojo/_base/declare",
 	"dojo/_base/lang",
 	"dijit/Destroyable",
-	"indium/services/RegistrationService",
-	"indium/services/Parser",
-	"indium/services/BindingStore"
+	"indium/view/bindings/RegistrationService",
+	"indium/view/bindings/Parser",
+	"indium/view/bindings/BindingStore"
 ], function (
 	declare,
 	lang,

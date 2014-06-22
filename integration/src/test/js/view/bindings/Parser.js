@@ -1,9 +1,9 @@
 define([
 	"doh/runner",
 	"dojo/_base/lang",
-	"indium/services/Parser",
-	"indium/lib/_StatefulModel",
-	"testSuite"
+	"indium/view/bindings/Parser",
+	"indium/model/_StatefulModel",
+	"indium/tests/testSuite"
 ], function (
 	doh,
 	lang,
@@ -11,7 +11,7 @@ define([
 	_StatefulModel,
 	testSuite
 ) {
-	testSuite("Parser Service", {
+	testSuite("indium/view/bindings/Parser", {
 		beforeEach: function () {
 			this.instance = new Parser();
 		},

@@ -1,7 +1,7 @@
 define([
 	"doh/runner",
-	"indium/services/RegistrationService",
-	"testSuite"
+	"indium/view/bindings/RegistrationService",
+	"indium/tests/testSuite"
 ], function (
 	doh,
 	RegistrationService,

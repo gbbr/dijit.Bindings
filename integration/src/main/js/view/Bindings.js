@@ -1,8 +1,8 @@
 define([
 	"dojo/_base/declare",
-	"indium/services/Compiler",
-	"indium/mixins/TextNodeMixin",
-	"indium/mixins/ElementAttributeMixin"
+	"indium/view/bindings/Compiler",
+	"indium/view/bindings/mixin/TextNodeMixin",
+	"indium/view/bindings/mixin/ElementAttributeMixin"
 ], function (
 	declare,
 	Compiler,

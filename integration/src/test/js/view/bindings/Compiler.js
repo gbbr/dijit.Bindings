@@ -2,10 +2,10 @@ define([
 	"doh/runner",
 	"dojo/_base/lang",
 	"dojo/dom-construct",
-	"indium/services/Compiler",
-	"indium/lib/_StatefulModel",
-	'dojo/text!indium/tests/templates/template1.html',
-	"testSuite"
+	"indium/view/bindings/Compiler",
+	"indium/model/_StatefulModel",
+	'dojo/text!test/view/bindings/template.html',
+	"indium/tests/testSuite"
 ], function (
 	doh,
 	lang,
@@ -15,7 +15,7 @@ define([
 	template,
 	testSuite
 ) {
-	testSuite("Compiler service", {
+	testSuite("indium/view/bindings/Compiler", {
 		beforeEach: function () {
 			this.instance = new Compiler();
 			this.templateDom = domConstruct.toDom(template);
@@ -98,10 +98,10 @@ define([
 
 		"Identifies models in binding store": function () {
 			var scope = lang.mixin(this.instance, {
-					model: new StatefulModel({
-						"key": "555"
-					})
-				});
+				model: new StatefulModel({
+					"key": "555"
+				})
+			});
 
 			this.instance.createSetter("model.key", this.stub());
 			this.instance.linkBindingStore.bind(scope)();
