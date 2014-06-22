@@ -195,6 +195,24 @@ define([
 			testSuite.isTrue(setterFns[0].calledTwice);
 			testSuite.isTrue(setterFns[1].calledTwice);
 			testSuite.isTrue(setterFns[2].calledOnce);
+		},
+
+		"renderProperty: Does not invoke any actions when an invalid binding name is given": function () {
+			var setterFn = this.stub(),
+				scope = lang.mixin(this.instance, {
+					"bar": 2
+				});
+
+			this.instance.createSetter("bar", setterFn);
+			this.instance.linkBindingStore.bind(scope)();
+
+			this.spy(this.instance, "_invokeActions");
+			setterFn.reset();
+
+			this.instance.renderProperty("foo");
+
+			testSuite.isFalse(this.instance._invokeActions.called);
+			testSuite.isFalse(setterFn.called);
 		}
 	});
 });
