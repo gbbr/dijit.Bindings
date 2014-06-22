@@ -22,6 +22,7 @@ define([
 			testSuite.equals(this.instance._bindingCount("{{person.name|upperCase}} is {{person.age}} years old"), 2);
 			testSuite.equals(this.instance._bindingCount("Hello {{name|upperCase}} !"), 1);
 			testSuite.equals(this.instance._bindingCount("No expressions"), 0);
+			testSuite.equals(this.instance._bindingCount(123), 0);
 		},
 
 		"parseExpression: should return property and formatFn": function () {
@@ -42,6 +43,16 @@ define([
 
 			testSuite.equals(this.instance.parseExpression("Nothing here{{}}"), void 0);
 			testSuite.equals(this.instance.parseExpression(""), void 0);
+		},
+
+		"interpolateString: should throw error when no expressions are found": function () {
+			this.spy(this.instance, "interpolateString");
+
+			try {
+				this.instance.interpolateString("No expressions");
+			} catch (error) {}
+
+			testSuite.notEquals(typeof this.instance.interpolateString.exceptions[0], "undefined");
 		},
 
 		"interpolateString: should return expressions, separators and parts": function () {

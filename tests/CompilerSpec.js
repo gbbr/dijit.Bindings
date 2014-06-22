@@ -26,6 +26,25 @@ define([
 			delete this.templateDom;
 		},
 
+		"Should traverse the same amount of nodes with TreeWalker as without": function () {
+			// This test is valid for IE9+
+			var oldWalker = document.createTreeWalker, callCount1, callCount2;
+
+			this.spy(this.instance, "_invokeActions");
+
+			this.instance.compile(this.templateDom);
+			callCount1 = this.instance._invokeActions.callCount;
+
+			this.instance._invokeActions.reset();
+			document.createTreeWalker = null;
+			this.instance.compile(this.templateDom);
+			callCount2 = this.instance._invokeActions.callCount;
+
+			testSuite.equals(callCount1, callCount2, "Less nodes found via polyfill");
+
+			document.createTreeWalker = oldWalker;
+		},
+
 		"Correctly invokes a list of functions": function () {
 			var spyList = [this.spy(), this.spy(), this.spy()];
 
