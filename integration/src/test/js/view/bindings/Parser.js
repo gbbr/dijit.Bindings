@@ -82,7 +82,7 @@ define([
 			testSuite.equals(interpolateFn.parts, ["With ", "{{client.id}}", " and ", "{{client.title|toUppercase}}", "."]);
 		},
 
-		"Interpolate function: should correctly return expressions in HTML": function () {
+		"interpolateString: should correctly return expressions in HTML": function () {
 			var interpolateFn = this.instance.interpolateString('<div class="{{className}}">{{body}} and {{legs}}.</div>');
 
 			testSuite.equals(interpolateFn.expressions, ["{{className}}", "{{body}}", "{{legs}}"]);
@@ -130,7 +130,6 @@ define([
 		},
 
 		"Interpolate function: should correctly do replacements for various scenarios": function () {
-
 			testSuite.equals(
 				this.instance.interpolateString("Hello {{name}} !")({
 					"name": "John"
@@ -163,7 +162,7 @@ define([
 			);
 		},
 
-		"Interpolate function: interpolates from model passing through getter": function () {
+		"Interpolate function: reads value from model via getter": function () {
 			var model = new _StatefulModel({
 				"key": "1234"
 			});

@@ -16,7 +16,7 @@ define([
 			this.instance.destroy();
 		},
 
-		"Creates a new $bindingStore entry if needed": function () {
+		"createSetter: Adds setter functions to a fresh store": function () {
 			this.instance.createSetter("model.key", this.stub());
 
 			testSuite.equals(this.instance.$bindingStore.query({}).length, 1);
@@ -24,7 +24,7 @@ define([
 			testSuite.equals(this.instance.$bindingStore.get("model.key").setters.length, 1);
 		},
 
-		"Adds setters to an already existing entry": function () {
+		"createSetter: Adds setter functions to already existing store": function () {
 			this.instance.createSetter("model.key", this.stub());
 			this.instance.createSetter("model.key", this.stub());
 
@@ -33,7 +33,7 @@ define([
 			testSuite.equals(this.instance.$bindingStore.get("model.key").setters.length, 2);
 		},
 
-		"Correctly links setters to configuration objects": function () {
+		"createSetter: Binds setter functions in store to attributes": function () {
 			var setterFunction = this.stub();
 
 			this.instance.createSetter("model.key", setterFunction, {
@@ -41,7 +41,8 @@ define([
 				"target": "world"
 			});
 
-			this.instance.$bindingStore.get("model.key").setters[0]();
+			var storedSetter = this.instance.$bindingStore.get("model.key").setters[0];
+			storedSetter();
 
 			testSuite.isTrue(setterFunction.calledWith({
 				"action": "Hello",
