@@ -33,7 +33,7 @@ define([
 			testSuite.equals(this.instance.$bindingStore.get("model.key").setters.length, 2);
 		},
 
-		"createSetter: Binds setter functions in store to attributes": function () {
+		"createSetter: Binds setter functions in store to pre-defined attributes": function () {
 			var setterFunction = this.stub();
 
 			this.instance.createSetter("model.key", setterFunction, {
