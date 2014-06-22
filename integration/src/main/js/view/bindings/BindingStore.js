@@ -14,7 +14,7 @@ define([
 	 * @description Allows the storing of bindings and their
 	 * associated actions
 	 */
-	return declare("BindingStore", [Destroyable], {
+	return declare("indium/view/bindings/BindingStore", [Destroyable], {
 		/**
 		 * @description Binding types can be models or instance properties
 		 */

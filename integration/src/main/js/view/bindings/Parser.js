@@ -10,7 +10,7 @@ define([
 	 * @description Provides the compiler with string interpolating and expression
 	 * parsing capabilities
 	 */
-	return declare("Parser", [], {
+	return declare("indium/view/bindings/Parser", [], {
 		/**
 		 * @description Constants for substitution matching on template
 		 */

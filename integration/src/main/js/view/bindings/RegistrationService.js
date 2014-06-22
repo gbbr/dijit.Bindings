@@ -14,7 +14,7 @@ define([
 	 * @description Provides an interface for mixins to communicate with the compiler.
 	 * It allows adding Collectors, Builders, Setters and subscribing to Collector Stores.
 	 */
-	return declare("RegistrationService", [Destroyable], {
+	return declare("indium/view/bindings/RegistrationService", [Destroyable], {
 
 		_compilers: null,
 		_collectors: null,

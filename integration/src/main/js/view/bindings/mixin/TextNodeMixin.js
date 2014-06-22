@@ -17,7 +17,7 @@ define([
 	 * from their surroundings. Performance is improved when bindings are
 	 * isolated by template (ie. contained within an element)
 	 */
-	return declare("indium/_TextBindingsMixin", [Destroyable], {
+	return declare("indium/view/bindings/mixin/TextNodeMixin", [Destroyable], {
 
 		NODE_TYPE_TEXT: 3,
 		COLLECTOR_TEXT_NODES: "GATHERER_TEXTNODES",
