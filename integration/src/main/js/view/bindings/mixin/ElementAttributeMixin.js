@@ -1,5 +1,5 @@
 define([
-	"../lib/dojo/_base/declare",
+	"dojo/_base/declare",
 	"dijit/Destroyable"
 ], function (
 	declare,
