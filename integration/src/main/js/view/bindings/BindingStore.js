@@ -38,6 +38,7 @@ define([
 		 * @description Creates a setter and binds a configuration to it
 		 * @param name {string} Name of the binding this setter belongs too
 		 * @param fn {Function} Setter function
+		 * @param config {object} Configuration object to bind to setter function
 		 */
 		createSetter: function (name, fn, config) {
 			if (!this.$bindingStore.get(name)) {
