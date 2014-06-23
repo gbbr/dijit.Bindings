@@ -26,8 +26,9 @@ define([
 			delete this.templateDom;
 		},
 
-		"Should traverse the same amount of nodes with TreeWalker as without": function () {
-			// This test is valid for IE9+
+		"TreeWalker polyfill should traverse the same number of nodes (test valid for IE9+)": function () {
+			// This tests the performance of the TreeWalker polyfill which is used
+			// on browsers under IE9. This test is not valid for those browsers.
 			var oldWalker = document.createTreeWalker, callCount1, callCount2;
 
 			this.spy(this.instance, "_invokeActions");
@@ -36,13 +37,14 @@ define([
 			callCount1 = this.instance._invokeActions.callCount;
 
 			this.instance._invokeActions.reset();
-			document.createTreeWalker = null;
+
+			document.createTreeWalker = null; // this will force compile to use polyfill
 			this.instance.compile(this.templateDom);
 			callCount2 = this.instance._invokeActions.callCount;
 
 			testSuite.equals(callCount1, callCount2, "Less nodes found via polyfill");
 
-			document.createTreeWalker = oldWalker;
+			document.createTreeWalker = oldWalker; // restore TreeWalker
 		},
 
 		"Correctly invokes a list of functions": function () {
@@ -159,7 +161,7 @@ define([
 			testSuite.equals(this.instance.$bindingStore.get("client.id").type, this.instance.objectType.PROPERTY);
 		},
 
-		"renderProperty: invokes all setters when '*' is its parameter": function () {
+		"renderProperty: invokes all property setters when '*' is its parameter": function () {
 			var setterFns = [this.stub(), this.stub(), this.stub()],
 				scope = lang.mixin(this.instance, {
 					"prop": 1,
@@ -178,7 +180,7 @@ define([
 			}, this);
 		},
 
-		"renderProperty: invokes appropriate setters when name is given": function () {
+		"renderProperty: invokes correct setters when name is given": function () {
 			var setterFns = [this.stub(), this.stub(), this.stub()],
 				scope = lang.mixin(this.instance, {
 					"prop": 1,
@@ -194,7 +196,25 @@ define([
 
 			testSuite.isTrue(setterFns[0].calledTwice);
 			testSuite.isTrue(setterFns[1].calledTwice);
-			testSuite.isTrue(setterFns[2].calledOnce);
+			testSuite.isTrue(setterFns[2].calledOnce); // only at linking
+		},
+
+		"renderProperty: Does not invoke any actions when inexistent binding name is given": function () {
+			var setterFn = this.stub(),
+				scope = lang.mixin(this.instance, {
+					"bar": 2
+				});
+
+			this.instance.createSetter("bar", setterFn);
+			this.instance.linkBindingStore.bind(scope)();
+
+			this.spy(this.instance, "_invokeActions");
+			setterFn.reset();
+
+			this.instance.renderProperty("foo");
+
+			testSuite.isFalse(this.instance._invokeActions.called);
+			testSuite.isFalse(setterFn.called);
 		}
 	});
 });

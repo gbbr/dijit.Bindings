@@ -7,7 +7,7 @@ define([
 	RegistrationService,
 	testSuite
 ) {
-	testSuite("Registration Service", {
+	testSuite("indium/view/bindings/RegistrationService", {
 		beforeEach: function () {
 			this.instance = new RegistrationService();
 		},
@@ -16,7 +16,7 @@ define([
 			this.instance.destroy();
 		},
 
-		"Adds builders to the service": function () {
+		"addBuilder: adds builders to the service": function () {
 			var builders = [this.stub(), this.stub()];
 
 			this.instance.addBuilder(builders[0]);
@@ -26,7 +26,7 @@ define([
 			testSuite.equals(2, this.instance.getBuilders().length);
 		},
 
-		"Stores added collectors": function () {
+		"addCollector: adds collectors to the service": function () {
 			var collectors = [this.stub(), this.stub(), this.stub()];
 
 			this.instance.addCollector(collectors[0]);
@@ -37,41 +37,37 @@ define([
 			testSuite.equals(3, this.instance.getCollectors().length);
 		},
 
-
-
-		"Collectors: Returns empty store when one is not available": function () {
-			testSuite.equals({}, this.instance.getCollectorStore("TEST_STORE1"), "Did not return empty store");
+		"getCollectorStore: returns new empty store when one is not available": function () {
+			testSuite.equals({}, this.instance.getCollectorStore("test1"), "Did not return empty store");
 		},
 
-		"Collectors: Returns correct collector store when requested": function () {
-			var store1 = this.instance.getCollectorStore("TEST_STORE2"),
-				store2 = this.instance.getCollectorStore("TEST_STORE3");
+		"getCollectorStore: returns already existing collector store": function () {
+			var store1 = this.instance.getCollectorStore("test1"),
+				store2 = this.instance.getCollectorStore("test2");
 
-			store1.push(1, "A", { a: 2, b: "C" });
-			store2.push(2, "B", { b: 3, c: "D" }, { asd: 3, qwe: "D" });
+			store1.push(1, "Martin", { credit: 200, lastName: "Adams" });
+			store2.push(2, "John", { credit: 100 }, { siblings: 4, connections: 439 });
 
-			testSuite.equals(3, this.instance.getCollectorStore("TEST_STORE2").length);
-			testSuite.equals(1, this.instance.getCollectorStore("TEST_STORE2")[0]);
-			testSuite.equals("A", this.instance.getCollectorStore("TEST_STORE2")[1]);
-			testSuite.equals("C", this.instance.getCollectorStore("TEST_STORE2")[2].b);
+			testSuite.equals(this.instance.getCollectorStore("test1"), [
+				1, "Martin", { credit: 200, lastName: "Adams" }
+			]);
 
-			testSuite.equals(4, this.instance.getCollectorStore("TEST_STORE3").length);
-			testSuite.equals(2, this.instance.getCollectorStore("TEST_STORE3")[0]);
-			testSuite.equals("B", this.instance.getCollectorStore("TEST_STORE3")[1]);
-			testSuite.equals("D", this.instance.getCollectorStore("TEST_STORE3")[2].c);
+			testSuite.equals(this.instance.getCollectorStore("test2"), [
+				2, "John", { credit: 100 }, { siblings: 4, connections: 439 }
+			]);
 		},
 
-		"Should clear collector store when asked to": function () {
-			var store1 = this.instance.getCollectorStore("TEST_STORE2"),
-				store2 = this.instance.getCollectorStore("TEST_STORE3");
+		"clearCollected: should clear all collector stores": function () {
+			var store1 = this.instance.getCollectorStore("test1"),
+				store2 = this.instance.getCollectorStore("test12");
 
-			store1.push("A", "B", "C");
+			store1.push("A", "B", "C", "D");
 			store2.push({ "data": "A" }, { "data": "B" }, { "data": "C" });
 
 			this.instance.clearCollected();
 
-			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE2").length);
-			testSuite.equals(0, this.instance.getCollectorStore("TEST_STORE3").length);
+			testSuite.equals(0, this.instance.getCollectorStore("test1").length);
+			testSuite.equals(0, this.instance.getCollectorStore("test12").length);
 		}
 	});
 });

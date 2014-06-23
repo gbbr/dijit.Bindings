@@ -16,7 +16,7 @@ define([
 			this.instance = new Parser();
 		},
 
-		"bindingCount: Correctly counts number of bindings": function () {
+		"bindingCount: Correctly counts number of expressions in string": function () {
 			testSuite.equals(this.instance._bindingCount("{{name}}"), 1);
 			testSuite.equals(this.instance._bindingCount("{{name}}{{age}}"), 2);
 			testSuite.equals(this.instance._bindingCount("{{person.name|upperCase}} is {{person.age}} years old"), 2);
@@ -25,7 +25,7 @@ define([
 			testSuite.equals(this.instance._bindingCount(123), 0);
 		},
 
-		"parseExpression: should return property and formatFn": function () {
+		"parseExpression: should return property and formatFn from expression": function () {
 			testSuite.equals(this.instance.parseExpression("{{name|toUppercase}}"), {
 				expression: "name",
 				formatFn: "toUppercase"
@@ -82,72 +82,102 @@ define([
 			testSuite.equals(interpolateFn.parts, ["With ", "{{client.id}}", " and ", "{{client.title|toUppercase}}", "."]);
 		},
 
-		"Interpolate function: should not fail with HTML": function () {
+		"interpolateString: should correctly return expressions in HTML": function () {
 			var interpolateFn = this.instance.interpolateString('<div class="{{className}}">{{body}} and {{legs}}.</div>');
 
 			testSuite.equals(interpolateFn.expressions, ["{{className}}", "{{body}}", "{{legs}}"]);
 			testSuite.equals(interpolateFn.separators, ['<div class="', '">', ' and ', '.</div>']);
 			testSuite.equals(interpolateFn.parts, ['<div class="', "{{className}}", '">', "{{body}}", " and ", "{{legs}}", '.</div>']);
+		},
+
+		"Interpolate function: should correctly replace values in strings": function () {
+			var interpolateFn = this.instance.interpolateString('<div class="{{className}}">{{body}} and {{legs}}.</div>');
 
 			testSuite.equals(interpolateFn({
 				"className": "blue",
 				"body": "Cow",
-				"legs": "chickeN"
-			}), '<div class="blue">Cow and chickeN.</div>');
+				"legs": "chicken"
+			}), '<div class="blue">Cow and chicken.</div>');
 		},
 
-		"Interpolate function: Should correctly interpolate against given context": function () {
-			var toUppercase = function (str) {
+		"Interpolate function: should correctly use format functions in context": function () {
+			var interpolateFn = this.instance.interpolateString('<div class="{{className}}">{{body}} and {{legs|toUppercase}}.</div>');
+
+			testSuite.equals(interpolateFn({
+				"className": "blue",
+				"body": "Cow",
+				"legs": "chickeN",
+				"toUppercase": function (str) {
 					return str.toUpperCase();
-				},
+				}
+			}), '<div class="blue">Cow and CHICKEN.</div>');
+		},
 
-				testCases = [
-					// Test:
-					["Hello {{name}} !", { name: "John" },
-						// Expected result:
-						"Hello John !"],
+		"Interpolate function: should ignore inexisting bindings": function () {
+			var interpolateFn = this.instance.interpolateString("{{name}} has {{object}}.")
 
-					// Test:
-					["Today is {{day|uppercase}}", { day: "FriDay", uppercase: toUppercase },
-						// Expected result:
-						"Today is FRIDAY"],
+			testSuite.equals(interpolateFn({
+				"name": "Osama"
+			}), "Osama has {{object}}.")
+		},
 
-					// Test:
-					["{{day|timesTwo}}nd of {{month}}", { day: 11, month: "July", timesTwo: function(x) {return x*2} },
-						// Expected result:
-						"22nd of July"],
+		"Interpolate function: should overlook missing format functions": function () {
+			var interpolateFn = this.instance.interpolateString("My name is {{name|capitalize}}");
 
-					// Test:
-					["{{value|inexistingFn}}tastic", { value: "fan" },
-						// Expected result:
-						"fantastic"],
+			testSuite.equals(interpolateFn({
+				"name": "erik"
+			}), "My name is erik");
+		},
 
-					// Test:
-					["{{foo}} {{bar|toUppercase}}", { bar: "boo" },
-						// Expected result:
-						"{{foo}} boo"],
+		"Interpolate function: should correctly do replacements for various scenarios": function () {
+			testSuite.equals(
+				this.instance.interpolateString("Hello {{name}} !")({
+					"name": "John"
+				}),
+				// Result:
+				"Hello John !"
+			);
 
-					// Test:
-					["{{foo|toUppercase}}{{bar}}", { foo: "loo", toUppercase: toUppercase },
-						// Expected result:
-						"LOO{{bar}}"],
+			testSuite.equals(
+				this.instance.interpolateString("Today is {{day|uppercase}}")({
+					"day": "Friday",
+					"uppercase": function (str) {
+						return str.toUpperCase();
+					}
+				}),
 
-					// Test:
-					["Error {{item|forgotToReturn}}", { item: "you forgot to return", forgotToReturn: function (val) {} },
-						// Expected result:
-						"Error undefined"],
+				"Today is FRIDAY"
+			);
 
-					// Test:
-					["Hello {{myModel.key}}", { myModel: new _StatefulModel({ "key": "world" }) },
-						// Expected result:
-						"Hello world"]
-				];
+			testSuite.equals(
+				this.instance.interpolateString("{{day|timesTwo}}nd of {{month}}")({
+					"day": 11,
+					"month": "July",
+					"timesTwo": function (val) {
+						return val * 2;
+					}
+				}),
 
+				"22nd of July"
+			);
+		},
 
-			testCases.forEach(function (test) {
-				testSuite.equals(test[2], this.instance.interpolateString(test[0])(test[1]),
-						"Did not interpolate correctly at " + test[0]);
-			}, this);
+		"Interpolate function: reads value from model via getter": function () {
+			var model = new _StatefulModel({
+				"key": "1234"
+			});
+
+			this.spy(model, "get");
+
+			testSuite.equals(
+				this.instance.interpolateString("My password is {{model.key}} !")({
+					"model": model
+				}),
+
+				"My password is 1234 !"
+			);
+
+			testSuite.isTrue(model.get.calledWith("key"));
 		}
 	});
 });

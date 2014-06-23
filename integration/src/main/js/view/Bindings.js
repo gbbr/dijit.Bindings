@@ -9,7 +9,7 @@ define([
 	TextNodeMixin,
 	ElementAttributeMixin
 ) {
-	return declare("indium/_IndiumView", [Compiler, TextNodeMixin, ElementAttributeMixin], {
+	return declare("indium/view/Bindings", [Compiler, TextNodeMixin, ElementAttributeMixin], {
 		/**
 		 * @description Dijit life-cycle method. Creates a DOM node but
 		 * does not insert it into the page.

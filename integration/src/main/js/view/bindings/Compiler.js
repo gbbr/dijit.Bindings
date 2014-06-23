@@ -38,7 +38,7 @@ define([
 	 * the template to pick up.
 	 *
 	 */
-	return declare("Compiler", [Parser, BindingStore, Destroyable], {
+	return declare("indium/view/bindings/Compiler", [Parser, BindingStore, Destroyable], {
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins
 		 */
@@ -108,20 +108,10 @@ define([
 		 * and/or properties
 		 */
 		linkBindingStore: function () {
-			this.$bindingStore.query().forEach(function (binding) {
-				var parts = binding.id.split("."),
-					obj = lang.getObject(parts[0], false, this),
-					isModel = obj && lang.isFunction(obj.get) && !!parts[1],
-					invokeFn;
-
-				if (isModel) {
-					binding.type = this.objectType.MODEL;
-					invokeFn = this._invokeActions.bind(this, binding.setters);
-					obj.observe(parts[1], invokeFn);
-					invokeFn();
-				} else {
-					binding.type = this.objectType.PROPERTY;
-				}
+			this.$bindingStore.query({ type: this.objectType.MODEL }).forEach(function (binding) {
+				var invokeFn = this._invokeActions.bind(this, binding.setters);
+				binding.model.observe(binding.key, invokeFn);
+				invokeFn();
 			}, this);
 
 			this.renderProperty("*");
