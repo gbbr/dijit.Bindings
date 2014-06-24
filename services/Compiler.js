@@ -58,7 +58,8 @@ define([
 		compile: function (rootNode) {
 			this._findBindings(rootNode);
 			this._buildBindings();
-			this.linkBindingStore();
+
+			return this.linkBindingStore.bind(this);
 		},
 
 		/**
@@ -105,10 +106,11 @@ define([
 		/**
 		 * @description Links all items in binding store to corresponding models
 		 * and/or properties and renders them to the view
+		 * @param {object} scope The scope to link against
 		 */
-		linkBindingStore: function () {
+		linkBindingStore: function (scope) {
 			this.$bindingStore.query({ type: this.objectType.MODEL }).forEach(function (binding) {
-				var invokeFn = this._invokeActions.bind(this, binding.setters);
+				var invokeFn = this._invokeActions.bind(this, binding.setters, scope);
 				binding.model.observe(binding.key, invokeFn);
 				invokeFn();
 			}, this);
@@ -121,17 +123,18 @@ define([
 		 * @description Renders an instance property to the template. If no argument
 		 * is given it renders all properties
 		 * @param {=string} name Property ID
+		 * @param {=object} scope The scope to get the value from
 		 */
-		renderProperty: function (name) {
+		renderProperty: function (name, scope) {
 			if (name !== "*") {
 				var prop = this.$bindingStore.get(name);
 				if (prop && prop.setters) {
-					this._invokeActions(prop.setters);
+					this._invokeActions(prop.setters, scope || this);
 				}
 			} else {
 				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
 					forEach(function (binding) {
-						this._invokeActions(binding.setters);
+						this._invokeActions(binding.setters, scope || this);
 					}, this);
 			}
 		},

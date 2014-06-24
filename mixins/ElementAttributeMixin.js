@@ -74,8 +74,8 @@ define([
 		 * @param args {Array<mixed>} Contains two items: evaluation scope
 		 * and details added during the compiling stage (above)
 		 */
-		_setNodeAttribute: function(config) {
-			config.node.setAttribute(config.attributeName, config.interpolationFn(this));
+		_setNodeAttribute: function(config, scope) {
+			config.node.setAttribute(config.attributeName, config.interpolationFn(scope));
 		}
 	});
 });
