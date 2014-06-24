@@ -60,7 +60,7 @@ define([
 				this.createSetter(collection, this._repeaterSetter, {
 					startNode: startNode,
 					endNode: endNode,
-					clonedNode: item.node.cloneNode(true),
+					nodeTemplate: this._nodeToHtml(item.node.cloneNode(true)),
 					collection: collection,
 					key: key,
 					value: value
@@ -78,8 +78,7 @@ define([
 			}
 
 			indiumLang.forEach(collection, function (value, key) {
-				var item = config.clonedNode.cloneNode(true),
-					itemHtml = this._nodeToHtml(item),
+				var itemHtml = config.nodeTemplate,
 					interpolationScope = {}, interpolatedNode;
 
 				interpolationScope[config.key] = key;
