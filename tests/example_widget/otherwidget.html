@@ -17,4 +17,10 @@
 			<b>{{company}}</b> is in the {{industry}} industry.
 		</li>
 	</ul>
+
+	<ul>
+		<li indium-repeat="(id, name) in model.employees">
+			{{name}} has ID: {{id}}
+		</li>
+	</ul>
 </div>

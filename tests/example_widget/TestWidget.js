@@ -81,7 +81,12 @@ define([
 			constructor: function () {
 				this.model = new model2({
 					name: "Matt",
-					job: "Marketing"
+					job: "Marketing",
+					employees: {
+						"12": "Adam Fox",
+						"14": "James Derry",
+						"16": "Jonathan Davis"
+					}
 				});
 			},
 

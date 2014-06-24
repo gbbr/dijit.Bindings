@@ -72,7 +72,7 @@ define([
 		},
 
 		_repeaterSetter: function (config) {
-			var collection = lang.getObject(config.collection, false, this);
+			var collection = this._getObjectByName(config.collection, this);
 
 			if (!lang.isObject(collection)) {
 				throw new Error(config.collection + " is not an object");
