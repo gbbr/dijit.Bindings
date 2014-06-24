@@ -29,10 +29,6 @@ define([
 			var parts, pattern = this.EXPRESSIONS_ALL,
 				getValue = this._getObjectByName.bind(this);
 
-			if (!this._bindingCount(str)) {
-				throw new Error("Interpolate received a string without expressions: " + str);
-			}
-
 			parts = this._getStringParts(str);
 
 			var interpolationFn = function (context) {

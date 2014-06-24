@@ -69,6 +69,15 @@ define([
 			className: "green",
 			model: null,
 
+			names: ["James", "Mary", "Michael"],
+
+			companies: {
+				"Thomson": "Financial",
+				"Territory": "Digital Agency",
+				"Reebok": "Gym",
+				"San Pelegrino": "Water"
+			},
+
 			constructor: function () {
 				this.model = new model2({
 					name: "Matt",
@@ -82,7 +91,6 @@ define([
 
 			postCreate: function () {
 				this.inherited(arguments);
-				console.log('hi this is my store: ');
 				//console.log(this.registrationService.$bindingStore);
 			}
 		})
