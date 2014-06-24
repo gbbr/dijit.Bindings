@@ -14,14 +14,14 @@ define([
 	 * @description Provides an interface for mixins to communicate with the compiler.
 	 * It allows adding Collectors, Builders, Setters and subscribing to Collector Stores.
 	 */
-	return declare("RegistrationService", [Destroyable], {
+	return declare("indium/view/bindings/RegistrationService", [Destroyable], {
 
-		_compilers: null,
+		_builders: null,
 		_collectors: null,
 		_collectorStore: null,
 
 		constructor: function () {
-			this._compilers = [];
+			this._builders = [];
 			this._collectors = [];
 			this._collectorStore = [];
 		},
@@ -31,7 +31,7 @@ define([
 		 * @param fn {Function} The compiler function to run
 		 */
 		addBuilder: function (fn) {
-			this._compilers.push(fn);
+			this._builders.push(fn);
 		},
 
 		/**
@@ -39,7 +39,7 @@ define([
 		 * @returns {Array}
 		 */
 		getBuilders: function () {
-			return this._compilers;
+			return this._builders;
 		},
 
 		/**

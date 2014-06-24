@@ -38,7 +38,7 @@ define([
 	 * the template to pick up.
 	 *
 	 */
-	return declare("Compiler", [Parser, BindingStore, Destroyable], {
+	return declare("indium/view/bindings/Compiler", [Parser, BindingStore, Destroyable], {
 		/**
 		 * @description Acts as a gateway between Compiler and Mixins
 		 */
@@ -50,8 +50,8 @@ define([
 		},
 
 		/**
-		 * @description Traverses DOM and gathers binding information, builds setter
-		 * functions and returns a linking function that allows binding to a scope
+		 * @description Traverses DOM and gathers binding information, builds binding
+		 * store and links it to your widget's instance
 		 * @param rootNode {HTMLElement} The root node of the tree to be compiled
 		 * @return {Function} Returns the linking function for ease of access
 		 */
@@ -62,8 +62,7 @@ define([
 		},
 
 		/**
-		 * @descriptions Traverses the DOM and applies collector functions to each
-		 * valid node
+		 * @descriptions Traverses the DOM and applies collector functions to each node
 		 * @param actions {Array<Function>} Array of functions, gets node as parameter
 		 * @param rootNode {HTMLElement} The root node for the traversal
 		 */
@@ -94,7 +93,7 @@ define([
 		},
 
 		/**
-		 * @description Applies all the compiler actions and builds bindings
+		 * @description Applies all the builders and clears collector store
 		 */
 		_buildBindings: function () {
 			var builders = this.registrationService.getBuilders();
@@ -105,7 +104,7 @@ define([
 
 		/**
 		 * @description Links all items in binding store to corresponding models
-		 * and/or properties
+		 * and/or properties and renders them to the view
 		 */
 		linkBindingStore: function () {
 			this.$bindingStore.query({ type: this.objectType.MODEL }).forEach(function (binding) {
@@ -119,7 +118,8 @@ define([
 
 
 		/**
-		 * @description Renders an instance property to the template
+		 * @description Renders an instance property to the template. If no argument
+		 * is given it renders all properties
 		 * @param {=string} name Property ID
 		 */
 		renderProperty: function (name) {

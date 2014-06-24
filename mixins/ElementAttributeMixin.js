@@ -12,8 +12,7 @@ define([
 	 * attribute's value to not modify that value by other means than the
 	 * compiler.
 	 */
-	return declare("indium/_AttributeBindingsMixin", [Destroyable], {
-
+	return declare("indium/view/bindings/mixins/ElementAttributeMixin", [Destroyable], {
 		/**
 		 * @description Attribute mixin identifiers
 		 */

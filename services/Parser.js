@@ -10,7 +10,7 @@ define([
 	 * @description Provides the compiler with string interpolating and expression
 	 * parsing capabilities
 	 */
-	return declare("Parser", [], {
+	return declare("indium/view/bindings/Parser", [], {
 		/**
 		 * @description Constants for substitution matching on template
 		 */
@@ -64,12 +64,15 @@ define([
 		 */
 		_getObjectByName: function (name, context) {
 			var parts = name.split("."),
-				obj = lang.getObject(parts[0], false, context);
+				obj = lang.getObject(parts.shift(), false, context),
+				key = parts.shift(),
+				trailing = parts.join(".");
 
-			if (obj && lang.isFunction(obj.get) && !!parts[1]) {
-				return obj.get(parts[1])
+			if (obj && lang.isFunction(obj.get) && !!key) {
+				return !!trailing ?
+					lang.getObject(trailing, false, obj.get(key)) : obj.get(key);
 			} else {
-				return obj;
+				return lang.getObject(name, false, context);
 			}
 		},
 
@@ -140,4 +143,5 @@ define([
 			return matches ? matches.length : 0;
 		}
 	});
+
 });
