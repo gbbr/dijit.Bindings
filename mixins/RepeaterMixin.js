@@ -63,7 +63,8 @@ define([
 					nodeTemplate: this._nodeToHtml(item.node.cloneNode(true)),
 					collection: collection,
 					key: key,
-					value: value
+					value: value,
+					nodeStore: []
 				});
 
 				item.node.parentNode.removeChild(item.node);
@@ -77,16 +78,25 @@ define([
 				throw new Error(config.collection + " is not an object");
 			}
 
+			config.nodeStore.forEach(function (node) {
+				node.parentNode.removeChild(node);
+			});
+			config.nodeStore = [];
+
 			indiumLang.forEach(collection, function (value, key) {
 				var itemHtml = config.nodeTemplate,
-					interpolationScope = {}, interpolatedNode;
+					interpolationScope = {}, interpolatedNode,
+					iterationNode;
 
 				interpolationScope[config.key] = key;
 				interpolationScope[config.value] = value;
 				// index, first, last
 
 				interpolatedNode = this.interpolateString(itemHtml)(lang.delegate(this, interpolationScope));
-				config.endNode.parentNode.insertBefore(domConstruct.toDom(interpolatedNode), config.endNode);
+				iterationNode = domConstruct.toDom(interpolatedNode);
+				config.nodeStore.push(iterationNode);
+
+				config.endNode.parentNode.insertBefore(iterationNode, config.endNode);
 			}, this);
 		},
 
