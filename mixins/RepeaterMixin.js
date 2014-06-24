@@ -83,7 +83,7 @@ define([
 				interpolationScope[config.key] = key;
 				interpolationScope[config.value] = value;
 
-				interpolatedNode = this.interpolateString(itemHtml)(interpolationScope);
+				interpolatedNode = this.interpolateString(itemHtml)(lang.mixin(this, interpolationScope));
 				config.endNode.parentNode.insertBefore(domConstruct.toDom(interpolatedNode), config.endNode);
 			}, this);
 		},
