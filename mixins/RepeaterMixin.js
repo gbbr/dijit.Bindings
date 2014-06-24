@@ -71,7 +71,7 @@ define([
 		},
 
 		_repeaterSetter: function (config) {
-			var collection = this[config.collection];
+			var collection = lang.getObject(config.collection, false, this);
 
 			if (!lang.isObject(collection)) {
 				throw new Error(config.collection + " is not an object");
@@ -83,6 +83,7 @@ define([
 
 				interpolationScope[config.key] = key;
 				interpolationScope[config.value] = value;
+				// index, first, last
 
 				interpolatedNode = this.interpolateString(itemHtml)(lang.delegate(this, interpolationScope));
 				config.endNode.parentNode.insertBefore(domConstruct.toDom(interpolatedNode), config.endNode);
