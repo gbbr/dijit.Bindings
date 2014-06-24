@@ -19,7 +19,7 @@ define([
 		 */
 		buildRendering: function () {
 			this.inherited(arguments);
-			this.compile(this.domNode)(this);
+			this.compile(this.domNode);
 		}
 	});
 });

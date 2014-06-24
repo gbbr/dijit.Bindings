@@ -58,8 +58,7 @@ define([
 		compile: function (rootNode) {
 			this._findBindings(rootNode);
 			this._buildBindings();
-
-			return this.linkBindingStore.bind(this);
+			this.linkBindingStore();
 		},
 
 		/**
@@ -108,9 +107,9 @@ define([
 		 * and/or properties and renders them to the view
 		 * @param {object} scope The scope to link against
 		 */
-		linkBindingStore: function (scope) {
+		linkBindingStore: function () {
 			this.$bindingStore.query({ type: this.objectType.MODEL }).forEach(function (binding) {
-				var invokeFn = this._invokeActions.bind(this, binding.setters, scope);
+				var invokeFn = this._invokeActions.bind(this, binding.setters);
 				binding.model.observe(binding.key, invokeFn);
 				invokeFn();
 			}, this);
@@ -125,16 +124,16 @@ define([
 		 * @param {=string} name Property ID
 		 * @param {=object} scope The scope to get the value from
 		 */
-		renderProperty: function (name, scope) {
+		renderProperty: function (name) {
 			if (name !== "*") {
 				var prop = this.$bindingStore.get(name);
 				if (prop && prop.setters) {
-					this._invokeActions(prop.setters, scope || this);
+					this._invokeActions(prop.setters);
 				}
 			} else {
 				this.$bindingStore.query({ type: this.objectType.PROPERTY }).
 					forEach(function (binding) {
-						this._invokeActions(binding.setters, scope || this);
+						this._invokeActions(binding.setters);
 					}, this);
 			}
 		},

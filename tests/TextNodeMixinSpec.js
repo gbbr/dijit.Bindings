@@ -68,7 +68,7 @@ define([
 			var node = domConstruct.toDom("<div>{{item}}</div>");
 
 			this.instance.item = 2;
-			this.instance.compile(node)(this.instance);
+			this.instance.compile(node);
 
 			testSuite.equals(nodeToHtml(node), "<div>2</div>")
 		},
@@ -78,7 +78,7 @@ define([
 
 			this.instance.item = "Apples";
 			this.instance.quantity = 4;
-			this.instance.compile(node)(this.instance);
+			this.instance.compile(node);
 
 			testSuite.equals(nodeToHtml(node), "<div>Apples and 4</div>")
 		},
@@ -88,7 +88,7 @@ define([
 
 			this.instance.item = "Apples";
 			this.instance.quantity = 4;
-			this.instance.compile(node)(this.instance);
+			this.instance.compile(node);
 
 			testSuite.equals(nodeToHtml(node), "<div>Apples and 4</div>")
 		},
@@ -99,7 +99,7 @@ define([
 			this.instance.count = 1;
 			this.instance.model = new StatefulModel({ "product": "Apple" })
 
-			this.instance.compile(node)(this.instance);
+			this.instance.compile(node);
 			testSuite.equals(nodeToHtml(node), "<div>1 Apple</div>");
 
 			this.instance.model.set("product", "Pineapple");
