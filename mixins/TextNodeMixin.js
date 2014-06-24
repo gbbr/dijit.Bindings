@@ -107,8 +107,8 @@ define([
 		 * new value to be set on the text node and a configuration
 		 * object describing specifics set during generation
 		 */
-		_setNodeValue: function (config) {
-			config.node.nodeValue = config.interpolateFn(this);
+		_setNodeValue: function (config, scope) {
+			config.node.nodeValue = config.interpolateFn(scope);
 		}
 	});
 });
