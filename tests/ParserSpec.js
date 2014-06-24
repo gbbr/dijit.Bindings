@@ -45,7 +45,7 @@ define([
 			testSuite.equals(this.instance.parseExpression(""), void 0);
 		},
 
-		"interpolateString: should throw error when no expressions are found": function () {
+		"xinterpolateString: should throw error when no expressions are found": function () {
 			this.spy(this.instance, "interpolateString");
 
 			try {
