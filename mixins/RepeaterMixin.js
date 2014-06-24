@@ -55,6 +55,8 @@ define([
 				endNode = document.createComment("indium-repeater-end:" + expression);
 				this._insertAfterNode(endNode, item.node);
 
+				item.node.removeAttribute(item.attributeName);
+
 				this.createSetter(collection, this._repeaterSetter, {
 					startNode: startNode,
 					endNode: endNode,

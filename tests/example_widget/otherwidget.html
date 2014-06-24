@@ -12,7 +12,9 @@
 		<b>{{key}} has {{name}}</b>
 	</div>
 
-	<div data-indium-repeat="(company, industry) in companies" class="{{company}}">
-		<b>{{company}}</b> is in the {{industry}} industry.
-	</div>
+	<ul>
+		<li data-indium-repeat="(company, industry) in companies" class="{{company}}">
+			<b>{{company}}</b> is in the {{industry}} industry.
+		</li>
+	</ul>
 </div>
