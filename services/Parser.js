@@ -64,9 +64,18 @@ define([
 				key = parts.shift(),
 				trailing = parts.join(".");
 
-			if (obj && lang.isFunction(obj.get) && !!key) {
-				return !!trailing ?
-					lang.getObject(trailing, false, obj.get(key)) : obj.get(key);
+			// Has getter
+			if (obj && lang.isFunction(obj.get)) {
+				// Has getter & key
+				if (!!key) {
+					// Has getter, key and trailing properties
+					return !!trailing ?
+						lang.getObject(trailing, false, obj.get(key)) : obj.get(key);
+				// Has only getter
+				} else {
+					return obj.get();
+				}
+			// No getter, no key, try to return object or undefined
 			} else {
 				return lang.getObject(name, false, context);
 			}
