@@ -17,11 +17,8 @@ define([
 	otherTemplate,
 	_IndiumView,
 	_TemplatedMixin,
-	_StatefulModel
+	StatefulModel
 ) {
-	var model1 = declare("Model1", [_StatefulModel], {});
-	var model2 = declare("Model2", [_StatefulModel], {});
-
 	return {
 		widget1: declare("widjit", [_WidgetBase, _TemplatedMixin, _IndiumView], {
 			templateString: template,
@@ -39,7 +36,7 @@ define([
 			link: "http://www.google.com",
 
 			constructor: function () {
-				this.personModel = new model1({
+				this.personModel = new StatefulModel({
 					name: "Johnny",
 					job: "Coder"
 				});
@@ -79,7 +76,7 @@ define([
 			},
 
 			constructor: function () {
-				this.model = new model2({
+				this.model = new StatefulModel({
 					name: "Matt",
 					job: "Marketing",
 					employees: {
