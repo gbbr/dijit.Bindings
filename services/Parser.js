@@ -26,10 +26,12 @@ define([
 		 * and Interpolation Function
 		 */
 		interpolateString: function (str) {
-			var parts, pattern = this.EXPRESSIONS_ALL,
+			var pattern = this.EXPRESSIONS_ALL,
 				getValue = this._getObjectByName.bind(this);
 
-			parts = this._getStringParts(str);
+			if (!this._bindingCount(str)) {
+				throw new Error("Interpolate received a string without expressions: " + str);
+			}
 
 			var interpolationFn = function (context) {
 				return str.replace(pattern, function (match, binding, formatFn) {
@@ -43,9 +45,7 @@ define([
 				});
 			};
 
-			interpolationFn.parts = parts.parts;
-			interpolationFn.separators = parts.separators;
-			interpolationFn.expressions = parts.expressions;
+			lang.mixin(interpolationFn, this._getStringParts(str));
 
 			return interpolationFn;
 		},
