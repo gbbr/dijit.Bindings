@@ -16,7 +16,7 @@ define([
 		COLLECTOR_REPEATER: "COLLECTOR_REPEATER",
 		REPEATER_EXPRESSION: /^\s*([\s\S]+?)\s+in\s+([\s\S]+?)\s*$/,
 		REPEATER_KEY_VALUE: /^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/,
-		REPEATER_BASE_TAG: "indium-repeat",
+		REPEATER_ATTR: "indium-repeat",
 
 		constructor: function () {
 			this.registrationService.addCollector(this._repeaterGatherer);
@@ -25,10 +25,10 @@ define([
 
 		_repeaterGatherer: function (node) {
 			if (node.nodeType === 1 &&
-				(node.hasAttribute("data-" + this.REPEATER_BASE_TAG) || node.hasAttribute(this.REPEATER_BASE_TAG))) {
+				(node.hasAttribute("data-" + this.REPEATER_ATTR) || node.hasAttribute(this.REPEATER_ATTR))) {
 				this.registrationService.getCollectorStore(this.COLLECTOR_REPEATER).push({
 					node: node,
-					attributeName: node.hasAttribute("data-" + this.REPEATER_BASE_TAG) ? "data-" + this.REPEATER_BASE_TAG : this.REPEATER_BASE_TAG
+					attributeName: node.hasAttribute("data-" + this.REPEATER_ATTR) ? "data-" + this.REPEATER_ATTR : this.REPEATER_ATTR
 				});
 			}
 		},
