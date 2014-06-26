@@ -23,4 +23,10 @@
 			{{name}} has ID: {{id}}
 		</li>
 	</ul>
+
+	<ul>
+		<li data-indium-repeat="(name, details) in employees">
+			<b>{{name}}</b> is based in <em>{{details.location}}</em> and works as a {{details.job}}
+		</li>
+	</ul>
 </div>

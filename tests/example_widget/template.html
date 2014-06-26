@@ -39,6 +39,12 @@ asd{{personModel.subtitle}}ioqweuasd{{personModel.subtitle}}ioqweuqwe {{personMo
 		</div>
 	</div>
 
+	<ul>
+		<li data-indium-repeat="(name, details) in personModel.employees">
+			<b>{{name}}</b> is based in <em>{{details.location}}</em> and works as a {{details.job}}
+		</li>
+	</ul>
+
 	<p>
 		<span class="other {{className}} button {{z|transformFn2}}">
 			{{personModel.abstract}}{{personModel.body}}

@@ -8,7 +8,7 @@ define([
 	'indium/view/Bindings',
 	"dijit/_TemplatedMixin",
 	"indium/model/_StatefulModel",
-	"/IndiumView/mixins/RepeaterMixin.js"
+	"indium/view/bindings/mixins/RepeaterMixin"
 ], function(
 	declare,
 	_WidgetBase,
@@ -40,7 +40,21 @@ define([
 			constructor: function () {
 				this.personModel = new StatefulModel({
 					name: "Johnny",
-					job: "Coder"
+					job: "Coder",
+					"employees": {
+						"Fritz": {
+							"job": "Coder",
+							"location": "Wien"
+						},
+						"Mary Poppins": {
+							"job": "Cyborg",
+							"location": "London"
+						},
+						"Theodore": {
+							"job": "QA",
+							"location": "Paris"
+						}
+					}
 				});
 			},
 
