@@ -77,6 +77,21 @@ define([
 				"San Pelegrino": "Water"
 			},
 
+			"employees": {
+				"Fritz": {
+					"job": "Coder",
+					"location": "Wien"
+				},
+				"Mary Poppins": {
+					"job": "Cyborg",
+					"location": "London"
+				},
+				"Theodore": {
+					"job": "QA",
+					"location": "Paris"
+				}
+			},
+
 			constructor: function () {
 				this.model = new StatefulModel({
 					name: "Matt",
