@@ -3,7 +3,7 @@ define([
 	"dojo/dom-construct",
 	"dojo/_base/lang",
 	"dijit/Destroyable",
-	"indium/lib/lang"
+	"indium/base/lang"
 ], function (
 	declare,
 	domConstruct,

@@ -20,11 +20,11 @@
 	<script type="text/javascript">
 	 var dojoConfig = {
             async: true,
-            baseUrl: "/indiumview/lib",
+            baseUrl: "../Indium/target/classes/lib/src/js",
             parseOnLoad: true,
             packages: [{
             	name: "indium",
-            	location: "/indiumview"
+            	location: "../../../../../src/main/js"
             }, {
 				name: "doh",
 				location: "util/doh"
@@ -37,13 +37,12 @@
             }]
         }
 	</script>
-	<script src="lib/polyfills.js"></script>
 	<script src="lib/dojo/dojo.js"></script>
 	<script type="text/javascript">
 	    require([
 	    	"dojo/dom",
 			"dojo/store/Memory",
-            "indium/tests/example_widget/TestWidget"
+            "./tests/example_widget/TestWidget.js"
         ], function(
         	dom,
 			Memory,

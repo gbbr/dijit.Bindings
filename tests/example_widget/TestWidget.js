@@ -3,11 +3,12 @@ define([
 	'dijit/_WidgetBase',
     "dijit/_WidgetsInTemplateMixin",
 	"dojo/query",
-	'dojo/text!../example_widget/template.html',
-	'dojo/text!../example_widget/otherwidget.html',
-	'indium/_IndiumView',
+	'dojo/text!/IndiumView/tests/example_widget/template.html',
+	'dojo/text!/IndiumView/tests/example_widget/otherwidget.html',
+	'indium/view/Bindings',
 	"dijit/_TemplatedMixin",
-	"indium/lib/_StatefulModel"
+	"indium/model/_StatefulModel",
+	"/IndiumView/mixins/RepeaterMixin.js"
 ], function(
 	declare,
 	_WidgetBase,
@@ -15,12 +16,13 @@ define([
 	query,
 	template,
 	otherTemplate,
-	_IndiumView,
+	Bindings,
 	_TemplatedMixin,
-	StatefulModel
+	StatefulModel,
+	RepeaterMixin
 ) {
 	return {
-		widget1: declare("widjit", [_WidgetBase, _TemplatedMixin, _IndiumView], {
+		widget1: declare("widjit", [_WidgetBase, _TemplatedMixin, Bindings], {
 			templateString: template,
 
 			dapOtherWidget: null,
@@ -59,7 +61,7 @@ define([
 			}
 		}),
 
-		widget2: declare("widjit2", [_WidgetBase, _TemplatedMixin, _IndiumView], {
+		widget2: declare("widjit2", [_WidgetBase, _TemplatedMixin, Bindings, RepeaterMixin], {
 			templateString: otherTemplate,
 
 			name: "Name: ",
