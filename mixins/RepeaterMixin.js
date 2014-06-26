@@ -1,3 +1,15 @@
+/**
+ * No-no's:
+ *
+ * * No nested repeaters on Dijit level (repeaters inside repeated widgets are ok)
+ *
+ * * "Scope" bindings inside repeaters are not linked
+ *
+ * * Widget repeaters do not create setters (Dojo does way too many DOM changes
+ *   at parsing to be able to keep track correctly)
+ *
+ */
+
 define([
 	"dojo/_base/declare",
 	"dojo/dom-construct",
