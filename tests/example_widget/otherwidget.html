@@ -29,4 +29,13 @@
 			<b>{{name}}</b> is based in <em>{{details.location}}</em> and works as a {{details.job}}
 		</li>
 	</ul>
+
+	<div data-dojo-type="dijit/layout/TabContainer" style="height: 150px">
+		<div data-dojo-type="dijit/layout/ContentPane"
+			 data-indium-repeat="(name, details) in employees"
+			 title="{{name}}">
+
+			This guy lives in {{details.location}} and does {{details.job}} for a living.
+		</div>
+	</div>
 </div>

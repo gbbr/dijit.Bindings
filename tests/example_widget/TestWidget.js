@@ -8,7 +8,10 @@ define([
 	'indium/view/Bindings',
 	"dijit/_TemplatedMixin",
 	"indium/model/_StatefulModel",
-	"indium/view/bindings/mixins/RepeaterMixin"
+	"indium/view/bindings/mixins/RepeaterMixin",
+	"dojo/parser",
+	"dijit/layout/TabContainer",
+	"dijit/layout/ContentPane"
 ], function(
 	declare,
 	_WidgetBase,
