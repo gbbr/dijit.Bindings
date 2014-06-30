@@ -3,8 +3,8 @@ define([
 	'dijit/_WidgetBase',
     "dijit/_WidgetsInTemplateMixin",
 	"dojo/query",
-	'dojo/text!/IndiumView/tests/example_widget/template.html',
-	'dojo/text!/IndiumView/tests/example_widget/otherwidget.html',
+	'dojo/text!/reuters/IndiumView/tests/example_widget/template.html',
+	'dojo/text!/reuters/IndiumView/tests/example_widget/otherwidget.html',
 	'indium/view/Bindings',
 	"dijit/_TemplatedMixin",
 	"indium/model/_StatefulModel",
@@ -78,7 +78,7 @@ define([
 			}
 		}),
 
-		widget2: declare("widjit2", [_WidgetBase, _TemplatedMixin, Bindings, RepeaterMixin], {
+		widget2: declare("widjit2", [_WidgetBase, _TemplatedMixin, Bindings], {
 			templateString: otherTemplate,
 
 			name: "Name: ",
