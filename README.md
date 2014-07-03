@@ -20,7 +20,7 @@ To add collectors you use the following command:
 this.registrationService.addCollector(<function>);
 ```
 
-The passed __<function>__ will be executed once for each node in the tree and it will receive the node as it's argument. For example, if we would want to find elements such links with _href_ attributes we would have a collector function that looks like this:
+The passed _<function>_ will be executed once for each node in the tree and it will receive the node as it's argument. For example, if we would want to find elements such links with _href_ attributes we would have a collector function that looks like this:
 
 ```javascript
 function linkCollector(node) {
