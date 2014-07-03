@@ -65,6 +65,10 @@ __Tip__: For reasons of efficiency and speed, operations during the collecting p
 
 This phase ends and the result is a store containing information about any behavior that is of interest within the scope of your module. We will use this store in the Building Phase to create actions called Setters.
 
+### Setters
+
+Before we discuss the Building Phase, we must first understand what setters are, how they are created, and the flexibility they offer.
+
 ### The Building Phase
 
 Once the compiler finishes traversing the DOM, it executes another set of actions, called __builders__. Just as during collection, while one builder maybe interested in binding TextNode expressions to actions, another might be interested in repeating a template. Each `builder` communicates with its corresponding `collector` via their CollectorStore channel.
@@ -75,5 +79,7 @@ To register a builder we do:
 this.registrationService.addBuilder(<function>);
 ```
 
-In this case, __function__ is simply a function that puts actions, called setter, into the BindingStore. This BindingStore will be used in the last phase of the Compiler, called the Linking Phase. The Linking Phase is when your widget's instance is connected to the BindingStore to apply the setters you have defined, when changes occur in your model.
+In this case, __function__ is simply a function that puts actions, called setter, into the BindingStore. You are in charge of defining these actions, and the BindingStore offers you with an API to easily do this. 
+
+This BindingStore will be used in the last phase of the Compiler, called the Linking Phase. The Linking Phase is when your widget's instance is connected to the BindingStore to apply the setters you have defined, when changes occur in your model. The Linking Phase is automatic and no additional logic is needed.
 
