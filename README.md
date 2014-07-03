@@ -10,7 +10,7 @@ Cases when this needs to be run programmatically should be avoided, as this comm
 
 ### The Collecting Phase
 
-The first phase in the compiling phase is called the collection phase, where actions called collectors are applied. The role of this phase is to scan the DOM and allow the collectors to collect any nodes they are of interest. 
+The first phase in the compiling phase is called the collection phase, where actions called collectors are applied. The role of this phase is to scan the DOM and allow the collectors to collect any nodes that are of interest. 
 
 Each collector should collect information for a unique type of behavior. While one collector might be interested in finding expressions in a _TextNode_, another might be interested in finding them in a node's attributes, while another might be interested in finding a special tag (such as _indium-repeat_ or _data-indium-repeat_) for a custom type of behavior.
 
