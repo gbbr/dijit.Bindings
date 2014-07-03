@@ -30,12 +30,50 @@ function linkCollector(node) {
 }
 ```
 
-At this point, the purpose is to find all the information we need in the DOM. It is not allowed to modify the DOM or the node at this point. It is also necessary to store the information we find, to use later during the building phase. The build phase is when we link this information to actions, and can modify the DOM if desired. 
+At this point, the purpose is to find all the information we need in the DOM. It is not allowed to modify the DOM or the node at this point. 
 
-To save information from nodes, the RegistrationService provides a `Collector Store` with different channels for each module. You do not have to explicitly register for the collector store, simply requesting it will also create it for you, if it does not exist. 
+To save information found on nodes, the RegistrationService provides a `Collector Store` with different channels for each module. You do not have to explicitly register a channel, simply requesting your store will automatically create on for you if it does not exist. To request your store do this:
 
 ```javascript
 var store = this.registrationService.getCollectorStore(<name>)
 ```
 
-The returned value is an array to which you may push objects containing information, including the node they relate too. Let's consider
+The returned value is an array to which you may push objects containing information, including the node they relate too. Let's say we have a different collector function than above which is interested in finding expressions in the `value` attribute of INPUT. That would look something like this:
+
+```javascript
+function inputValueCollector(node) {
+  if (node.nodeName == "INPUT" && this._bindingCount(node.getAttribute("value"))) {
+    ...
+  }
+}
+```
+
+The `Parser`'s helper function offers the `_bindingCount` function which will return the number of expressions in a String. If the node passes the check we would be interested in saving a reference to it for later, as well as a reference to the attribute's template. We could save this in the collector store:
+
+```javascript
+function inputValueCollector(node) {
+  if (node.nodeName == "INPUT" && this._bindingCount(node.getAttribute("value"))) {
+    this.registrationService.getCollectorStore("MyStore").push({
+      "node": node,
+      "attributeTemplate": node.getAttribute("value")
+    });
+  }
+}
+```
+
+__Tip__: For reasons of efficiency and speed, operations during the collecting phase should be kept minimal.
+
+This phase ends and the result is a store containing information about any behavior that is of interest within the scope of your module. We will use this store in the Building Phase to create actions called Setters.
+
+### The Building Phase
+
+Once the compiler finishes traversing the DOM, it executes another set of actions, called __builders__. Just as during collection, while one builder maybe interested in binding TextNode expressions to actions, another might be interested in repeating a template. Each `builder` communicates with its corresponding `collector` via their CollectorStore channel.
+
+To register a builder we do:
+
+```javascript
+this.registrationService.addBuilder(<function>);
+```
+
+In this case, __function__ is simply a function that puts actions, called setter, into the BindingStore. This BindingStore will be used in the last phase of the Compiler, called the Linking Phase. The Linking Phase is when your widget's instance is connected to the BindingStore to apply the setters you have defined, when changes occur in your model.
+
