@@ -15,7 +15,7 @@ The first phase in the compiling phase is called the collection phase, where act
 Each collector should collect information for a unique type of behavior. While one collector might be interested in finding expressions in a _TextNode_, another might be interested in finding them in a node's attributes, while another might be interested in finding a special tag (such as _indium-repeat_ or _data-indium-repeat_) for a custom type of behavior.
 
 
-To add collectors you use the following command:
+To add a collector you use the following command:
 ```javascript
 this.registrationService.addCollector(<function>);
 ```
@@ -25,7 +25,7 @@ The passed __function__ will be executed once for each node in the tree and it w
 ```javascript
 function linkCollector(node) {
   if (node.nodeName === "A" && node.hasAttribute("href")) {
-    ...
+    // extract information
   }
 }
 ```
