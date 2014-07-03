@@ -1,6 +1,12 @@
 # Extending the Compiler
 
-The `Compiler` object can be further extended through the APIs it exposes via the `RegistrationService` and the `BindingStore`. The RegistrationService allows you to register actions with the Compiler, while the BindingStore enables you to register actions in a store, which the Compiler will take when data on the DOM needs updating.
+The `Compiler` object can be further extended through the APIs it exposes via the `RegistrationService` and the `BindingStore`. The RegistrationService allows you to register actions with the Compiler, while the BindingStore enables you to register actions in a store, which the Compiler will take when data on the DOM needs updating. To initiate the compilation of a DOM node you do:
+
+```javascript
+this.compile(this.domNode);
+```
+
+Cases when this needs to be run programmatically should be avoided, as this command is already being run in `Bindings` when mixing it into your Widget.
 
 ### The Collecting Phase
 
@@ -10,7 +16,16 @@ Each collector should collect information for a unique type of behavior. While o
 
 
 To add collectors you use the following command:
-
 ```javascript
 this.registrationService.addCollector(<function>);
+```
+
+The passed __<function>__ will be executed once for each node in the tree and it will receive the node as it's argument. For example, if we would want to find elements such links with _href_ attributes we would have a collector function that looks like this:
+
+```javascript
+function linkCollector(node) {
+  if (node.nodeName === "A" && node.hasAttribute("href")) {
+    ...
+  }
+}
 ```
