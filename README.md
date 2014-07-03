@@ -32,7 +32,7 @@ function linkCollector(node) {
 
 At this point, the purpose is to find all the information we need in the DOM. It is not allowed to modify the DOM or the node at this point as this would break traversal. 
 
-To save information found on nodes, the RegistrationService provides a `Collector Store` with different channels for each collector. You do not have to explicitly register a channel, simply requesting your store will automatically create on for you if it does not exist. To request your store do this:
+To save information found on nodes, the RegistrationService provides a `Collector Store` with different channels for each collector. You do not have to explicitly register a channel, simply requesting your store with a unique ID will automatically create one for you if it does not exist. To request your store do this:
 
 ```javascript
 var store = this.registrationService.getCollectorStore(<name>)
