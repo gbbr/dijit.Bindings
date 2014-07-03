@@ -1,6 +1,6 @@
 # Extending the Compiler
 
-The `Compiler` object can be further extended through the APIs it exposes via the `RegistrationService` and the `BindingStore`. The RegistrationService allows you to register actions with the Compiler, while the BindingStore enables you to register actions in a store, which the Compiler will take when data on the DOM needs updating. To initiate the compilation of a DOM node you do:
+The `Compiler` object can be further extended through the APIs it exposes via the `RegistrationService` and the `BindingStore`. The RegistrationService allows you to register actions with the Compiler, while the BindingStore enables you to register actions in a store, which tell the Compiler what actions need to be taken when your model changes. To initiate the compilation of a DOM node you do:
 
 ```javascript
 this.compile(this.domNode);
