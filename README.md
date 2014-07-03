@@ -20,7 +20,7 @@ To add collectors you use the following command:
 this.registrationService.addCollector(<function>);
 ```
 
-The passed __function__ will be executed once for each node in the tree and it will receive the node as it's argument. For example, if we would want to find elements such links with _href_ attributes we would have a collector function that looks like this:
+The passed __function__ will be executed once for each node in the tree and it will receive that node as it's argument. For example, if we want to find elements such as links with _href_ attributes we would have a collector function that looks like this:
 
 ```javascript
 function linkCollector(node) {
@@ -29,3 +29,13 @@ function linkCollector(node) {
   }
 }
 ```
+
+At this point, the purpose is to find all the information we need in the DOM. It is not allowed to modify the DOM or the node at this point. It is also necessary to store the information we find, to use later during the building phase. The build phase is when we link this information to actions, and can modify the DOM if desired. 
+
+To save information from nodes, the RegistrationService provides a `Collector Store` with different channels for each module. You do not have to explicitly register for the collector store, simply requesting it will also create it for you, if it does not exist. 
+
+```javascript
+var store = this.registrationService.getCollectorStore(<name>)
+```
+
+The returned value is an array to which you may push objects containing information, including the node they relate too. Let's consider
